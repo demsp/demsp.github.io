@@ -5,8 +5,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 <script type="application/processing" data-processing-target="pjs">
 /* @pjs preload="pers.bmp"; */
-/* @pjs preload="platform.jpg"; */
-PImage platform,pers; 
+/* @pjs preload="padle_image.bmp"; */
+PImage padle_image;
+PImage pers; 
 int wideCount = 4;
 int highCount = 3;
 int count;
@@ -16,7 +17,7 @@ Module[] mods;
 
 void setup() {
  frameRate(40); 
- platform = loadImage("platform.bmp");
+ padle_image = loadImage("platform.bmp");
  pers = loadImage("pers.bmp");
   size(300,400);
    count = wideCount * highCount;
@@ -72,7 +73,7 @@ class Module {
  // Custom method for drawing the object
   void display() {
     fill(255);
-    image(platform,x,y);
+    image(padle_image,x,y);
   
      }
 }
