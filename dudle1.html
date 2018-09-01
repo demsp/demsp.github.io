@@ -29,11 +29,8 @@ void setup() {
   }
 }
 void draw() {
-  dy=dy+0.9;
- int rdy=round(dy);
-  py=py+rdy;
     background(0);
-  image(pers,px,py);
+//  image(pers,px,py);
   for (Module mod : mods) {
    mod.display();
  if (py>0) 
@@ -46,18 +43,10 @@ void draw() {
    mod.x=round(random(200));
    }
       }
-    if ((px+50>mod.x) && (px+20<mod.x+68) && (py+60>mod.y) && (py+60<mod.y+14) && (dy>0)) dy=-18;
+  //  if ((px+50>mod.x) && (px+20<mod.x+68) && (py+60>mod.y) && (py+60<mod.y+14) && (dy>0)) dy=-18;
      }
 }
-void keyPressed() {
-   if (key == CODED) {
-    if (keyCode == LEFT) {
-        px=px-20;
-    } else if (keyCode == RIGHT) {
-          px=px+20;
-    } 
-  }
-}
+
 class Module {
   int x, y;
   // Contructor
