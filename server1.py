@@ -8,5 +8,5 @@ class HttpProcessor(BaseHTTPRequestHandler):
         self.wfile.write("hello ABC!")
 
 
-serv = HTTPServer(("localhost",80),HttpProcessor)
+serv = HTTPServer(("http://demsp-github-io-dserp18822717.codeanyapp.com",80),HttpProcessor)
 serv.serve_forever()
