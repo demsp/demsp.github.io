@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <title>Flat Plan in 3D</title>
+
+    <script src="./libs/three.min.js"></script>
+    <script src="./libs/OrbitControls.js"></script>
+    <script src="./js/main.js"></script>
+
+    <link rel="stylesheet" href="./css/main.css" type="text/css" />
+</head>
+<body>
+    <div class="canvas-container">
+        <div id="renderCanvas"></div>
+        <img id="imgPlan" src="images/plan.jpg" width="252" height="235" />
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01">
+
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+    </div>
+
+<div style="text-align:right;position:fixed;bottom:3px;right:0px;width:100%;z-index:999999;cursor:pointer;line-height:0;display:block;"><a target="_blank" href="https://www.freewebhostingarea.com" title="Free Web Hosting with PHP7"><img alt="Free Web Hosting" width="253" height="45" src="https://www.freewebhostingarea.com/images/poweredby.png" style="border-width: 0px;"></a></div>
+</body>
+</html>
