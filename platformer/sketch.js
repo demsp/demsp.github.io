@@ -1,8 +1,8 @@
 /* @pjs preload="blobb.png"; */
 
 var pers; 
-int px=70, py = 80;
-float dy;
+var px=70, py = 80;
+var dy;
 
 classMap[] mods;
 int[][] my_map =
