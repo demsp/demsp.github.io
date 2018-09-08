@@ -6,7 +6,7 @@
 <script type="application/processing" data-processing-target="pjs">
 /* @pjs preload="blobb.png"; */
 
-PImage pers; 
+//PImage pers; 
 int px=70, py = 80;
 float dy;
 
@@ -21,7 +21,7 @@ int[][] my_map =
 {1,1,1,1,1,1,1}};
 void setup() {
   frameRate(10);
-pers = loadImage("blobb.png");
+//loadImage("blobb.png");
  size(400, 400);
   noStroke();
   int index = 0;
@@ -41,7 +41,9 @@ void draw() {
 if (px<50) px=px+10;
 if (px+60>300) px=px-10;
  background(0);
-  image(pers,px,py);
+ 
+ // image(pers,px,py);
+ ellipse(px,py,50,50);
   for (classMap mod : mods) {
     mod.display();
     if (px+60>mod.x && px+14<mod.x+50 && py+80>mod.y && py+80<mod.y+50 && dy>0)
