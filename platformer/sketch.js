@@ -1,6 +1,6 @@
 /* @pjs preload="blobb.png"; */
 
-PImage pers; 
+var pers; 
 int px=70, py = 80;
 float dy;
 
