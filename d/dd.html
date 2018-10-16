@@ -1,0 +1,41 @@
+/* @pjs preload="platform.bmp"; */
+PImage platform;
+Module[] mods; // экземпляры класса Module
+int wideCount = 4;
+int highCount = 3;
+int count;
+void setup() {
+ size(300,400);
+ platform = loadImage("platform.bmp");
+count = wideCount * highCount;
+   mods = new Module[count];
+  int index = 0;
+  for (int y = 0; y < highCount; y++) {
+   for (int x = 0; x < wideCount; x++) {
+        mods[index++] = new Module(x,y);
+    }  }
+}
+
+class Module {
+  int x, y; //координаты дощечки
+  // Contructor
+  Module(int xTemp, int yTemp ) {
+    x = xTemp;
+    y = yTemp;
+ x =int(random(300));
+ y= int(random(400));
+      }
+ // Custom method for drawing the object
+  void display() {
+    fill(255);
+    image(platform,x,y);
+     }
+}
+
+void draw() {
+  
+  for (Module mod : mods) {
+   mod.display();
+   }
+   }
+   
