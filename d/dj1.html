@@ -22,6 +22,13 @@ count = wideCount * highCount;
     }  }
 }
 
+void draw() {
+  background(0); //цвет фона - чёрный
+  for (Module mod : mods) {
+   mod.display();
+   }
+}
+
 class Module {
   int x, y; //координаты дощечки
   // Contructor
@@ -38,12 +45,6 @@ class Module {
      }
 }
 
-void draw() {
-  
-  for (Module mod : mods) {
-   mod.display();
-   }
-   }
    
 
 </script>
