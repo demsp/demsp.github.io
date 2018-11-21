@@ -12,7 +12,7 @@ Module[] mods;
 
 void setup() {
   frameRate(1);
-size(450, 400);
+size(500, 400);
 mods = new Module[7];
 
  for (int i = 0; i < 7; i++) {
@@ -21,17 +21,17 @@ mods = new Module[7];
   }
 }
 void draw() {
-background(0);
+background(50);
   for (Module mod : mods) {
     mod.update();
     mod.display();
     println("flag= ",flag);
     println("i_flag= ",i_flag);
     
-  text("↑ ", 100,280);
-  text("↓ ", 100,320);
-  text("← ", 50,320);
-  text("→ ", 150,320);
+  text("↑ ", 220,280);
+  text("↓ ", 220,320);
+  text("← ", 170,320);
+  text("→ ", 270,320);
   }
 }
 void keyPressed() {
@@ -62,9 +62,9 @@ if(i_flag) i++;
 void display() {
   textSize(30);
  for (int j = 0; j < 7; j += 1){
-      text(data[j],10+60*j,100);
+      text(data[j],50+60*j,100);
   }
-  text("data_mem index "+i, 10,200);
+  text("data_mem index "+i, 100,200);
  }
 }
 
