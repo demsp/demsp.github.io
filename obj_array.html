@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Platform game</title>
+<title>Object Array</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 <script type="application/processing" data-processing-target="pjs">
 
@@ -9,10 +9,9 @@ boolean flag;
 boolean i_flag;
 int px=70, py=80;
 float dy;
-//classMap[] mods;
-
 
 Module[] mods;
+
 void setup() {
   frameRate(1);
 size(500, 400);
@@ -74,7 +73,7 @@ void display() {
 </script>
 </head>
 <body>
-<p>To play the game just click on the screen</p>
+<p>To start click on the canvas</p>
 <canvas id="pjs"></canvas>
 </body>
 </html>
