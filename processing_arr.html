@@ -6,8 +6,7 @@
 <script type="application/processing" data-processing-target="pjs">
 ///\\\///\\\///\\\///\\\
 int[] _mas ={0,0,0,0,0};
-int _mas_stor;
-int global_i=0;
+int global_i;
 Module [] mods;
 
 void setup() {
@@ -22,7 +21,6 @@ mods[4] = new Module(250);
 }
 void draw() {
 background(50);
-_mas_stor=_mas[global_i];
 mods[0].display();
 mods[1].display();
 mods[2].display();
@@ -54,8 +52,7 @@ Module(int x){
    this.x = x;
   }
 void update() {
-data[i]=_mas_stor;
-//text(data[i], x, 100);
+data[i]=_mas[global_i];
  }    
 void display(){
   textSize(30);
