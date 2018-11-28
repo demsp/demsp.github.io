@@ -29,9 +29,13 @@ background(50);
 frameRate(2);
 textSize(40);
 
-_mas[0]+=(random(0,1.1));
-_mas[1]+=(random(0,1.1));
-_mas[2]+=(random(0,1.1));
+//_mas[0]+=(random(0,1.1));
+//_mas[1]+=(random(0,1.1));
+//_mas[2]+=(random(0,1.1));
+_mas[0]+=1;
+_mas[1]+=1;
+_mas[2]+=1;
+
 //comment
 /*
 text(_mas[0],50,100);
@@ -101,7 +105,6 @@ void display(int tempVar){
    text(_mas[var], x, 300);
   }
   void shake() {
-   fill(10); 
   translate(random(-4,4),random(-4,4));
   text(this.d, this.x, 300);
   }
