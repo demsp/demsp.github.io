@@ -57,12 +57,12 @@ mods[global_i].update();
 println(_mas);
 println("global_i",global_i);
 
-if(_mas[0]==0 && _mas[1]==0 &&_mas[2]==0){
+if(_mas[0]==1 && _mas[1]==1 &&_mas[2]==1){
 text("You win", 100, 40);
 frameRate(0.1);
-_mas[0]=0;
-_mas[1]=0;
-_mas[2]=0;
+_mas[0]=1;
+_mas[1]=1;
+_mas[2]=1;
 }
 
 }
@@ -72,7 +72,7 @@ _mas[2]=0;
         _mas[global_i]++;
     } 
     if (keyCode == DOWN) {
-        while(_mas[global_i]>=0) _mas[global_i]--;
+        while(_mas[global_i]>0) _mas[global_i]--;
         //if(_mas[global_i]<=0){_mas[global_i]=0;}
     }
     if (keyCode == LEFT) {
