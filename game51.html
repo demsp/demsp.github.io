@@ -69,6 +69,7 @@ _mas[2]=0;
     } 
     if (keyCode == DOWN) {
         _mas[global_i]--;
+        if(_mas[global_i]<0){_mas[global_i=0;}
     }
     if (keyCode == LEFT) {
         global_i--; 
