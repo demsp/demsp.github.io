@@ -31,12 +31,8 @@ background(50);
 frameRate(2);
 textSize(40);
 
-//_mas[0]+=(random(0,1.1));
-//_mas[1]+=(random(0,1.1));
-//_mas[2]+=(random(0,1.1));
 rand=int(random(0,3));
-rand1=int(random(0,3));
-//_mas[rand]+=1;
+rand1=int(random(0,1));
 _mas[rand]+=rand1;
 
 //comment
@@ -72,8 +68,9 @@ _mas[2]=0;
         _mas[global_i]++;
     } 
     if (keyCode == DOWN) {
-        while(_mas[global_i]>0) _mas[global_i]--;
-        //if(_mas[global_i]<=0){_mas[global_i]=0;}
+        // while(_mas[global_i]>0) 
+        _mas[global_i]--;
+        
     }
     if (keyCode == LEFT) {
         global_i--; 
