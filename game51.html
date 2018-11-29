@@ -15,12 +15,12 @@ int shoot;
 Module [] mods;
 
 void setup() {
-size(500, 400);
+size(400, 400);
 mods = new Module[3];
 
 mods[0] = new Module(50);
-mods[1] = new Module(100);
-mods[2] = new Module(150);
+mods[1] = new Module(150);
+mods[2] = new Module(250);
 
 mods[0].d1=_mas[0];
 mods[1].d2=_mas[1];
@@ -30,7 +30,7 @@ mods[2].d3=_mas[2];
 void draw() {
 background(50);
 frameRate(2);
-textSize(40);
+textSize(60);
 
 rand=int(random(0,3));
 rand1=int(random(0,2));
