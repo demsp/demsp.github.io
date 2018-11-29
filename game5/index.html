@@ -29,7 +29,7 @@ mods[2].d3=_mas[2];
 }
 void draw() {
 background(50);
-frameRate(5);
+frameRate(4);
 textSize(60);
 
 rect(rectX,320,40,5);
@@ -88,6 +88,11 @@ shoot=1;
         global_i++;
         if (global_i > 2)
             global_i = 2;
+    } 
+    if (keyCode == SPACE) {
+        _mas[0]=2;
+        _mas[1]=2;
+        _mas[2]=2;
     } 
 }
 class Module {
