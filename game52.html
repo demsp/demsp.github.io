@@ -5,6 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 <script type="application/processing" data-processing-target="pjs">
 ///\\\///\\\///\\\
+boolean playingGame = false;
 int[] _mas ={2,2,2};
 int rectX=50;
 int rand;
@@ -85,6 +86,7 @@ shoot=1;
         if (global_i > 2)
             global_i = 2;
     } 
+    playingGame = true;
 }
 class Module {
 //int i;
