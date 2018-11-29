@@ -72,11 +72,12 @@ shoot=1;
         _mas[global_i]++;
     } 
     if (keyCode == DOWN) {
-       //  while(_mas[global_i]>0) 
+         while(_mas[global_i]>0) {
       //  _mas[global_i]--;
      _mas[global_i]-=shoot;
      shoot=0;
        }
+    }
     if (keyCode == LEFT) {
         global_i--; 
         if (global_i < 0)
