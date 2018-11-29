@@ -6,11 +6,11 @@
 <script type="application/processing" data-processing-target="pjs">
 ///\\\///\\\///\\\
 int[] _mas ={2,2,2};
-int i=3;
+//int i=3;
 int rand;
 int rand1;
 int global_i;
-int random_i;
+//int random_i;
 int shoot;
 Module [] mods;
 
@@ -72,11 +72,11 @@ shoot=1;
         _mas[global_i]++;
     } 
     if (keyCode == DOWN) {
-         while(_mas[global_i]>0) {
+       //  while(_mas[global_i]>0) {
       //  _mas[global_i]--;
      _mas[global_i]-=shoot;
      shoot=0;
-       }
+    //   }
     }
     if (keyCode == LEFT) {
         global_i--; 
