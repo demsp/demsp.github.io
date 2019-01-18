@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Processing.js Test</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
+<script type="application/processing" data-processing-target="pjs">
+
+ArrayList<Cube> cubes;
+int cubeWidth = 40;
+
+void setup() {
+  size(640, 360);
+  cubes = new ArrayList<Cube>();
+}
+void draw() {
+  background(255);
+  frameRate(3);
+  for (int i = cubes.size()-1; i >= 0; i--) { 
+    // An ArrayList doesn't know what it is storing so we have to cast the object coming out
+    Cube cube = cubes.get(i);
+    cube.display();  
+   }
+   for (Cube cube : cubes) {
+    cube.mouseClick();
+    }
+}
+
+void mousePressed() {
+    cubes.add(new Cube(mouseX, mouseY, cubeWidth));
+}
+
+
+class Cube {
+  float x;
+  float y;
+  float w;
+  int colorCounter=0;
+  int[] whiteArr={255,255,255};
+  int[] redArr={255,0,0};
+  int[] greenArr={0,255,0};
+  int[] blueArr={0,0,255};
+  int[] colorArr=whiteArr;
+    
+  Cube(float tempX, float tempY, float tempW) {
+    x = tempX;
+    y = tempY;
+    w = tempW; 
+  }
+void mouseClick() {
+   if (mouseX >= x && mouseX <= x+40 && 
+      mouseY >= y && mouseY <= y+40) {
+ //
+  colorCounter+=1;
+ if (colorCounter==4) colorCounter=0;
+ if (colorCounter==0) colorArr=whiteArr;
+ if (colorCounter==1) colorArr=redArr;
+ if (colorCounter==2) colorArr=greenArr;
+ if (colorCounter==3) colorArr=blueArr;
+ //if (mousePressed && (mouseButton == LEFT))
+  } 
+ }
+void display() {
+   fill(colorArr[0],colorArr[1],colorArr[2]);
+   rect(x,y,w,w);
+   }
+}  
+
+</script>
+</head>
+<body>
+<h1>Processing.js Test</h1>
+<p>Demonstrates the syntax for creating a pyramid.</p>
+<canvas id="pjs"></canvas>
+</body>
+</html>
