@@ -21,14 +21,13 @@ void draw() {
     cube.display();  
    }
    for (Cube cube : cubes) {
-    cube.mouseClick();
+    cube.focusOn();
     }
 }
 
 void mousePressed() {
     cubes.add(new Cube(mouseX, mouseY, cubeWidth));
 }
-
 
 class Cube {
   float x;
@@ -46,7 +45,7 @@ class Cube {
     y = tempY;
     w = tempW; 
   }
-void mouseClick() {
+void focusOn() {
    if (mouseX >= x && mouseX <= x+40 && 
       mouseY >= y && mouseY <= y+40) {
  //
