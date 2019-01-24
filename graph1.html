@@ -1,82 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Processing.js</title>
+<title>Processing.js Test</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 <script type="application/processing" data-processing-target="pjs">
-
-int rectX=20, rectY=20;      
-int rectSize = 30; 
-boolean rectOver = false;
-
-ArrayList<Ball> balls;
-int ballWidth = 40;
-void setup() {
-  size(640, 360);
-  balls = new ArrayList<Ball>();
+float rotx = PI/4;
+float roty = PI/4;
+ void setup() {
+  size(500, 500,P3D);
 }
-void draw() {
-background(255);
-for(Ball ball:balls){
-  ball.display(); 
-  ball.mouseDragged();
-  }
-  update(mouseX, mouseY);
-  rect(rectX, rectY, rectSize, rectSize);
-}
-
-void mousePressed() {
-  if(rectOver){
-  balls.add(new Ball(100, 40, ballWidth)); } 
-}
-void update(int x, int y) {
-  if ( overRect(rectX, rectY, rectSize, rectSize) ) {
-    rectOver = true;
- } else {
-   rectOver = false;
-  }
-}
-boolean overRect(int x, int y, int width, int height)  {
-  if (mouseX >= x && mouseX <= x+width && 
-      mouseY >= y && mouseY <= y+height) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-class Ball {
-  float x;
-  float y;
-  float w;
-  int counter=255;
-Ball(float tempX, float tempY, float tempW) {
-    x = tempX;
-    y = tempY;
-    w = tempW;
-  }
-void mouseDragged() {  
-    if(mouseButton == LEFT)  
-   if (mouseX >= x-20 && mouseX <= x+20 && 
-      mouseY >= y-20 && mouseY <= y+20) { 
-    x = mouseX;  
-    y = mouseY;
-    }
+ void draw() {
+//lights();
+ background(100);
+ // noStroke();
+ noFill();
+ //strokeWeight(0.1);
   
+  
+  translate(width/2.0, height/2.0, 0);
+ 
+ 
+ //  rotateX(0.2);
+ // rotateX(rotx);//
+ 
+ //rotateY(0.5);
+  rotateX(rotx);
+ 
+ // scale(90);
+box(200);
+ 
+strokeWeight(5);
+//noStroke();
+//fill(150);
+//noFill();
+//translate(100, 100, 0);
+//rotateZ(PI/2);
+sphere(100);
+strokeWeight(5);
+rotateX(PI/2);
+beginShape();
+vertex(   0,    0,  100);//top
+vertex(0, -94.3, -33.3);//left back
+vertex( -81.6, 47.1, -33.3);
+vertex(   0,    0,  100);//top
+vertex( 0, -94.3, -33.3); //right back
+vertex( 81.6,  47.1, -33.3);
+vertex(   0,   0,  100);//top
+vertex( -81.6, 47.1 , -33.3); //front
+vertex(81.6, 47.1, -33.3);
+endShape();
+ 
 }
-   void display() {
-        if (mouseX >= x-20 && mouseX <= x+20 && 
-      mouseY >= y-20 && mouseY <= y+20) {
-          counter--;
-      if (counter==0) counter=255;
-       }
-      fill(counter);
-      ellipse(x,y,w,w);
-  }
-}  
-
+void mouseDragged() {
+  float rate = 0.01;
+  rotx += (pmouseY-mouseY) * rate;
+  roty += (mouseX-pmouseX) * rate;
+}
 </script>
 </head>
 <body>
+<h1>Processing.js Test</h1>
+<p>Demonstrates the syntax for creating a two-dimensional (2D) array.</p>
+<canvas id="pjs"></canvas>
 </body>
 </html>
