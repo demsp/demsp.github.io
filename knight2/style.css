@@ -1,0 +1,26 @@
+table {
+  margin: 30px auto;
+  width: 160px;
+  height: 160px;
+}
+td {
+  border: 1px solid #000;
+}
+input[type="checkbox"] {
+  display: none;
+}
+span {
+  display: block;
+  position: relative;
+  width: 47px;
+  height: 45px;
+  cursor: pointer;
+}
+input:checked + span::after {
+  content: "♘";
+  font-size: 55px;
+  position: absolute;
+  color: #ff0000;
+  top: -15px;
+  left: -2px;
+}
