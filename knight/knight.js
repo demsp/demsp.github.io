@@ -4,10 +4,11 @@ class Module {
     this.y = y;
     this.modColor=modColor;
   }
-  // Custom method for drawing the object
-   mouseClick() {    
-   if (mouseX >= this.x && mouseX <= this.x+100 && 
-      mouseY >= this.y && mouseY <= this.y+100) {
+  mouseClick() {    
+    if (knightX+50 >= this.x && knightX+50 <= this.x+100 && 
+      knightY+50 >= this.y && knightY+50 <= this.y+100) {  
+   //if (mouseX >= this.x && mouseX <= this.x+100 && 
+   //   mouseY >= this.y && mouseY <= this.y+100) {
    if (overKnight && mouseIsPressed && (mouseButton == LEFT)) {
      storX=this.x;
       storY=this.y; 
