@@ -4,7 +4,7 @@
 <title>Knight</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
 <script type="application/processing" data-processing-target="pjs">
-/* @pjs preload="iKnight1.jpg"; */
+/* @pjs preload="iKnight.jpg"; */
 
 PImage imgKnight; 
 int[] listOfCoordinatesX;
@@ -36,7 +36,7 @@ Module[] mods;
 void setup() {
 size(500, 600);
 stroke(100);
-imgKnight = loadImage("iKnight1.jpg");
+imgKnight = loadImage("iKnight.jpg");
   listOfCoordinatesX = new int[0];
   listOfCoordinatesY = new int[0]; 
    listOfCoordinatesX = append(listOfCoordinatesX,0);
