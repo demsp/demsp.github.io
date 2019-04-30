@@ -2,7 +2,7 @@ class Module {
   constructor(x,  y, modColor){
     this.x = x;
     this.y = y;
-    this.modColor=modColor;
+    this.modColor=0;
   }  
    mouseClick() {    
    if (mouseX >= this.x && mouseX <= this.x+100 && 
