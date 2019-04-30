@@ -87,17 +87,17 @@ function draw() {
   rect(0,0,100,100);
  //draw the Knnifht
  rect(knightX, knightY, knightSize, knightSize);
-  fill(50);
+  fill(0);
   ellipse(knightX+50,knightY+50,20,20);
 // draw button
 rect(buttonX,buttonY,buttonSize,buttonSize);  
   if(boolButton && mouseIsPressed) { 
     fill(200);
 rect(buttonX,buttonY,buttonSize,buttonSize); }
-  console.log("\n");
-  console.log(boolButton);
-  console.log(listOfCoordinatesX);
-  console.log(listOfCoordinatesY);
+ // console.log("\n");
+ // console.log(boolButton);
+ // console.log(listOfCoordinatesX);
+ // console.log(listOfCoordinatesY);
 }
 
   function mousePressed() {
