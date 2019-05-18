@@ -78,17 +78,19 @@ void draw() {
   } else {
      overKnight = false;  
         }
- fill(200);
- rect(0,0,100,100); 
+ 
   rect(knightX, knightY, knightSize, knightSize);
+ // fill(200);
+ //rect(0,0,100,100); 
   //fill(50);
   //ellipse(knightX+50,knightY+50,20,20);
   image(imgKnight,knightX,knightY);
   // draw button
+  fill(50);
   rect(buttonX,buttonY,buttonSize,buttonSize);
   if(boolButton && mousePressed) { fill(200);
    rect(buttonX,buttonY,buttonSize,buttonSize); }   
-  println();
+ //  println();
  // println(storX);
  // println(storY);
  //println(boolButton);
