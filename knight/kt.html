@@ -86,10 +86,17 @@ void draw() {
   //ellipse(knightX+50,knightY+50,20,20);
   image(imgKnight,knightX,knightY);
   // draw button
-  fill(50);
+  if(boolButton && mousePressed) 
+  { 
+   fill(200);
+  } else
+  {
+    fill(20);  
+  }
   rect(buttonX,buttonY,buttonSize,buttonSize);
-  if(boolButton && mousePressed) { fill(200);
-   rect(buttonX,buttonY,buttonSize,buttonSize); }   
+  
+  // if(boolButton && mousePressed) { fill(200);
+  // rect(buttonX,buttonY,buttonSize,buttonSize); }   
  //  println();
  // println(storX);
  // println(storY);
