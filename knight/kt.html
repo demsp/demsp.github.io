@@ -38,10 +38,9 @@ int count;
 Module[] mods;
 
 void setup() {
-
-size(500, 600);
-stroke(100);
-imgKnight = loadImage("Knight100x100.jpg");
+ size(500, 600);
+ stroke(100);
+  imgKnight = loadImage("Knight100x100.jpg");
   knightX = 0;
   knightY = 0;
 rectMode(CORNER);  
@@ -82,14 +81,14 @@ void draw() {
  fill(200);
  rect(0,0,100,100); 
   rect(knightX, knightY, knightSize, knightSize);
-  fill(50);
+  //fill(50);
   //ellipse(knightX+50,knightY+50,20,20);
-   image(imgKnight,knightX,knightY);
+  image(imgKnight,knightX,knightY);
   // draw button
   rect(buttonX,buttonY,buttonSize,buttonSize);
   if(boolButton && mousePressed) { fill(200);
    rect(buttonX,buttonY,buttonSize,buttonSize); }   
- // println();
+  println();
  // println(storX);
  // println(storY);
  //println(boolButton);
@@ -100,7 +99,7 @@ void draw() {
      if ( storX==listOfCoordinatesX[i] && storY==listOfCoordinatesY[i] )
       { overField=true; }
     }
-// println(overField);
+ println(overField);  
 }
 
 
@@ -125,16 +124,14 @@ class Module {
    if(bool_mouseReleased && rightCell && (x==storX && y==storY )){
        modColor=200;  }
    // button
- if(boolButton && mousePressed)
-    {   
-     storX= listOfCoordinatesX[listOfCoordinatesX.length-1];
-     storY= listOfCoordinatesY[listOfCoordinatesY.length-1];              
+  if(boolButton && mousePressed)
+    { 
+     if( x == listOfCoordinatesX[listOfCoordinatesX.length-1] &&
+         y == listOfCoordinatesY[listOfCoordinatesY.length-1] )             
+      {
+      modColor=0; 
+      }  
      } 
-  if(boolButton && bool_mouseReleased)
-  {       
-    if(x==storX && y==storY )
-    { modColor=0; }  
-  }  
 }
 void update() {
   fill(modColor);
@@ -149,12 +146,12 @@ void mousePressed() {
     locked = false;
    }
   xOffset = mouseX-knightX; 
-  yOffset = mouseY-knightY; 
+  yOffset = mouseY-knightY;
+ // trees = shorten(trees); // Remove the last element from the array 
  if(boolButton && listOfCoordinatesX.length>1)
  {
-  // trees = shorten(trees); // Remove the last element from the array
-   listOfCoordinatesX=shorten(listOfCoordinatesX);
-   listOfCoordinatesY=shorten(listOfCoordinatesY);
+    storX=listOfCoordinatesX[listOfCoordinatesX.length-2];
+    storY=listOfCoordinatesY[listOfCoordinatesY.length-2];
   }
 }
 void mouseDragged() {
@@ -211,7 +208,12 @@ void mouseReleased() {
  if(boolButton)
  {
   knightX=storX;
-  knightY=storY;
+  knightY=storY;  
+  if(listOfCoordinatesX.length>1)
+    {
+    listOfCoordinatesX=shorten(listOfCoordinatesX);
+    listOfCoordinatesY=shorten(listOfCoordinatesY);
+    }    
  }    
 }  
 // button function
@@ -225,12 +227,11 @@ void mouseReleased() {
 boolean overButton(int x, int y, int width, int height)  {
   if (mouseX >= x && mouseX <= x+width && 
       mouseY >= y && mouseY <= y+height) {
-    return true;
+ return true;
   } else {
     return false;
   }
 } 
-
 
 </script>
 </head>
