@@ -78,13 +78,13 @@ void draw() {
   } else {
      overKnight = false;  
         }
- 
-  rect(knightX, knightY, knightSize, knightSize);
+ image(imgKnight,knightX,knightY);
+ // rect(knightX, knightY, knightSize, knightSize);
  // fill(200);
  //rect(0,0,100,100); 
-  //fill(50);
-  //ellipse(knightX+50,knightY+50,20,20);
-  image(imgKnight,knightX,knightY);
+ //fill(50);
+ //ellipse(knightX+50,knightY+50,20,20);
+  
   // draw button
   if(boolButton && mousePressed) 
   { 
@@ -94,13 +94,11 @@ void draw() {
     fill(20);  
   }
   rect(buttonX,buttonY,buttonSize,buttonSize);
-  
-  // if(boolButton && mousePressed) { fill(200);
-  // rect(buttonX,buttonY,buttonSize,buttonSize); }   
- //  println();
+ 
+ // println();
  // println(storX);
  // println(storY);
- //println(boolButton);
+ // println(boolButton);
  // println(listOfCoordinatesX);
  // println(listOfCoordinatesY);  
   for (int i =0; i <listOfCoordinatesX.length-1;i++)
@@ -108,7 +106,7 @@ void draw() {
      if ( storX==listOfCoordinatesX[i] && storY==listOfCoordinatesY[i] )
       { overField=true; }
     }
- println(overField);  
+ //println(overField);  
 }
 
 
