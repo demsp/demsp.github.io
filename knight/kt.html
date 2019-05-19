@@ -78,13 +78,16 @@ void draw() {
   } else {
      overKnight = false;  
         }
+ // first rectangle       
+ fill(200);
+ rect(0,0,100,100);        
  image(imgKnight,knightX,knightY);
  // rect(knightX, knightY, knightSize, knightSize);
  // fill(200);
  //rect(0,0,100,100); 
  //fill(50);
  //ellipse(knightX+50,knightY+50,20,20);
-  
+ 
   // draw button
   if(boolButton && mousePressed) 
   { 
@@ -94,9 +97,6 @@ void draw() {
     fill(20);  
   }
   rect(buttonX,buttonY,buttonSize,buttonSize);
-  // квадрат в начале коордитнат
- fill(200);
- rect(0,0,100,100); 
  
  // println();
  // println(storX);
