@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pixel Sorting</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js"></script>
+<script type="application/processing" data-processing-target="pjs">
+/* @pjs preload="ice.gif"; */
+color c;
+int i=0;
+int j=0;
+int cTemp;
+void setup(){
+size(200,285);
+noStroke();
+PImage myImage = loadImage("ice.gif");
+image(myImage, 0, 0, width, height);
+}
+
+void draw(){
+  while (i <= height) { 
+  c=get(i,j);
+  cTemp=c;
+  i++;
+  c=get(i,j);
+ if(cTemp>c)    {
+   fill(c);
+   rect(i-1,j,1,1);  
+   fill(cTemp);
+  rect(i,j,1,1);} 
+ }
+  
+ if(mousePressed){ if(j>=width)j=0; }
+ if(i >= height){j++;i=0;}
+}
+
+
+</script>
+</head>
+<body>
+<p>To sort the pixels click on the picture and hold the button</p>
+<canvas id="pjs"></canvas>
+</body>
+</html>
