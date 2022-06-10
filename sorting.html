@@ -23,8 +23,26 @@
    Пусть каждый элемент массива является экземпляром класса <em>Module</em> (пример работы с классом по <a href="https://processing.org/examples/arrayobjects.html">ссылке</a>).
    Пусть величина числа содержится в переменной <em>Hight</em>, а смещение числа от начала координат в переменной <em>xOffset</em>. Пусть 
    метод <em>display()</em> отвечает за отрисовку символа.  
-   </p>
-   
+  </p>
+  <p>
+    Код класса <em>Module</em>
+  </p>  
+  <pre>
+  class Module {
+  int Offset;
+  int Hight;
+  // Contructor
+   Module( int tempHight,tempOffset) {
+    Hight=tempHight;
+    Offset = tempOffset;
+    }
+  // Custom method for drawing the object
+   void display() {
+      textSize(20);
+      text(Hight,Offset, 70); // Offset, Hight
+    }
+} 
+  </pre>
    
 </body>
 </html>
