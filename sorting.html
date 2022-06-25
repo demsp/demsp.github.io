@@ -32,8 +32,8 @@
   <p>
   Пускай массив состоит из 10 элементов. Каждый элемент имеет порядковый номер. Этот номер и определяет положение элемента в
   отсортированном массиве. В неотсортированном массиве положение элемента определяется смещением. Изменяя этот параметр 
-  элементы с большими порядковыми номерами смещаются правее элементоов с меньшими номерами. Инициализация элементов
-  выполняется в функции <em>setup()</em>   
+  элементы с большими порядковыми номерами смещаются правее элементоов с меньшими номерами. Функция <em>setup()</em> запускается вместе с основной программой
+   и служит для определения изначальных исходных элементов   
    <pre>
    void setup() {
     size(500, 200);
@@ -50,10 +50,16 @@
     mods[9] = new Module( 1,400);
 }   </pre>
   </p>
+  <p>
+       Функция <a href="https://processing.org/reference/draw_.html">draw()<a> вызывается после функции <em>setup()</em> и представляет из себя бесконечный цикл, 
+   в котором производится обработка исполняемого кода. Обновление экрана и отрисовка экземпляров класса происходит при вызове функции <em>draw()</em>.
+   Метод <em>mod.display()</em> предназначен для отрисовки экземпляра <em>mod</em>, принадлежащего классу <em>Module</em>
+   <pre> for (Module mod: mods) { mod.display(); }  </pre>  
+  </p>
   <h2>Создание класса</h2>
   <p> 
-   Пусть каждый элемент массива является экземпляром класса <em>Module</em> (пример работы с классом по <a href="https://processing.org/examples/arrayobjects.html">ссылке</a>).
-   Пусть порядковый номер содержится в переменной <em>Hight</em>, а смещение числа относительно начала координат в переменной <em>xOffset</em>. 
+       Каждый элемент массива <em>mods</em> является экземпляром класса <em>Module</em> (пример работы с классом по <a href="https://processing.org/examples/arrayobjects.html">ссылке</a>).
+   Порядковый номер содержится в переменной <em>Hight</em>, а смещение числа относительно начала координат в переменной <em>xOffset</em>. 
    Метод <em>display()</em> отвечает за отрисовку символа. Одним из базовых принципов ООП является полиморфизм, и данный метод можно отнести к
    полиморфным, т.к. метод может отображать величину как в виде текста, так и виде прямоугольника, в котором данная величина является 
    высотой. Можно провести аналогию между классом и неким работником, выполняющим возложенные на него поручения. 
@@ -81,8 +87,8 @@
   </pre>
  <h2>Перемещение ползунка</h2> 
  <p> 
- События, генерируемые нажатием на левую кнопку мыши, обрабатываются функциями <em>mousePressed()</em> 
- <a href="https://processing.org/reference/mousePressed_.html"> ссылка </a> и <em>mouseReleased()</em>.   
+ События, генерируемые нажатием на левую кнопку мыши, обрабатываются функциями <a href="https://processing.org/reference/mousePressed_.html">mousePressed()</a> 
+ и <a ahref="https://processing.org/reference/mouseReleased_.html">mouseReleased()</a>.   
  Функция <em>mousePressed()</em> сравнивает (меняет местами) элементы.
  <pre>
  void mousePressed() {
@@ -94,26 +100,70 @@
         }
 } 
  </pre> 
+ <p>   
  Функция <em>mouseReleased()</em> инкрементирует переменную, отвечающую за положение ползунка и таким образом ползунок смещается 
- вправо.
+ вправо <em>slider++</em>
+ </p>
+ <p> 
+  Ползунок возвращается в начальную позицию при выходе за границы массива <em>slider=0</em> 
+</p>
  <pre>
  void mouseReleased() {
     slider++;
     if(slider>=moduleSize-1) {  slider=0; }
   }
- </pre> 
- Ползунок возвращается в начальную позицию при выходе за границы массива <em>slider=0;</em> 
- </p> 
+ </pre>  
+    
 Программу можно запустить <a href="http://studio.sketchpad.cc/sp/pad/view/IYL4ygKbhu/latest">здесь</a>
-
+</p>
 <h2>Добавление визуальных элементов</h2>
 <p>
 Для большей наглядности числа, изображающие порядковые номера элементов заменим массивом прямоугольников. По умолчанию 
 первые два параметра прямоугольника <a href="https://processing.org/reference/rect_.html">rect()</a> задают расположение верхнего левого угла, третий задает ширину, а четвертый задает высоту.
-Добавим кнопку, при нажатии на которую производится смещение ползунка. Пример работы с кнопкой 
+Добавим кнопку (прямоугольник в левом нижнем углу), при нажатии на которую производится смещение ползунка. Пример работы с кнопкой 
 <a href="https://processing.org/examples/button.html">здесь</a>.
-Булевая функция overButton() сопоставляет положение курсора и кнопки.
-Запустить программу можно <a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">здесь</a>
+Булевая функция overButton() сопоставляет положение курсора и кнопки и возвращает true, если курсор находится над кнопкой
+<pre>
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+</pre>
+Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">здесь</a>
+</p>
+
+<h2>Случайные значения</h2>
 <p>
+Пусть listRand представляет динамический список <a href="https://processing.org/reference/ArrayList.html">ArrayList</a> для хранения случайных величин
+<pre>  ArrayList<newRand> listRand = new ArrayList<newRand>(); </pre>
+Пусть функция randomizer() генрирует случайную величину и, если этой велчины нет в списке <em>listRand</em>, заносит эту величину в список
+<pre>
+int randomizer(){
+  newRand = int(random(0,10));
+  if(!listRand.contains(newRand) )  listRand.add(newRand );
+          else newRand=randomizer();
+                return newRand;
+}
+</pre>
+Пускай массив <em> mods</em> заполняется случайными величинами с исользованием функции <em> randomizer()</em>
+<pre>
+    mods = new Module[moduleSize];
+    mods[0] = new Module( randomizer(),40);
+    mods[1] = new Module( randomizer(),80);
+    mods[2] = new Module( randomizer(),120);
+    mods[3] = new Module( randomizer(),160);
+    mods[4] = new Module( randomizer(),200);
+    mods[5] = new Module( randomizer(),240);
+    mods[6] = new Module( randomizer(),280);
+    mods[7] = new Module( randomizer(),320);
+    mods[8] = new Module( randomizer(),360);
+    mods[9] = new Module( randomizer(),400);
+</pre>
+</p> 
+Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96ZopUhSgAwaP/latest">здесь</a>
 </body>
 </html>
