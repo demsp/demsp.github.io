@@ -116,26 +116,6 @@
     
 Программу можно запустить <a href="http://studio.sketchpad.cc/sp/pad/view/IYL4ygKbhu/latest">здесь</a>
 </p>
-<h2>Добавление визуальных элементов</h2>
-<p>
-Для большей наглядности числа, изображающие порядковые номера элементов заменим массивом прямоугольников. По умолчанию 
-первые два параметра прямоугольника <a href="https://processing.org/reference/rect_.html">rect()</a> задают расположение верхнего левого угла, третий задает ширину, а четвертый задает высоту.
-Добавим кнопку (прямоугольник в левом нижнем углу), при нажатии на которую производится смещение ползунка. Пример работы с кнопкой 
-<a href="https://processing.org/examples/button.html">здесь</a>.
-Булевая функция <em>overButton()</em> сопоставляет положение курсора и кнопки и возвращает <em>true</em>, если курсор находится над кнопкой
-<pre>
-boolean overButton(int x, int y, int width, int height) {
-if (mouseX >= x && mouseX <= x+width &&
-    mouseY >= y && mouseY <= y+height) {
-    return true;
-    } else {
-    return false;
-    }
-}
-</pre>
-Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">здесь</a>
-</p>
-
 <h2>Случайные значения</h2>
 <p>
 Пусть <em>listRand</em> представляет динамический список <a href="https://processing.org/reference/ArrayList.html">ArrayList</a> для хранения случайных величин
@@ -165,7 +145,28 @@ int randomizer(){
 </pre>
  
 Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96ZopUhSgAwaP/latest">здесь</a>
+</p>   
+    
+<h2>Добавление визуальных элементов</h2>
+<p>
+Для большей наглядности числа, изображающие порядковые номера элементов заменим массивом прямоугольников. По умолчанию 
+первые два параметра прямоугольника <a href="https://processing.org/reference/rect_.html">rect()</a> задают расположение верхнего левого угла, третий задает ширину, а четвертый задает высоту.
+Добавим кнопку (прямоугольник в левом нижнем углу), при нажатии на которую производится смещение ползунка. Пример работы с кнопкой 
+<a href="https://processing.org/examples/button.html">здесь</a>.
+Булевая функция <em>overButton()</em> сопоставляет положение курсора и кнопки и возвращает <em>true</em>, если курсор находится над кнопкой
+<pre>
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+</pre>
+Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">здесь</a>
 </p>
+
 <h2>Ограничитель</h2>
 <p> 
 Можно уменьшить количество переборов, если не перебирать уже отсортированные элементы. Пусть ограничитель <em>limiterR</em> сдвигается влево после каждого перебора 
@@ -177,6 +178,33 @@ if(slider >= limiterR) { slider=0; limiterR--; }
 if(limiterR <= 1) limiterR = 1;
 </pre>
 Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96SYTVsqq$B0t/latest">здесь</a>
+</p>
+<h2>Флаг</h2>
+<p>
+Пусть флаг <em>flag</em> поднимается при обмене элементов. 
+<pre>
+if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        swapFlag = true;    
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+</pre>
+Если обменов не производилось, значит массив уже упорядочен и цикл можно завершать
+<pre>
+ if(swapFlag){ slider=0; swapFlag = false;} 
+       else { slider = moduleSize-2; }
+<pre>
+Флаг изображается в виде двух прямоугольников. При обмене элементов флаг меняет цвет
+<pre>
+    fill(150);
+    rect(250,20,5,30);
+    rect(255,20,20,15);
+    if(!swapFlag){fill(100); rect(255,20,20,15);}
+    else{fill(35,255,70); rect(255,20,20,15);}  
+</pre>
+Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.9tyijc0lTAVUD/latest">здесь</a>
 </p>
 </body>
 </html>
