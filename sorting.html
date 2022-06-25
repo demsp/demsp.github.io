@@ -88,7 +88,7 @@
  <h2>Перемещение ползунка</h2> 
  <p> 
  События, генерируемые нажатием на левую кнопку мыши, обрабатываются функциями <a href="https://processing.org/reference/mousePressed_.html">mousePressed()</a> 
- и <a ahref="https://processing.org/reference/mouseReleased_.html">mouseReleased()</a>.   
+ и <a href="https://processing.org/reference/mouseReleased_.html">mouseReleased()</a>.   
  Функция <em>mousePressed()</em> сравнивает (меняет местами) элементы.
  <pre>
  void mousePressed() {
@@ -122,7 +122,7 @@
 первые два параметра прямоугольника <a href="https://processing.org/reference/rect_.html">rect()</a> задают расположение верхнего левого угла, третий задает ширину, а четвертый задает высоту.
 Добавим кнопку (прямоугольник в левом нижнем углу), при нажатии на которую производится смещение ползунка. Пример работы с кнопкой 
 <a href="https://processing.org/examples/button.html">здесь</a>.
-Булевая функция overButton() сопоставляет положение курсора и кнопки и возвращает true, если курсор находится над кнопкой
+Булевая функция <em>overButton()</em> сопоставляет положение курсора и кнопки и возвращает <em>true<em>, если курсор находится над кнопкой
 <pre>
 boolean overButton(int x, int y, int width, int height) {
 if (mouseX >= x && mouseX <= x+width &&
@@ -138,9 +138,9 @@ if (mouseX >= x && mouseX <= x+width &&
 
 <h2>Случайные значения</h2>
 <p>
-Пусть listRand представляет динамический список <a href="https://processing.org/reference/ArrayList.html">ArrayList</a> для хранения случайных величин
+Пусть <em>listRand</em> представляет динамический список <a href="https://processing.org/reference/ArrayList.html">ArrayList</a> для хранения случайных величин
 <pre>  ArrayList<newRand> listRand = new ArrayList<newRand>(); </pre>
-Пусть функция randomizer() генрирует случайную величину и, если этой велчины нет в списке <em>listRand</em>, заносит эту величину в список
+Пусть функция <em>randomizer()</em> генерирует случайную величину и, если этой велчины нет в списке <em>listRand</em>, заносит эту величину в список
 <pre>
 int randomizer(){
   newRand = int(random(0,10));
