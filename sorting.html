@@ -20,24 +20,22 @@
     Mozilla по <a href="https://wiki.mozilla.org/Processing.js_for_JavaScript_Devs">ссылке</a>. 
   </p>
   <p> 
-  Для того, чтобы запустить скрипт на своей странице, требуется загрузить плагин (библиотеку, посредством которой производится отрисовка) в корневую папку 
+  Для того, чтобы запустить скрипт на своей странице, требуется загрузить плагин (библиотеку для отрисовки) в корневую папку 
   и указать путь к плагину в теге script
   </p>
   <p> 
   <blockquote>
-	  <<q>script src="processing.min.js"></script</q>>
+	  src="processing.min.js"
   </blockquote></p> 
   <p> Непосредственно сам скрипт должент располагаться в теге с атрибутом type="application/processing"
   <blockquote>
-  <script type="application/processing">
-			void setup(){
+  			void setup(){
 				size(200, 200);
 			}			
 			void draw(){
 				background(50);
 				ellipse(mouseX, mouseY, 50, 50);
-			}
-		</script>
+			}		
   </blockquote></p> 
 <p> Результат выполнения данного скрипта </p>
 <p>
