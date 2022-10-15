@@ -18,7 +18,7 @@
   digit_acc:=0;
   s_arifmetic:='+';
   flag:=false;
-  str:= ' a1; b1; d9; [ ca+b; ab; bc; #b ] ';  
+  str:= ' a=1; b=1; d=9; [ c=a+b; a=b; b=c; #b ] ';  
   i:=1; // numeration begining 
   while i<length(str) do
   begin
@@ -44,7 +44,7 @@
      arr[Ord(char_acc)-97]:=digit_acc;
      digit_acc:=0;
      end;
-   if str[i]='#' then begin
+   if str[i]='#' then begin // output operator
      i+=1;
      writeln(arr[Ord(str[i])-97]);
      end;      
