@@ -9,10 +9,10 @@
       <img align="center" src="Bubble-sort-example-300px.gif" />
    </p>
    <p>
-      <a href="https://processing.org/">Processing</a> - открытый язык программирования, основанный на Java. Представляет инструментарий для работы с 
-      изображениями, анимацией и интерфейсами. 
+      <a href="https://processing.org/">Processing</a> - открытый язык программирования, основанный на Java. Представляет инструментарий для работы с изображениями,<br>
+	анимацией и интерфейсами. 
       <a href="https://processing.org/">Processing.js</a> - это web-фреймворк, использующий синтаксис языка Processing.
-      Коды приведённых в статье программ можно запустить в своём баузере, используя редакторы <a href="http://studio.sketchpad.cc/">studio.sketchpad.cc</a>
+      Коды приведённых в статье программ можно запустить в своём баузере, используя редакторы <br> <a href="http://studio.sketchpad.cc/">studio.sketchpad.cc</a>
       и <a href="https://openprocessing.org/">openprocessing.org</a>
    </p>
    <p>  
@@ -25,7 +25,7 @@
   </p>
   <pre>	  src="processing.min.js"  </pre> 
   <p> Непосредственно сам скрипт должент располагаться в теге с атрибутом type="application/processing"</p>
-  <pre>
+  <pre style="background: #cfffff;">
   void setup(){
   size(200, 200);
   }			
@@ -53,17 +53,17 @@
    <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BF%D1%83%D0%B7%D1%8B%D1%80%D1%8C%D0%BA%D0%BE%D0%BC">ссылка</a>
   </p>
   <p>
-  "Алгоритм состоит из повторяющихся проходов по сортируемому массиву. За каждый проход элементы последовательно сравниваются попарно и, 
+  "Алгоритм состоит из повторяющихся проходов по сортируемому массиву. За каждый проход элементы последовательно сравниваются попарно и, <br> 
    если порядок в паре неверный, выполняется перестановка элементов." Замечу, что попарно сравниваются именно соседние элементы, то есть 
-   элементы с индексами <em>i</em> и <em>i+1</em> (буквой <em>i</em> обычно обозначается индекс элемета массива). 
+   элементы с индексами <em>i</em> и <em>i+1</em> (буквой <em>i</em> обычно <br> обозначается индекс элемета массива). 
   </p>    
   <h2>Создание массива числовых элементов</h2>
   <p>
-  Пускай массив состоит из 10 элементов. Каждый элемент имеет порядковый номер. Этот номер и определяет положение элемента в
-  отсортированном массиве. В неотсортированном массиве положение элемента определяется смещением. Изменяя этот параметр 
-  элементы с большими порядковыми номерами смещаются правее элементоов с меньшими номерами. Функция <em>setup()</em> запускается вместе с основной программой
+  Пускай массив состоит из 10 элементов. Каждый элемент имеет порядковый номер. Этот номер и определяет положение элемента в <br>
+  отсортированном массиве. В неотсортированном массиве положение элемента определяется смещением. При изменении этого параметра 
+  элементы с большими порядковыми номерами смещаются правее элементов с меньшими номерами. Функция <em>setup()</em> запускается вместе с основной программой
   и служит для определения изначальных исходных элементов   
-   <pre>
+   <pre style="background: #cfffff;">
    void setup() {
     size(500, 200);
     mods = new Module[moduleSize];
@@ -83,7 +83,7 @@
        Функция <a href="https://processing.org/reference/draw_.html">draw()<a> вызывается после функции <em>setup()</em> и представляет из себя бесконечный цикл, 
    в котором производится обработка исполняемого кода. Обновление экрана и отрисовка экземпляров класса происходит при вызове функции <em>draw()</em>.
    Метод <em>mod.display()</em> предназначен для отрисовки экземпляра <em>mod</em>, принадлежащего классу <em>Module</em>
-   <pre> for (Module mod: mods) { mod.display(); }  </pre>  
+   <pre style="background: #cfffff;"> for (Module mod: mods) { mod.display(); }  </pre>  
   </p>
   <h2>Создание класса</h2>
   <p> 
@@ -98,7 +98,7 @@
   <p>
    Код класса <em>Module</em>
   </p>  
-  <pre>
+  <pre style="background: #cfffff;">
   class Module {
   int Offset;
   int Hight;
@@ -119,7 +119,7 @@
  События, генерируемые нажатием на левую кнопку мыши, обрабатываются функциями <a href="https://processing.org/reference/mousePressed_.html">mousePressed()</a> 
  и <a href="https://processing.org/reference/mouseReleased_.html">mouseReleased()</a>.   
  Функция <em>mousePressed()</em> сравнивает (меняет местами) элементы
- <pre>
+ <pre style="background: #cfffff;">
  void mousePressed() {
  if(mods[slider].Hight > mods[slider+1].Hight)
         {
@@ -136,7 +136,7 @@
  <p> 
   При выходе за границы массива <em>if(slider>=moduleSize-1)</em> ползунок возвращается в начальную позицию <em>slider=0</em>   
 </p>
- <pre>
+ <pre style="background: #cfffff;">
  void mouseReleased() {
     slider++;
     if(slider>=moduleSize-1) {  slider=0; }
@@ -210,9 +210,9 @@ void mousePressed() {
 <h2>Случайные значения</h2>
 <p>
 Пусть <em>listRand</em> представляет динамический список <a href="https://processing.org/reference/ArrayList.html">ArrayList</a> для хранения случайных величин
-<pre>  ArrayList<newRand> listRand = new ArrayList<newRand>(); </pre>
+<pre style="background: #cfffff;">  ArrayList<newRand> listRand = new ArrayList<newRand>(); </pre>
 Пусть функция <em>randomizer()</em> генерирует случайную величину и, если этой велчины нет в списке <em>listRand</em>, заносит эту величину в список
-<pre>
+<pre style="background: #cfffff;">
 int randomizer(){
   newRand = int(random(0,10));
   if(!listRand.contains(newRand) )  listRand.add(newRand );
@@ -315,6 +315,13 @@ if(mods[slider].rectHight > mods[slider+1].rectHight) swapFlag=true;
 <pre style="background: #cfffff;">
 if(!swapFlag){ slider++; } else{ slider--; }
 </pre>
+<p>
+Флаг сбрасывается, если элементы слева от текущего расположены по убыванию  
+</p>
+<pre style="background: #cfffff;">
+if(swapFlag && mods[slider].rectHight < mods[slider+1].rectHight) swapFlag = false;
+</pre>
+<p>  Страница для запуска программы <a href="http://studio.sketchpad.cc/lOdJStmrIP">здесь</a></p>
 
 
 </body>
