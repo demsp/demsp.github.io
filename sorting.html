@@ -297,22 +297,24 @@ if(mods[slider].rectHight > mods[slider+1].rectHight)
 </pre>
 Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.9tyijc0lTAVUD/latest">здесь</a>
 </p>
+
 <h2>Гномья сортировка</h2>
-<blockquote style="background: #fff7d7;>
+<blockquote>
 По существу гном смотрит на следующий и предыдущий садовые горшки: если они в правильном порядке, он делает один шаг вперёд, 
 иначе он меняет их местами и шагает в обратном направлении.
 </blockquote>
 <p>
 Пусть флаг  поднимается, если элемент, на который указывает ползунок, больше элемента, находящегося справа от ползунка.
 </p>
-<p>if(mods[slider].rectHight > mods[slider+1].rectHight) swapFlag=true;
-</p>
+<pre style="background: #beeeee;">
+if(mods[slider].rectHight > mods[slider+1].rectHight) swapFlag=true;
+</pre>
 <p>
 Если флаг поднят, возвращаем ползунок к началу массива
 </p>
-<p style="background: #beeeee;border: 1px #7ddddd solid;">
+<pre style="background: #beeeee;">
 if(!swapFlag){ slider++; } else{ slider--; }
-</p>
+</pre>
 
 
 </body>
