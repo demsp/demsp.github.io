@@ -221,7 +221,7 @@ int randomizer(){
 }
 </pre>
 Пускай массив <em> mods</em> заполняется случайными величинами с исользованием функции <em> randomizer()</em>
-<pre>
+<pre style="background: #cfffff;">
     mods = new Module[moduleSize];
     mods[0] = new Module( randomizer(),40);
     mods[1] = new Module( randomizer(),80);
@@ -245,7 +245,7 @@ int randomizer(){
 Добавим кнопку (прямоугольник в левом нижнем углу), при нажатии на которую производится смещение ползунка. Пример работы с кнопкой 
 <a href="https://processing.org/examples/button.html">здесь</a>.
 Булевая функция <em>overButton()</em> сопоставляет положение курсора и кнопки и возвращает <em>true</em>, если курсор находится над кнопкой
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
 boolean overButton(int x, int y, int width, int height) {
 if (mouseX >= x && mouseX <= x+width &&
     mouseY >= y && mouseY <= y+height) {
@@ -261,11 +261,11 @@ if (mouseX >= x && mouseX <= x+width &&
 <h2>Ограничитель</h2>
 <p> 
 Можно уменьшить количество переборов, если не перебирать уже отсортированные элементы. Пусть ограничитель <em>limiterR</em> сдвигается влево после каждого перебора 
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
 if(slider >= limiterR) { slider=0; limiterR--; }
 </pre>
 Пусть ползунок останавливается, дойдя до первого элемента
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
 if(limiterR <= 1) limiterR = 1;
 </pre>
 Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96SYTVsqq$B0t/latest">здесь</a>
@@ -273,7 +273,7 @@ if(limiterR <= 1) limiterR = 1;
 <h2>Флаг</h2>
 <p>
 Пусть флаг <em>swapFlag</em> поднимается при обмене элементов 
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
 if(mods[slider].rectHight > mods[slider+1].rectHight)
         {
         swapFlag = true;    
@@ -283,12 +283,12 @@ if(mods[slider].rectHight > mods[slider+1].rectHight)
         }
 </pre>
 Если обменов не производилось, значит массив уже упорядочен и цикл можно завершать
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
  if(swapFlag){ slider=0; swapFlag = false;} 
        else { slider = moduleSize-2; }
 </pre>
 Флаг изображается в виде двух прямоугольников. При обмене элементов флаг меняет цвет
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
     fill(150);
     rect(250,20,5,30);
     rect(255,20,20,15);
@@ -299,20 +299,20 @@ if(mods[slider].rectHight > mods[slider+1].rectHight)
 </p>
 
 <h2>Гномья сортировка</h2>
-<blockquote>
+<blockquote style="background: #ffffd8;">
 По существу гном смотрит на следующий и предыдущий садовые горшки: если они в правильном порядке, он делает один шаг вперёд, 
 иначе он меняет их местами и шагает в обратном направлении.
 </blockquote>
 <p>
 Пусть флаг  поднимается, если элемент, на который указывает ползунок, больше элемента, находящегося справа от ползунка.
 </p>
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
 if(mods[slider].rectHight > mods[slider+1].rectHight) swapFlag=true;
 </pre>
 <p>
 Если флаг поднят, возвращаем ползунок к началу массива
 </p>
-<pre style="background: #deeeee;">
+<pre style="background: #cfffff;">
 if(!swapFlag){ slider++; } else{ slider--; }
 </pre>
 
