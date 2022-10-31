@@ -1,65 +1,42 @@
 <!DOCTYPE html>
 <html>
  <body>
-  <pre>     
-  var
-  str: string[100];
-  char_acc:char;
-  char_acc_acc: char;
-  digit_acc:integer;
-  i: integer; // index
-  i_acc: integer;  
-  flag: boolean;
-  arr: array [0..3] of integer;  
-  bin_operator:char; // arithmetic sign +-*/    
+ 
+  <p>
+  Пусть исполняемая программа хранится в стороке <br>
+   str:string[100]; <br>
+   переменные a,b,c,d хранятся в массиве <br>
+    arr:array[0..3];    
+  </p>
+  <p>
+  Инициализируем переменные <br>
+  str:=' a=2 b=3  '; <br>
+  </p>
+  <p>
+   Для обработки символов a,b,c,d в тексте программы (сторке srt[]), используется оператор Ord, который преобразует <br>
+   букву в её числовой код из ascii-таблицы. <br>
+   программа, использующая оператор Ord для получения ascii-кода символа "a" здесь https://github.com/demsp/pas/blob/master/abcd/Ord.pas  
+   </p>
+  <p>
+  Пускай имена переменных, получаемые в результате посимвольного перебора строки str[] загружаются в аккумулятор var_acc 
+  </p>
+  <p>
+  Для посимвольного перебора строки используется цикл <br>
+   <pre>
+   var
+  srt:string[100];
+  var_acc:integer;
+  i: integer;
+  arr:array[0..3];
+  begin
+    str:=' a=2 b=3 ';
+    while i<length(str) do 
+     begin
+     //... 
+     end;    
+  end.
+    </pre>
+  </p>
   
-  begin
-  for i:=1 to 4 do arr[i]:=0;
-  digit_acc:=0;
-  bin_operator:='+';
-  flag:=false;
-  str:= ' a=1; b=1; d=9; [ c=a+b; a=b; b=c; #b ] ';  
-  i:=1; // numeration begining 
-  while i<length(str) do
-  begin
-   if str[i]='+' then bin_operator:='+';
-   if str[i]='-' then bin_operator:='-';
-   if flag=true then  if Ord(str[i])>=97 then if Ord(str[i])<=100 then // letter
-    begin 
-     if bin_operator='+' then digit_acc:=digit_acc+arr[Ord(str[i])-97];
-     if bin_operator='-' then digit_acc:=digit_acc-arr[Ord(str[i])-97];
-    end;    
-   if flag=false then if Ord(str[i]) >=97 then if Ord(str[i]) <= 100 then // letter
-    begin
-      flag := true;      
-      char_acc:=str[i];
-     end;
-   if Ord(str[i])>=48 then if Ord(str[i])<=58 then // digit 
-   begin
-     if bin_operator='+' then digit_acc:=digit_acc+(Ord(str[i])-48);
-     if bin_operator='-' then digit_acc:=digit_acc-(Ord(str[i])-48);
-     end;
-   if str[i]=';' then begin
-     flag := false;
-     arr[Ord(char_acc)-97]:=digit_acc;
-     digit_acc:=0;
-     end;
-   if str[i]='#' then begin // output operator
-     i+=1;
-     writeln(arr[Ord(str[i])-97]);
-     end;      
-  if str[i]='[' then begin
-    char_acc_acc:=char_acc;
-    i_acc:=i;
-  end;
-  if str[i]=']' then if arr[Ord(char_acc_acc)-97] > 0 then begin
-     arr[Ord(char_acc_acc)-97]:=arr[Ord(char_acc_acc)-97]-1;
-     i:=i_acc;
-     end;     
-     i:=i+1;  // to new character
-  end;
-   
- end.
-    </pre>   
  </body> 
 </html>  
