@@ -15,19 +15,19 @@
   <p>
    Для обработки символов a,b,c,d в тексте программы (сторке srt[]), используется оператор Ord, который преобразует <br>
    букву в её числовой код из ascii-таблицы. <br>
-   программа, использующая оператор Ord для получения ascii-кода символа "a" здесь https://github.com/demsp/pas/blob/master/abcd/Ord.pas  
+   программа, использующая оператор Ord для получения ascii-кода символа здесь https://github.com/demsp/pas/blob/master/abcd/Ord.pas  
    </p>
   <p>
   Пускай имена переменных, получаемые в результате посимвольного перебора строки str[] загружаются в аккумулятор var_acc 
   </p>
   <p>
-  Для посимвольного перебора строки используется цикл <br>
+  Для посимвольного перебора строки используется цикл 
    <pre>
-   var
-  srt:string[100];
-  var_acc:integer;
-  i: integer;
-  arr:array[0..3];
+  var
+    srt:string[100];
+    var_acc:integer;
+    i: integer;
+    arr:array[0..3];
   begin
     str:=' a=2 b=3 ';
     while i<length(str) do 
