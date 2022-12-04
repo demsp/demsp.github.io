@@ -80,14 +80,14 @@
 }   </pre>
   </p>
   <p>
-       Функция <a href="https://processing.org/reference/draw_.html">draw()<a> вызывается после функции <em>setup()</em> и представляет из себя бесконечный цикл, 
+   Функция <a href="https://processing.org/reference/draw_.html">draw()<a> вызывается после функции <em>setup()</em> и представляет из себя бесконечный цикл, 
    в котором производится обработка исполняемого кода. Обновление экрана и отрисовка экземпляров класса происходит при вызове функции <em>draw()</em>.
    Метод <em>mod.display()</em> предназначен для отрисовки экземпляра <em>mod</em>, принадлежащего классу <em>Module</em>
    <pre style="background: #cfffff;"> for (Module mod: mods) { mod.display(); }  </pre>  
   </p>
   <h2>Создание класса</h2>
   <p> 
-       Каждый элемент массива <em>mods</em> является экземпляром класса <em>Module</em> (пример работы с классом по <a href="https://processing.org/examples/arrayobjects.html">ссылке</a>).
+   Каждый элемент массива <em>mods</em> является экземпляром класса <em>Module</em> (пример работы с классом по <a href="https://processing.org/examples/arrayobjects.html">ссылке</a>).
    Порядковый номер содержится в переменной <em>Hight</em>, а смещение числа относительно начала координат в переменной <em>xOffset</em>. 
    Метод <em>display()</em> отвечает за отрисовку символа. Одним из базовых принципов ООП является полиморфизм, и данный метод можно отнести к
    полиморфным, т.к. метод может отображать величину как в виде текста, так и виде прямоугольника, в котором данная величина является 
@@ -205,7 +205,7 @@ void mousePressed() {
 <canvas> </canvas>	
 </p>
 	  
-Или в специальном online-блокноте  <a href="http://studio.sketchpad.cc/sp/pad/view/IYL4ygKbhu/latest">здесь</a>
+Или в online-блокноте  <a href="http://studio.sketchpad.cc/sp/pad/view/IYL4ygKbhu/latest">здесь</a>
 
 <h2>Случайные значения</h2>
 <p>
@@ -235,7 +235,7 @@ int randomizer(){
     mods[9] = new Module( randomizer(),400);
 </pre>
  
-Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96ZopUhSgAwaP/latest">здесь</a>
+<a href="http://studio.sketchpad.cc/sp/pad/view/ro.96ZopUhSgAwaP/latest">Ссылка</a> для запуска программы в блокноте
 </p>   
     
 <h2>Добавление визуальных элементов</h2>
@@ -255,7 +255,7 @@ if (mouseX >= x && mouseX <= x+width &&
     }
 }
 </pre>
-Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">здесь</a>
+<a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">Ссылка</a> для запуска программы в блокноте 
 </p>
 
 <h2>Ограничитель</h2>
@@ -268,7 +268,7 @@ if(slider >= limiterR) { slider=0; limiterR--; }
 <pre style="background: #cfffff;">
 if(limiterR <= 1) limiterR = 1;
 </pre>
-Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96SYTVsqq$B0t/latest">здесь</a>
+<a href="http://studio.sketchpad.cc/sp/pad/view/ro.96SYTVsqq$B0t/latest">Ссылка</a> для запуска программы в блокноте 
 </p>
 <h2>Флаг</h2>
 <p>
@@ -313,7 +313,7 @@ if(!flag){
        }
    }
 </pre>
-если флаг поднят, ползунок движется в обратном направлении по шагам. Флаг сбрасывается по достижении ползунком левого ограничителя<br>
+если флаг поднят, ползунок движется в обратном направлении по шагам. Флаг сбрасывается по достижении ползунком левого ограничителя <br>
 <pre style="background: #cfffff;">
 if(flag)    { 
      slider--;
@@ -325,7 +325,8 @@ if(flag)    {
 </pre>
 </p>
 <p>
-Визуализация алгоритма
+Визуализация алгоритма<br>
+<p>	
 <script type="application/processing">
 int counter;
 int moduleSize = 10;
@@ -451,6 +452,7 @@ if (mouseX >= x && mouseX <= x+width &&
 			
 		</script>
 <canvas> </canvas>
+  </p>	
  <a href="http://studio.sketchpad.cc/eFGyH52PQS">Ссылка</a> для запуска приложения в блокноте 	
 </p>	  
 	  
@@ -500,8 +502,6 @@ if(swapFlag && mods[slider].rectHight < mods[slider+1].rectHight) swapFlag = fal
 <p>По достижении ползунком границы массива опорный элемент сдвигается на шаг вправо, ползунок перемещается к опорному элементу </p>
 <p>if(slider>=moduleSize){compared_elem++;slider=compared_elem+1;}</p>
 
-
-<pВизуализация алгоритма </p>
 <script type="application/processing">
 int counter;
 int moduleSize = 10;
