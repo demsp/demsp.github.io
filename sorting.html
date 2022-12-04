@@ -297,9 +297,9 @@ if(mods[slider].rectHight > mods[slider+1].rectHight)
 </pre>
 Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.9tyijc0lTAVUD/latest">здесь</a>
 </p>
+<p>Следующие сортировки предполагают сравнение именно соседних элементов, но отличаются от пузырька механизмом возврата ползунка в начало массива</p>
 <h2>Шейкерная сортировка</h2>
 <p>
-Шейкерная сортировка, подобно пузырьку, предполагает сравнение именно соседних элементов и отличается лишь механизмом возврата ползункка в начало массива<br>
 В шейкере после полного перебора массива максимальный элемент перемещается к правому краю, ползунок меняет направление на противоположное и движется к началу  <br>
 массива по шагам, минимальный элемент вместе с ползунком перемещается к началу массива <br>
 После этого проверка начального и конечного элементов массивов уже не требуется, сюда можно поставить ограничители <br> 
@@ -463,7 +463,7 @@ if (mouseX >= x && mouseX <= x+width &&
 иначе он меняет их местами и шагает в обратном направлении.
 </blockquote>
 <p>
-Пусть флаг  поднимается, если элемент, на который указывает ползунок, больше элемента, находящегося справа от ползунка.
+Пусть флаг  поднимается, если элемент, на который указывает ползунок, больше элемента, находящегося справа от ползунка
 </p>
 <pre style="background: #cfffff;">
 if(mods[slider].rectHight > mods[slider+1].rectHight) swapFlag=true;
@@ -480,7 +480,105 @@ if(!swapFlag){ slider++; } else{ slider--; }
 <pre style="background: #cfffff;">
 if(swapFlag && mods[slider].rectHight < mods[slider+1].rectHight) swapFlag = false;
 </pre>
-<p>  Страница для запуска программы <a href="http://studio.sketchpad.cc/lOdJStmrIP">здесь</a></p>
+Визуализация алгоритма<br>
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int k=20; 
+int vTemp;
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+boolean swapFlag = false;
+boolean counterFlag = true;
+ 
+Module[] mods;
+ void setup() {
+ size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 50);
+    mods[1] = new Module(2*k, 100);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 40);
+    mods[6] = new Module(7*k, 80);
+    mods[7] = new Module(8*k, 70);
+    mods[8] = new Module(9*k, 90);
+    mods[9] = new Module(10*k, 10);    
+}
+ 
+void draw() {
+background(50);
+ for (Module mod: mods) { mod.display(); }
+ // paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+// counter 
+textSize(25);
+text(counter,150,255);
+// draw button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed){
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+    //flag
+    fill(150);
+    rect(250,20,5,30);
+    rect(255,20,20,15);
+    if(swapFlag){fill(150,255,50);rect(255,20,20,15);}
+    }
+class Module {
+    int xOffset;
+    int rectHight;
+ // Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+    // Custom method for drawing the object
+    void display() {
+    fill(255);
+    rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+ // button
+ void mouseReleased() {
+    if(overButton(buttonX, buttonY, buttonSize, buttonSize)){
+    if(slider==0) { swapFlag = false; }    
+    if(swapFlag){ slider--; } else{ slider++; }
+    if(slider>=moduleSize-1 && !swapFlag) {  
+            slider=moduleSize-2; counterFlag = false; }
+    }
+}
+ 
+ void mousePressed() {
+    if(overButton(buttonX, buttonY, buttonSize, buttonSize)) {
+    if(counterFlag)counter++;
+    if(swapFlag && mods[slider].rectHight < mods[slider+1].rectHight){
+        swapFlag = false;}
+    
+    if(mods[slider].rectHight > mods[slider+1].rectHight){
+        swapFlag=true;
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+ boolean overButton(int x, int y, int width, int height) {
+    if (mouseX >= x && mouseX <= x+width &&
+      mouseY >= y && mouseY <= y+height) { return true; } 
+    else { return false; }
+}
+
+</script>
+<canvas> </canvas>
+
+<p><a href="http://studio.sketchpad.cc/lOdJStmrIP">Ссылка</a> для запуска программы в блокноте</p>
 
 <h2> Опорный элемент </h2>
 <p> Вообще, не обязательно сравнивать именно соседние элементы. Вместо этого можно выбрать некий опорный элемент compared_elem и сравнивать <br> 
