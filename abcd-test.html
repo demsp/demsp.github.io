@@ -14,8 +14,8 @@
   <pre style="background: #cfffff;">
   str:='a=2 b=3 ';
   </pre>
-   для обработки символов <i>a,b,c,d</i> в тексте программы (сторке <i>srt[]</i>) используется оператор <i>Ord</i>, который преобразует <br>
-   букву в её числовой код из ascii-таблицы <br>
+   для обработки символов <i>a,b,c,d</i> в тексте программы (сторке <i>srt[]</i>) используется оператор <i>Ord</i>, 
+   который преобразует букву в её числовой код из ascii-таблицы <br>
    ascii-коды символов, соответствующих буквам <i>a,b,c,d</i> лежат в диапазоне от 97 до 100 
    <pre style="background: #cfffff;">
    var
@@ -25,27 +25,32 @@
     writeln(Ord(test_char));
    end.
    </pre>   
-   код программы <a href="https://github.com/demsp/pas/blob/master/abcd/Ord.pas">здесь</a> 
-   https://github.com/demsp/pas/blob/master/abcd/Ord.pas  
+   код программы <a href="https://github.com/demsp/pas/blob/master/abcd/Ord.pas">здесь</a>
    <br>
+   https://github.com/demsp/pas/blob/master/abcd/Ord.pas  
+   
+   <br><br>
    для посимвольного перебора строки используется цикл <i>while</i> <br>
    программа по <a href="https://github.com/demsp/pas/blob/master/abcd/workpiece-billet.pas ">ссылке</a>
    выводит на экран символы <i>a,b</i> <br>
    <br>
    пускай ascii-коды символов соответствующих переменных, получаемые в результате 
-   посимвольного перебора строки <i>str[]</i> загружаются в аккумулятор <i>var_acc</i> <br>
+   посимвольного перебора строки <i>str[]</i> загружаются в аккумулятор <i>var_acc</i> 
    <pre style="background: #cfffff;">
    var_acc:=Ord(str[i]);
    </pre>
   </p>
   <p>
   ascii-коды символов, соответствующих числам, лежат в диапазоне от 48 до 58 <br>
-  пускай цифра, полученная в результате посимвольного перебора строки, загружается в переменную, ascii-код которой хранится в переменной var_acc <br>
+  пускай цифра, полученная в результате посимвольного перебора строки, загружается в переменную, ascii-код которой хранится 
+  в переменной <i>var_acc</i> 
   <pre style="background: #cfffff;">
   if Ord(str[i])>=48 then if Ord(str[i])<=58 then arr[var_acc-97]:=Ord(str[i])-48;
   </pre>
   код программы <a href="https://github.com/demsp/pas/blob/master/abcd/load_digit_to_arr.pas">здесь</a> 
+  <br>
   https://github.com/demsp/pas/blob/master/abcd/load_digit_to_arr.pas 
+  
   <br>
   <h3>многоразрядные числа</h3>
   <p>
@@ -66,7 +71,7 @@
       radix_acc:=radix_acc*10+(Ord(str[i])-48);
   </pre>
   если флаг поднят, но перебираемый токен не является цифрой (лежит вне диапазона ascii-кодов цифр) <br>
-  то флаг сбрасывается, а в соответствующую переменную загружается <i>radix_acc</i> <br>
+  флаг сбрасывается, а в соответствующую переменную загружается <i>radix_acc</i> <br>
   проверка принадлежности интервалу проверяется с помощью перехода на метку <i>t</i>
   <pre style="background: #cfffff;">
   if radix_flag=true then if Ord(str[i])<48 then goto t;
@@ -78,25 +83,27 @@
      end;
   </pre>
   код программы <a href="https://github.com/demsp/pas/blob/master/abcd/radix.pas">здесь</a> 
+  <br>
   https://github.com/demsp/pas/blob/master/abcd/radix.pas
   </p>
   
-  <br><br>
+  <br>
   <h3>арифметические выражения</h3>
   <p>
-  пускай арифетическое выражение может содержать лишь четыре арифетических опретора 
+  пускай арифетическое выражение может содержать лишь четыре арифетических оператора 
   <pre style="background: #cfffff;">
   &lt;expr&gt; ::= &lt;operand&gt; {&lt;operator&gt; &lt;operand&gt;} 
   &lt;operand&gt; ::= digit | letter  
   &lt;operator&gt; ::= '+' |  '-' |  '*' |  '\' 
   </pre>
-  фигурные скобки (скобки Клини) обозначают, что к операнду рекурсивно присоединяется пара: оператор и операнд <br>
+  фигурные скобки (скобки Клини) обозначают, что к операнду рекурсивно присоединяется пара: оператор и операнд 
   и таким образом реализуется цепочка, состоящая из разделённых операторами чисел или имён переменных
   <br>  
   если все операторы имеют одинаковый приоритет, то вычисление результата можно выполнить 
   непосредственно в процессе разбора арифетического выражения
   <br>
-  для разбора необходим флаг, а также оператор, который сбрасывает флаг <br>
+  для разбора необходим флаг, а также оператор, который сбрасывает флаг 
+  <br><br>
   пускай флаг <i>flag</i> поднимается, если в строке <i>str[]</i> встретилось имя переменной (т.е. буква),  
   <pre style="background: #cfffff;">
   if flag=false then if Ord(str[i])>=97 then if Ord(str[i])<=100 then 
@@ -110,13 +117,14 @@
   if str[i]=';' then flag:=false 
   </pre>
   код программы, демонстрирующий механизм обработки имени переменной <a href="https://github.com/demsp/pas/blob/master/abcd/digit_letter_acc_arr.pas">здесь</a>
-  https://github.com/demsp/pas/blob/master/abcd/digit_letter_acc_arr.pas 
   <br>
+  https://github.com/demsp/pas/blob/master/abcd/digit_letter_acc_arr.pas 
+  <br><br>
   пускай в аккумуляторе <i>acc</i> хранятся промежуточные значения
   <br> 
-  пусть переменная <i>oprtr</i> содержит текущий арифметический оператор, <br>
+  пусть переменная <i>oprtr</i> содержит текущий арифметический оператор, 
   который по умолчанию равен + <br>
-  если при переборе строки <i>str[]</i> обнаружилось числовое значение, то оно прибавляется к аккумулятору <br>
+  если при переборе строки <i>str[]</i> обнаружилась цифра, то она прибавляется к аккумулятору 
   <pre style="background: #cfffff;">
   if oprtr='+' then acc:=acc+(Ord(str[i])-48);
   </pre>
@@ -156,10 +164,12 @@
  <pre style="background: #cfffff;"> 
  writeln(arr[Ord(str[i])-97]:4:4);
  </pre>
- показывает четыре знака после запятой <br>
+ показывает четыре знака после запятой 
+ <br><br>
  код программы (одноразрядные числа) <a href="https://github.com/demsp/pas/blob/master/abcd/real_expression.pas">здесь</a>
- https://github.com/demsp/pas/blob/master/abcd/real_expression.pas
  <br>
+ https://github.com/demsp/pas/blob/master/abcd/real_expression.pas
+ <br><br>
  многоразрядные числа, которые содержатся в переменной <i>radix_acc</i> необходимо 
  загрузить в переменную <i>acc</i>, если текущий обрабатываемый символ не является числом
  <pre style="background: #cfffff;">
@@ -176,10 +186,11 @@
      end;
  </pre>
  код программы <a href="https://github.com/demsp/pas/blob/master/abcd/radix_real.pas">здесь </a>
+ <br>
  https://github.com/demsp/pas/blob/master/abcd/radix_real.pas
  </p>
  
- <br><br>
+ <br>
  <h3>цикл</h3>
  <p>
  цикл обрабатывается внутри квадратных скобок <br>
@@ -187,7 +198,7 @@
  содержащиеся в аккумуляторе <i>var_acc</i> <br>
  это число задаёт количество итераций <br>
  положение открывающей скобки, т.е. значение индексной переменной <i>i</i>, сохраняется в индексном 
- аккумуляторе <i>index_acc</i>, 
+ аккумуляторе <i>index_acc</i> 
  <pre style="background: #cfffff;">
  if str[i]='[' then
  begin
@@ -206,10 +217,12 @@
  </pre>
  если в программе <i>str[]</i> встретилась обратная кавычка, происходит переход к следующему символу <br>
  и на экран выводится требуемый элемент массива <i>arr[]</i> <br>
- и следовательно точку с запятоий после выводимой переменной ставить не обязательно <br>
+ и следовательно точку с запятой после выводимой переменной ставить не требуется <br>
  код программы <a href="https://github.com/demsp/pas/blob/master/abcd/iterations.pas">здесь</a>
- https://github.com/demsp/pas/blob/master/abcd/iterations.pas <br>
+ <br>
+ https://github.com/demsp/pas/blob/master/abcd/iterations.pas 
  
+ <br><br> 
  пусть переменные <i>a</i> и <i>b</i> хранят соседние числа Фибоначчи (инициализируются единицами), 
  в переменной <i>с</i> вычисляется сумма этих чисел, переменная <i>d</i> выступает в качестве 
  счетчика итераций <br> 
@@ -217,18 +230,15 @@
  <pre style="background: #cfffff;">
  str:= ' a=1; b=1; d=9; [ c=a+b; a=b; b=c; `b ] ';
  </pre>
- </p> 
  
- 
- <p>
+ <br>
  приближения к золотому сечению как отношение двух соседних чисел Фибоначчи можно вычислить так<br>
  <pre style="background: #cfffff;"> 
  str:= ' a=1; b=1; d=9; [ c=a+b; a=b; b=c; e=b/a; `e ] '; 
  </pre>
   
- </p>
- <p> 
- приближение к квадратному корю из двух можно найти по формуле x=0.5(x+2/x) <br>
+ <br>
+ приближение к квадратному корню из двух можно найти по формуле Герона x=0.5(x+2/x) <br>
  раскрыв скобки, получим x=0.5*x+0.5*2/x, т.е. x=x/2+1/x <br>
  поскольку приоритет операторов не учитывается, каждое арифметическое действие надо выполнять отдельно
  от остальных <br>
