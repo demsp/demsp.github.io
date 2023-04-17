@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+ <body>
+  <p>
+  Создадим класс Node и единственный узел root, являющегося корневым узлом <br>
+   <pre style="background: #cfffff;">
+   Node root;
+   void setup(){
+     background(100);
+     size(500,500);
+     root = new Node(5);
+     root.display();
+   }
+   class Node{
+   int value;
+   Node test_node = null;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   void dispay(){
+     textSize(40);
+     text(value, 250,50);
+     }
+   }
+   </pre>
+   </p>
+ </body>
+</html>
