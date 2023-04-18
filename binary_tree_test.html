@@ -8,12 +8,13 @@
    Node root;
    void setup(){
      background(100);
-     size(150,150);
+     size(300, 300);
        root = new Node(5);
        root.display();
    }
    class Node{
    int value;
+   int y = 100;
    //constructor
    Node(int value){
      this.value = value;
@@ -21,36 +22,75 @@
    
    void display(){
      textSize(40);
-     text(value, 65, 80);
+     text(value, 145, y);
      }
    }
    </pre>
-  Визуализация скрипта
-  </p>
+  Пускай метод add принимает в качестве параметра новый экземпляр класса и сдвигает его вниз по оси y
+  <pre style="background: #cfffff;">
+  Node root;
+   void setup(){
+     background(100);
+     size(300,300);
+       root = new Node(5);
+       root.display();
+		   root.add( new Node(3) );
+		   root.display();
+		   root.add( new Node(7) );
+		   root.display();
+		 
+   }
+   class Node{
+   int value;
+   int y = 100;
+   Node node = null;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   void add(Node node){
+     node.y = y + 40;
+     root = node;
+   }  
+   void display(){
+     textSize(40);
+     text(value, 145,y);
+     }
+   }
+  </pre>
+Визуализация алгоритма отрисовки списка из трёх элементов
   
-<p>
 <script type="application/processing">
 Node root;
    void setup(){
      background(100);
-     size(150,150);
+     size(300,300);
        root = new Node(5);
        root.display();
+		   root.add( new Node(3) );
+		   root.display();
+		   root.add( new Node(7) );
+		   root.display();
+		 
    }
    class Node{
    int value;
+   int y = 100;
+   Node node = null;
    //constructor
    Node(int value){
      this.value = value;
      }
-   
+   void add(Node node){
+     node.y = y + 40;
+     root = node;
+   }  
    void display(){
      textSize(40);
-     text(value, 65, 80);
+     text(value, 145,y);
      }
    }
-
-		</script>
+	 </script>
 <canvas> </canvas>	
 </p>
  
