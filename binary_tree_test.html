@@ -28,15 +28,28 @@
   Визуализация скрипта
   </p>
   
- <p>
+<p>
 <script type="application/processing">
-			void setup(){
-				size(200, 200);
-			}			
-			void draw(){
-				background(50);
-				ellipse(mouseX, mouseY, 50, 50);
-			}
+Node root;
+   void setup(){
+     background(100);
+     size(150,150);
+       root = new Node(5);
+       root.display();
+   }
+   class Node{
+   int value;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   
+   void display(){
+     textSize(40);
+     text(value, 65, 80);
+     }
+   }
+
 		</script>
 <canvas> </canvas>	
 </p>
