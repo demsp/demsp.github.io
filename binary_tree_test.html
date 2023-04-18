@@ -26,7 +26,8 @@
      }
    }
    </pre>
-  Пускай метод add принимает в качестве параметра новый экземпляр класса и сдвигает его вниз по оси y
+  Пускай метод add принимает в качестве параметра новый экземпляр класса, то есть элемент типа Node, созданный конструктором класса, 
+  сдвигает его вниз по оси y, затем заменяет корневой элемент новым узловым элементом, полученным в качестве параметра
   <pre style="background: #cfffff;">
   Node root;
    void setup(){
@@ -34,10 +35,10 @@
      size(300,300);
        root = new Node(5);
        root.display();
-		   root.add( new Node(3) );
-		   root.display();
-		   root.add( new Node(7) );
-		   root.display();
+           root.add( new Node(3) );
+	   root.display();
+	   root.add( new Node(7) );
+	   root.display();
 		 
    }
    class Node{
@@ -59,7 +60,7 @@
    }
   </pre>
 Визуализация алгоритма отрисовки списка из трёх элементов
-  
+<br>  
 <script type="application/processing">
 Node root;
    void setup(){
@@ -91,7 +92,8 @@ Node root;
      }
    }
 	 </script>
-<canvas> </canvas>	
+<canvas> </canvas>
+	 
 </p>
  
  </body>
