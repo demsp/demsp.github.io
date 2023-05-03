@@ -3,7 +3,10 @@
  <body>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.0/processing.min.js"></script>  
   <p>
-  Создадим класс Node и объявим корневой узел root <br>
+  Создадим класс <i>Node</i> и объявим корневой узел <i>root</i> <br>
+  Корень дерева (а в данном случае списка) инициализируется числовым значением с помощью конструктора класса <i>Node</i>, 
+  принимающим в качестве параметра переменную <i>int value</i> <br>
+  Метод <i>display</i> используется для отображения вершины 	  
    <pre style="background: #cfffff;">
    Node root;
    void setup(){
@@ -26,8 +29,8 @@
      }
    }
    </pre>
-  Пускай метод add принимает в качестве параметра новый экземпляр класса, то есть элемент типа Node, созданный конструктором класса, 
-  сдвигает его вниз по оси y, затем заменяет корневой элемент новым узловым элементом, полученным в качестве параметра
+  Метод <i>add</i> принимает в качестве параметра новый экземпляр класса, то есть элемент типа <i>Node</i>, созданный конструктором класса, 
+  сдвигает его вниз по оси <i>y</i>, затем заменяет корневой элемент новым узловым элементом, полученным в качестве параметра
   <pre style="background: #cfffff;">
   Node root;
    void setup(){
@@ -44,7 +47,6 @@
    class Node{
    int value;
    int y = 100;
-   Node node = null;
    //constructor
    Node(int value){
      this.value = value;
@@ -77,7 +79,6 @@ Node root;
    class Node{
    int value;
    int y = 100;
-   Node node = null;
    //constructor
    Node(int value){
      this.value = value;
@@ -93,7 +94,50 @@ Node root;
    }
 	 </script>
 <canvas> </canvas>
-	 
+<br>
+Вообще, метод <i>add</i> может принимать переменную <i>int</i>, которая затем обрабатывается конструктором класса внутри 
+вспомогательного метода <i>Node convert()</i> <br>
+Переменная <i>node</i> используется методом <i>convert</i> для создания нового экземпляра класса 
+<br>
+<pre style="background: #cfffff;">
+Node root;
+   void setup(){
+     background(100);
+     size(300,300);
+       root = new Node(5);
+       root.display();      
+       root.add(3);
+       root.display();     
+       root.add(7);
+       root.display();
+     
+   }
+   class Node{
+   int value;
+   int y = 50;
+   Node node = null;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   
+   Node convert(Node node, int value){
+   if(node == null) node = new Node(value);
+   return node;
+   }
+   
+    void add(int value){ 
+     root = convert(node, value);
+     root.y = this.y + 40;
+   }  
+   void display(){
+     textSize(40);
+     text(value, 145,y);
+     }
+   }
+</pre>
+
+
 </p>
  
  </body>
