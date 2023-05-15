@@ -17,7 +17,7 @@
    }
    class Node{
    int value;
-   int y = 100;
+   int x = 50;
    //constructor
    Node(int value){
      this.value = value;
@@ -25,7 +25,7 @@
    
    void display(){
      textSize(40);
-     text(value, 145, y);
+     text(value, x, 50);
      }
    }
    </pre>
@@ -46,18 +46,18 @@
    }
    class Node{
    int value;
-   int y = 100;
+   int x = 50;
    //constructor
    Node(int value){
      this.value = value;
      }
    void add(Node node){
-     node.y = y + 40;
+     node.x = x + 50;
      root = node;
    }  
    void display(){
      textSize(40);
-     text(value, 145,y);
+     text(value, x, 50);
      }
    }
   </pre>
@@ -78,26 +78,60 @@ Node root;
    }
    class Node{
    int value;
-   int y = 100;
+   int x = 50;
    //constructor
    Node(int value){
      this.value = value;
      }
    void add(Node node){
-     node.y = y + 40;
+     node.x = x + 50;
      root = node;
    }  
    void display(){
      textSize(40);
-     text(value, 145,y);
+     text(value, x, 50);
      }
    }
 	 </script>
 <canvas> </canvas>
 <br>
-Вообще, метод <i>add</i> может принимать переменную <i>int</i>, которая затем обрабатывается конструктором класса внутри 
+Не обязательно выводить элемент каждый раз после добавления к списку<br> 
+Пускай метод <i>display</i> поочерёдно выводит узлы списка в порядке их добавления к списку</br>
+Для осуществления перехода от узла к узлу используется дополнительная переменная <i>next</i>	
+<br>
+<pre style="background: #cfffff;">
+Node root, root_store;
+  void setup(){
+  background(100);
+  size(300,300);
+  root = new Node(5);
+  root_store = root;
+  root.add(new Node(3));
+  root.add(new Node(7));
+  root.printList(root_store);
+  }
+  
+  class Node{
+  int data;
+  int x = 50;
+  Node next;
+  Node(int data){this.data = data;}
+  void add(Node next){ this.next = next; 
+            root = this.next;}
+  void printList(Node node){
+     textSize(40);
+     while(node != null){
+     text(node.data, x, 50);
+     node = node.next;
+     this.x = x + 50;
+     } 
+    } 
+    
+  } 
+</pre>
+Также, можно не передавать экземпляр класса в метод <i>add</i>, вместо этого передавая переменную типа <i>int</i>, обрабатываему конструктором класса внутри 
 вспомогательного метода <i>Node convert()</i> <br>
-Переменная <i>node</i> используется методом <i>convert</i> для создания нового экземпляра класса 
+Для обработки этой переменной методом <i>convert</i> используется вспомогательная переменная <i>next</i> для создания нового экземпляра класса 
 <br>
 <pre style="background: #cfffff;">
 Node root;
@@ -114,29 +148,28 @@ Node root;
    }
    class Node{
    int value;
-   int y = 50;
-   Node node = null;
+   int x = 50;
+   Node next = null;
    //constructor
    Node(int value){
      this.value = value;
      }
    
-   Node convert(Node node, int value){
-   if(node == null) node = new Node(value);
-   return node;
+   Node convert(Node next, int value){
+   if(next == null) next = new Node(value);
+   return next;
    }
    
     void add(int value){ 
-     root = convert(node, value);
-     root.y = this.y + 40;
+     root = convert(next, value);
+     root.x = this.x + 50;
    }  
    void display(){
      textSize(40);
-     text(value, 145,y);
+     text(value, x, 50);
      }
    }
 </pre>
-
 
 </p>
  
