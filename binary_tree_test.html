@@ -97,7 +97,7 @@ Node root;
 <br>
 Не обязательно выводить элемент каждый раз после добавления к списку<br> 
 Пускай метод <i>display()</i> поочерёдно выводит узлы списка в порядке их добавления к списку</br>
-Для осуществления перехода от узла к узлу используется дополнительная переменная <i>next</i>	
+Далее для осуществления перехода от одного элемента к другому используется дополнительная переменная <i>next</i>	
 <br>
 <pre style="background: #cfffff;">
 Node root, root_store;
@@ -116,8 +116,10 @@ Node root, root_store;
   int x = 50;
   Node next;
   Node(int value){this.value = value;}
+  
   void add(Node next){ this.next = next; 
             root = this.next;}
+	    
   void display(Node node){
      textSize(40);
      while(node != null){
@@ -130,8 +132,8 @@ Node root, root_store;
   } 
 </pre>
 Можно не передавать экземпляр класса в метод <i>add()</i>, вместо этого передавая переменную типа <i>int</i>, обрабатываему конструктором класса внутри 
-вспомогательного метода <i>Node convert()</i> <br>
-Вспомогательная переменная <i>next</i> используется методом <i>Node convert()</i> для создания нового экземпляра класса 
+вспомогательного метода <i>convert()</i> <br>
+Вспомогательная переменная <i>next</i> используется методом <i>convert()</i> для создания нового экземпляра класса 
 <br>
 <pre style="background: #cfffff;">
 Node root;
@@ -169,6 +171,47 @@ Node root;
      text(value, x, 50);
      }
    }
+</pre>
+<br>
+Далее переменная <i>root_store</i> используется для хранения корневого элемента <br>	
+Переменная <i>next</i> возвращается методом <i>convert()</i> как новый экземпляр класса<br>
+Оператор <i>while</i> позволяет выводить элементы друг за другом в порядке добавления к списку 	
+<pre style="background: #cfffff;">
+Node root, root_store;
+  void setup(){
+  background(100);
+  size(300,300);
+  root = new Node(5);
+  root_store = root;
+  root.add(3);
+  root.add(7);
+  root.display(root_store); 
+  }
+  
+  class Node{
+  int value;
+  int x = 50;
+  Node next;
+  Node(int value){this.value = value;}
+  
+  void add(int value){
+  root = convert(next, value);   
+  }
+  Node convert(Node node, int value){
+       if(node == null) node = new Node(value); 
+            this.next = node; 
+            return this.next;
+            }
+ 
+  void display(Node node){
+     textSize(40);
+     while(node != null){
+     text(node.value, x, 50);
+     node = node.next;
+     this.x = x + 50;
+     } 
+    }    
+  } 
 </pre>
 
 </p>
