@@ -11,7 +11,7 @@
    Node root;
    void setup(){
      background(100);
-     size(300, 300);
+     size(300, 250);
        root = new Node(5);
        root.display();
    }
@@ -35,7 +35,7 @@
   Node root;
    void setup(){
      background(100);
-     size(300,300);
+     size(300,250);
        root = new Node(5);
        root.display();
            root.add( new Node(3) );
@@ -67,7 +67,7 @@
 Node root;
    void setup(){
      background(100);
-     size(300,300);
+     size(300,250);
        root = new Node(5);
        root.display();
 		   root.add( new Node(3) );
@@ -103,7 +103,7 @@ Node root;
 Node root, root_store;
   void setup(){
   background(100);
-  size(300,300);
+  size(300,250);
   root = new Node(5);
   root_store = root;
   root.add(new Node(3));
@@ -138,7 +138,7 @@ Node root, root_store;
 Node root;
    void setup(){
      background(100);
-     size(300,300);
+     size(300,250);
        root = new Node(5);
        root.display();      
        root.add(3);
@@ -178,7 +178,7 @@ Node root;
 Node root, root_store;
   void setup(){
   background(100);
-  size(300,300);
+  size(300,250);
   root = new Node(5);
   root_store = root;
   root.add(3);
@@ -212,7 +212,46 @@ Node root, root_store;
     }    
   } 
 </pre>
-
+<br>
+В следующей программе дополнительная переменная <i>root_store</i> не требуется
+<br>	
+<pre style="background: #cfffff;">
+Node root;
+   void setup(){
+     background(100);
+     size(300,250);
+       root = new Node(5);
+       root.add(new Node(3));
+       root.add(new Node(7));
+       root.display();     
+   }
+   
+   class Node{
+   int value;
+   int x = 50;
+   Node next;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }   
+       
+   void add(Node node){      
+    if(next == null){    
+      next = node;
+      next.x = this.x + 50;
+     }    
+     else next.add(node);  
+   }   
+   
+   void display(){
+     if (next != null) next.display();
+     textSize(40);     
+     text(value, x, 50);     
+     }
+   }
+</pre>
+<br>
+Для того, чтобы передавать в качестве параметра число (а не экземпляр), надо добавить к классу <i>Node</i> медод <i>convert()</i>
 </p>
  
  </body>
