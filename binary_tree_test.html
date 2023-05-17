@@ -96,8 +96,8 @@ Node root;
 <canvas> </canvas>
 <br>
 Не обязательно выводить элемент каждый раз после добавления к списку<br> 
-Пускай метод <i>display()</i> поочерёдно выводит узлы списка в порядке их добавления к списку</br>
-Далее для осуществления перехода от одного элемента к другому используется дополнительная переменная <i>next</i>	
+Метод <i>display()</i> использует оператор <i>while</i> для вывода элементов в порядке их добавления к списку</br>
+Для осуществления перехода от одного элемента к другому используется дополнительная переменная <i>next</i>	
 <br>
 <pre style="background: #cfffff;">
 Node root, root_store;
@@ -117,7 +117,7 @@ Node root, root_store;
   Node next;
   Node(int value){this.value = value;}
   
-  void add(Node next){ this.next = next; 
+  void add(Node node){ this.next = node; 
             root = this.next;}
 	    
   void display(Node node){
@@ -127,8 +127,7 @@ Node root, root_store;
      node = node.next;
      this.x = x + 50;
      } 
-    } 
-    
+    }     
   } 
 </pre>
 Можно не передавать экземпляр класса в метод <i>add()</i>, вместо этого передавая переменную типа <i>int</i>, обрабатываему конструктором класса внутри 
@@ -175,7 +174,6 @@ Node root;
 <br>
 Далее переменная <i>root_store</i> используется для хранения корневого элемента <br>	
 Переменная <i>next</i> возвращается методом <i>convert()</i> как новый экземпляр класса<br>
-Оператор <i>while</i> позволяет выводить элементы друг за другом в порядке добавления к списку 	
 <pre style="background: #cfffff;">
 Node root, root_store;
   void setup(){
@@ -197,6 +195,7 @@ Node root, root_store;
   void add(int value){
   root = convert(next, value);   
   }
+  
   Node convert(Node node, int value){
        if(node == null) node = new Node(value); 
             this.next = node; 
