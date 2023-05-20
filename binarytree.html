@@ -38,10 +38,10 @@
      size(300,250);
        root = new Node(5);
        root.display();
-           root.add( new Node(3) );
-	   root.display();
-	   root.add( new Node(7) );
-	   root.display();
+        root.add( new Node(3) );
+	root.display();
+	root.add( new Node(7) );
+	root.display();
 		 
    }
    class Node{
@@ -70,11 +70,10 @@ Node root;
      size(300,250);
        root = new Node(5);
        root.display();
-		   root.add( new Node(3) );
-		   root.display();
-		   root.add( new Node(7) );
-		   root.display();
-		 
+       root.add( new Node(3) );
+       root.display();
+       root.add( new Node(7) );
+       root.display();		 
    }
    class Node{
    int value;
@@ -260,7 +259,111 @@ if(next==null){
 }
 else next.add(value);
 </pre>
+Для того, чтобы нарисовать бинарное дерево, заменим узловую переменную <i>next</i> переменными <i>left</i> и <i>right</i>
+В методе <i>add</i> добавляемый узел сравнивается с текущим и в зависимости от результатов сравнения преобразуется в левый лист, если 
+добавляемый узел меньше текущего
+<pre style="background: #cfffff;">
+if(node.value < this.value){
+       if(left == null){
+         left = node;
+         node.x = this.x - 50;
+         node.y = this.y + 50;
+       }else left.add(node); 
+</pre>	
+а иначе преобразуется в правый лист
+<pre style="background: #cfffff;">
+Node root;
+void setup(){
+size(400,300);
+background(100);
+root = new Node(5);
+root.add(new Node(3));
+root.add(new Node(7));
+root.display();
+}
 
+class Node{
+int value;
+int x=200, y=50;
+Node left = null, right = null;
+// constructor
+ Node(int value){
+  this.value = value; 
+ }
+ void add(Node node){
+     if(node.value < this.value){
+       if(left == null){
+         left = node;
+         node.x = this.x - 50;
+         node.y = this.y + 50;
+       }else left.add(node); 
+      }     
+     if(node.value > this.value){     
+       if(right == null){
+         right = node;
+         node.x = this.x + 50;
+         node.y = this.y + 50;
+       } else right.add(node);
+      } 
+   }    
+ 
+ void display(){
+     textSize(30);
+     text(value, x, y);
+     if(left != null) left.display();
+     if(right != null) right.display();
+   }
+}
+</pre>
+Визуализация
+<br>
+<script type="application/processing">
+Node root;
+void setup(){
+size(400,300);
+background(100);
+root = new Node(5);
+root.add(new Node(3));
+root.add(new Node(7));
+root.display();
+}
+
+class Node{
+int value;
+int x=200, y=50;
+Node left = null, right = null;
+// constructor
+ Node(int value){
+  this.value = value; 
+ }
+ void add(Node node){
+     if(node.value < this.value){
+       if(left == null){
+         left = node;
+         node.x = this.x - 50;
+         node.y = this.y + 50;
+       }else left.add(node); 
+      }     
+     if(node.value > this.value){     
+       if(right == null){
+         right = node;
+         node.x = this.x + 50;
+         node.y = this.y + 50;
+       } else right.add(node);
+      } 
+   }    
+ 
+ void display(){
+     textSize(30);
+     text(value, x, y);
+     if(left != null) left.display();
+     if(right != null) right.display();
+   }
+}
+</script>
+<canvas></canvas>
+<br>
+Добавление визуальных элементов
 
 </p>
  
