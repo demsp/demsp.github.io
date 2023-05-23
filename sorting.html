@@ -238,7 +238,7 @@ int randomizer(){
 <a href="http://studio.sketchpad.cc/sp/pad/view/ro.96ZopUhSgAwaP/latest">Ссылка</a> для запуска программы в блокноте
 </p>   
     
-<h2>Добавление визуальных элементов</h2>
+<h2>Представление массива в виде диаграммы</h2>
 <p>
 Для большей наглядности числа, изображающие порядковые номера элементов заменим массивом прямоугольников. По умолчанию 
 первые два параметра прямоугольника <a href="https://processing.org/reference/rect_.html">rect()</a> задают расположение верхнего левого угла, третий задает ширину, а четвертый задает высоту.
@@ -255,6 +255,103 @@ if (mouseX >= x && mouseX <= x+width &&
     }
 }
 </pre>
+
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int k=20; 
+int vTemp;
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+ 
+Module[] mods;
+ 
+void setup() {
+size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 100);
+    mods[1] = new Module(2*k, 50);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 40);
+    mods[6] = new Module(7*k, 80);
+    mods[7] = new Module(8*k, 70);
+    mods[8] = new Module(9*k, 90);
+    mods[9] = new Module(10*k, 10);    
+}
+ 
+void draw() {
+background(50);
+ 
+for (Module mod: mods) { mod.display(); }
+ 
+// paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+ 
+textSize(25);
+text(counter,150,255);
+// draw button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed)
+    {
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+}
+class Module {
+int xOffset;
+int rectHight;
+ 
+// Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+// Custom method for drawing the object
+void display() {
+    fill(255);
+    //stroke(100);
+    rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+// button
+void mouseReleased() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    slider++;
+    if(slider>=moduleSize-1) {  slider=0; }
+    }
+}
+ 
+void mousePressed() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    counter++;
+    if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+}
+ 
+ 
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+</script>
+<canvas></canvas>
+
 <a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">Ссылка</a> для запуска программы в блокноте 
 </p>
 
