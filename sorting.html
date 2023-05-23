@@ -681,7 +681,7 @@ Module(int xOffsetTemp, int rectHightTemp ) {
 <p> Вообще, не обязательно сравнивать именно соседние элементы <br>
 Вместо этого можно выбрать некий опорный элемент <i>compared_elem</i> и сравнивать текущий элемент с опорным <br>
 Первоначально опорный элемент указывает на нулевой элемент массива
-<pre style="backgrounf: #cfffff;"> int compared_elem = 0; </pre>
+<pre style="background: #cfffff;"> int compared_elem = 0; </pre>
 Если текущий элемент меньше опорного - флаг поднимается, соседние элементы меняются местами
 <pre style="background: #cfffff;">
  if(mods[slider].rectHight < mods[compared_elem].rectHight)
@@ -692,10 +692,13 @@ Module(int xOffsetTemp, int rectHightTemp ) {
         mods[slider-1].rectHight=vTemp;
         }
 </pre>
-Если флаг поднят, ползунок возвращается обратно <mark>if(swapFlag)slider--; else slider++;</mark> <br>
-Когда ползунок добирается до опорного элемента - флаг сбрасывается <mark>if(slider==compared_elem)swapFlag = false;</mark> <br>
-По достижении ползунком границы массива опорный элемент сдвигается на шаг вправо, ползунок перемещается к опорному элементу <br>
-<mark>if(slider>=moduleSize){compared_elem++;slider=compared_elem+1;}</mark>
+Если флаг поднят, ползунок возвращается обратно 
+<pre style="background: #cfffff;">if(swapFlag)slider--; else slider++;</pre> 
+Если ползунок достигает опорного элемента - флаг сбрасывается 
+<pre style="background: #cfffff;">if(slider==compared_elem)swapFlag = false;</pre> 
+По достижении ползунком границы массива опорный элемент сдвигается на шаг вправо, ползунок перемещается к опорному элементу 
+<pre style="background: #cfffff;">if(slider>=moduleSize){compared_elem++;slider=compared_elem+1;}</pre>
+<br>
 
 <script type="application/processing">
 int counter;
@@ -804,7 +807,7 @@ if (mouseX >= x && mouseX <= x+width &&
 }
 </script>
 <canvas> </canvas>
-
+</p>
 
 </body>
 </html>
