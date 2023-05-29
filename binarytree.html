@@ -11,13 +11,13 @@
    Node root;
    void setup(){
      background(100);
-     size(300, 250);
+     size(400, 70);
        root = new Node(5);
        root.display();
    }
    class Node{
    int value;
-   int x = 50;
+   int x = 150;
    //constructor
    Node(int value){
      this.value = value;
@@ -35,7 +35,7 @@
   Node root;
    void setup(){
      background(100);
-     size(300,250);
+     size(400,70);
        root = new Node(5);
        root.display();
         root.add( new Node(3) );
@@ -46,7 +46,7 @@
    }
    class Node{
    int value;
-   int x = 50;
+   int x = 150;
    //constructor
    Node(int value){
      this.value = value;
@@ -67,7 +67,7 @@
 Node root;
    void setup(){
      background(100);
-     size(300,250);
+     size(400,70);
        root = new Node(5);
        root.display();
        root.add( new Node(3) );
@@ -77,7 +77,7 @@ Node root;
    }
    class Node{
    int value;
-   int x = 50;
+   int x = 150;
    //constructor
    Node(int value){
      this.value = value;
@@ -101,7 +101,7 @@ Node root;
 Node root, root_store;
   void setup(){
   background(100);
-  size(300,250);
+  size(400,70);
     root = new Node(5);
     root_store = root;
     root.add(new Node(3));
@@ -111,7 +111,7 @@ Node root, root_store;
   
 class Node{
   int value;
-  int x = 50;
+  int x = 150;
   Node next;
   Node(int value){this.value = value;}
   
@@ -135,7 +135,7 @@ class Node{
 Node root;
    void setup(){
      background(100);
-     size(300,250);
+     size(400,70);
        root = new Node(5);
        root.display();      
        root.add(3);
@@ -146,7 +146,7 @@ Node root;
    }
  class Node{
    int value;
-   int x = 50;
+   int x = 150;
    Node next = null;
    //constructor
    Node(int value){
@@ -175,7 +175,7 @@ Node root;
 Node root, root_store;
   void setup(){
   background(100);
-  size(300,250);
+  size(400,70);
     root = new Node(5);
     root_store = root;
     root.add(3);
@@ -185,7 +185,7 @@ Node root, root_store;
   
 class Node{
   int value;
-  int x = 50;
+  int x = 150;
   Node next;
   Node(int value){this.value = value;}
   
@@ -215,7 +215,7 @@ class Node{
 Node root;
    void setup(){
      background(100);
-     size(300,250);
+     size(400,70);
        root = new Node(5);
        root.add(new Node(3));
        root.add(new Node(7));
@@ -224,7 +224,7 @@ Node root;
    
  class Node{
    int value;
-   int x = 50;
+   int x = 150;
    Node next;
    //constructor
    Node(int value){
@@ -362,9 +362,8 @@ class Node{
 </script>
 <canvas></canvas>
 <br>
-Пусть связи между вершинами обозначаются линиями <i>line()</i>, а сами вершины обозначаются окружностями <i>ellipse()</i> <br>
+Связи между вершинами принято обозначать линиями <i>line()</i>, а сами вершины окружностями <i>ellipse()</i> <br>
 Тогда левые по отношению к своему родительскому узлу вершины будут сдвинуты влево и вниз <br>
-Код для отображения линий
 <pre style="background: #cfffff;">
 if(left != null){ 
   line(this.x - 3, this.y + 5, left.x + 24, left.y - 25);
@@ -388,8 +387,8 @@ void display(){
    right.display();  } 
   } 
 </pre>
-<i>noFill()</i> означает, что происходит заливки цветом <br>
-<i>stroke(50)</i> задаёт цвет обводки<br>
+<i>noFill()</i> означает, что нет заливки <br>
+<i>stroke(50)</i> задаёт цвет обводки <br>
 Ниже представлено дерево, содержащее (в порядке добавления) вершины <i>5,4,7,6,8</i>
 <br>
 <script type="application/processing">
