@@ -102,14 +102,14 @@ Node root, root_store;
   void setup(){
   background(100);
   size(300,250);
-  root = new Node(5);
-  root_store = root;
-  root.add(new Node(3));
-  root.add(new Node(7));
-  root.display(root_store);
+    root = new Node(5);
+    root_store = root;
+    root.add(new Node(3));
+    root.add(new Node(7));
+    root.display(root_store);
   }
   
-  class Node{
+class Node{
   int value;
   int x = 50;
   Node next;
@@ -144,7 +144,7 @@ Node root;
        root.display();
      
    }
-   class Node{
+ class Node{
    int value;
    int x = 50;
    Node next = null;
@@ -154,11 +154,11 @@ Node root;
      }
    
    Node convert(Node next, int value){
-   if(next == null) next = new Node(value);
-   return next;
+     if(next == null) next = new Node(value);
+     return next;
    }
    
-    void add(int value){ 
+   void add(int value){ 
      root = convert(next, value);
      root.x = this.x + 50;
    }  
@@ -176,21 +176,21 @@ Node root, root_store;
   void setup(){
   background(100);
   size(300,250);
-  root = new Node(5);
-  root_store = root;
-  root.add(3);
-  root.add(7);
-  root.display(root_store); 
+    root = new Node(5);
+    root_store = root;
+    root.add(3);
+    root.add(7);
+    root.display(root_store); 
   }
   
-  class Node{
+class Node{
   int value;
   int x = 50;
   Node next;
   Node(int value){this.value = value;}
   
   void add(int value){
-  root = convert(next, value);   
+    root = convert(next, value);   
   }
   
   Node convert(Node node, int value){
@@ -222,7 +222,7 @@ Node root;
        root.display();     
    }
    
-   class Node{
+ class Node{
    int value;
    int x = 50;
    Node next;
@@ -273,23 +273,23 @@ if(node.value < this.value){
 а иначе преобразуется в правый лист
 <pre style="background: #cfffff;">
 Node root;
-void setup(){
-size(400,300);
-background(100);
-root = new Node(5);
-root.add(new Node(3));
-root.add(new Node(7));
-root.display();
+  void setup(){
+  size(400,300);
+  background(100);
+    root = new Node(5);
+    root.add(new Node(3));
+    root.add(new Node(7));
+    root.display();
 }
 
 class Node{
-int value;
-int x=200, y=50;
-Node left = null, right = null;
-// constructor
+  int value;
+  int x=200, y=50;
+  Node left = null, right = null;
+  // constructor
  Node(int value){
   this.value = value; 
- }
+  }
  void add(Node node){
      if(node.value < this.value){
        if(left == null){
@@ -308,31 +308,30 @@ Node left = null, right = null;
    }    
  
  void display(){
-     textSize(30);
-     text(value, x, y);
+   textSize(30);
+   text(value, x, y);
      if(left != null) left.display();
      if(right != null) right.display();
    }
 }
 </pre>
-Визуализация
 <br>
 <script type="application/processing">
 Node root;
-void setup(){
-size(400,300);
-background(100);
-root = new Node(5);
-root.add(new Node(3));
-root.add(new Node(7));
-root.display();
+  void setup(){
+  size(400,300);
+  background(100);
+    root = new Node(5);
+    root.add(new Node(3));
+    root.add(new Node(7));
+    root.display();
 }
 
 class Node{
-int value;
-int x=200, y=50;
-Node left = null, right = null;
-// constructor
+  int value;
+  int x=200, y=50;
+  Node left = null, right = null;
+  // constructor
  Node(int value){
   this.value = value; 
  }
@@ -354,8 +353,8 @@ Node left = null, right = null;
    }    
  
  void display(){
-     textSize(30);
-     text(value, x, y);
+   textSize(30);
+   text(value, x, y);
      if(left != null) left.display();
      if(right != null) right.display();
    }
@@ -363,7 +362,91 @@ Node left = null, right = null;
 </script>
 <canvas></canvas>
 <br>
-Добавление визуальных элементов
+Пусть связи между вершинами обозначаются линиями <i>line()</i>, а сами вершины обозначаются окружностями <i>ellipse()</i> <br>
+Тогда левые по отношению к своему родительскому узлу вершины будут сдвинуты влево и вниз <br>
+Код для отображения линий
+<pre style="background: #cfffff;">
+if(left != null){ 
+  line(this.x - 3, this.y + 5, left.x + 24, left.y - 25);
+  left.display();
+  }
+</pre>
+Правые по отношению к родительскому узлу вершины будут сдвинуты вправо и вниз <br>
+Окружности тоже будут сдвинуты отосительно заключенных в них чисел
+<pre style="background: #cfffff;">
+void display(){  
+   textSize(30);
+   text(value, x, y);
+   noFill();
+   stroke(50);
+   ellipse(x + 9, y - 11, 40, 40);
+   if(left != null){
+   line(this.x - 3 , this.y + 5, left.x + 24, left.y - 25);
+   left.display(); }  
+   if(right != null) {
+   line(this.x + 22, this.y + 5, right.x - 6, right.y - 25);
+   right.display();  } 
+  } 
+</pre>
+<i>noFill()</i> означает, что происходит заливки цветом <br>
+<i>stroke(50)</i> задаёт цвет обводки<br>
+Ниже представлено дерево, содержащее (в порядке добавления) вершины <i>5,4,7,6,8</i>
+<br>
+<script type="application/processing">
+Node root;
+void setup(){
+size(400,300);
+background(100);
+  root = new Node(5);
+  root.add(new Node(4));
+  root.add(new Node(7));
+  root.add(new Node(6));
+  root.add(new Node(8));
+  root.display();
+}
+
+class Node{
+int value;
+int x=200, y=50;
+Node left = null, right = null;
+// constructor
+ Node(int value){
+  this.value = value; 
+ }
+ void add(Node node){
+     if(node.value < this.value){
+       if(left == null){
+         left = node;
+         node.x = this.x - 50;
+         node.y = this.y + 50;
+       }else left.add(node); 
+      }     
+     if(node.value > this.value){     
+       if(right == null){
+         right = node;
+         node.x = this.x + 50;
+         node.y = this.y + 50;
+       } else right.add(node);
+      } 
+   }    
+ 
+ void display(){  
+   textSize(30);
+   text(value, x, y);
+   noFill();
+   stroke(50);
+   ellipse(x + 9, y - 11, 40, 40);
+   if(left != null){
+   line(this.x - 3 , this.y + 5, left.x + 24, left.y - 25);
+   left.display(); }  
+   if(right != null) {
+   line(this.x + 22, this.y + 5, right.x - 6, right.y - 25);
+   right.display();  } 
+  } 
+}
+</script>
+<canvas></canvas>
+<br>
 
 </p>
  
