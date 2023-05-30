@@ -362,7 +362,7 @@ class Node{
 </script>
 <canvas></canvas>
 <br>
-Связи между вершинами принято обозначать линиями <i>line()</i>, а сами вершины окружностями <i>ellipse()</i> <br>
+Связи между вершинами будем обозначать линиями <i>line()</i>, а сами вершины окружностями <i>ellipse()</i> <br>
 Тогда левые по отношению к своему родительскому узлу вершины будут сдвинуты влево и вниз <br>
 <pre style="background: #cfffff;">
 if(left != null){ 
@@ -371,7 +371,7 @@ if(left != null){
   }
 </pre>
 Правые по отношению к родительскому узлу вершины будут сдвинуты вправо и вниз <br>
-Окружности тоже будут сдвинуты отосительно заключенных в них чисел
+Окружности тоже будут сдвинуты отосительно относящихся к ним чисел
 <pre style="background: #cfffff;">
 void display(){  
    textSize(30);
@@ -389,6 +389,7 @@ void display(){
 </pre>
 <i>noFill()</i> означает, что нет заливки <br>
 <i>stroke(50)</i> задаёт цвет обводки <br>
+<br>
 Ниже представлено дерево, содержащее (в порядке добавления) вершины <i>5,4,7,6,8</i>
 <br>
 <script type="application/processing">
@@ -457,7 +458,8 @@ void inorder(Node node){
     inorder(node.right);
     }
 </pre>
-Метод отображает левую вершину, если эта левая вершина существует, а иначе отображает правую вершину <br>
+Метод отображает левую вершину (если эта левая вершина существует), иначе отображает правую вершину <br>
+<br>
 Программа целиком 
 <pre style="background: #cfffff;">
 Node root, root_store;
@@ -478,7 +480,7 @@ root.inorder(root_store);
 class Node{
 int value;
 int x = 200, y = 50;
-int space = 50;
+int space = 0;
 Node left = null, right = null;
 // constructor
  Node(int value){
@@ -518,7 +520,7 @@ Node left = null, right = null;
    if(node != null){
    inorder(node.left);
     textSize(35);
-    text(node.value, 35 + space, 250);
+    text(node.value, 130 + space, 250);
     space = space + 35;
     inorder(node.right);
     }
@@ -543,7 +545,7 @@ root.inorder(root_store);
 class Node{
 int value;
 int x = 200, y = 50;
-int space = 50;
+int space = 0;
 Node left = null, right = null;
 // constructor
  Node(int value){
@@ -582,7 +584,7 @@ Node left = null, right = null;
    if(node != null){
    inorder(node.left);
     textSize(35);
-    text(node.value, 35 + space, 250);
+    text(node.value, 130 + space, 250);
     space = space + 35;
     inorder(node.right);
     }
