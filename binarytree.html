@@ -446,8 +446,150 @@ Node left = null, right = null;
 </script>
 <canvas></canvas>
 <br>
+Добавим метод <i>inorder()</i>, отображающий вершины в порядке возрастания
+<pre style="background: #cfffff;" >
+void inorder(Node node){
+   if(node != null){
+   inorder(node.left);
+    textSize(35);
+    text(node.value, 35 + space, 250);
+    space = space + 35;
+    inorder(node.right);
+    }
+</pre>
+Метод отображает левую вершину, если эта левая вершина существует, а иначе отображает правую вершину <br>
+Программа целиком 
+<pre style="background: #cfffff;">
+Node root, root_store;
+void setup(){
+size(400,300);
+background(100);
+root = new Node(5); 
+root_store = root;
+root.add(new Node(4)); 
+root.add(new Node(7));
+root.add(new Node(6));
+root.add(new Node(8));
 
-</p>
+root.display();
+root.inorder(root_store);
+}
+
+class Node{
+int value;
+int x = 200, y = 50;
+int space = 50;
+Node left = null, right = null;
+// constructor
+ Node(int value){
+  this.value = value; 
+ }
+ void add(Node node){
+     if(node.value < this.value){
+       if(left == null){
+         left = node;
+         node.x = this.x - 50;
+         node.y = this.y + 50;
+       }else left.add(node); 
+      }     
+     if(node.value > this.value){     
+       if(right == null){
+         right = node;
+         node.x = this.x + 50;
+         node.y = this.y + 50;
+       } else right.add(node);
+      } 
+   }    
  
+ void display(){  
+   textSize(30);
+   text(value, x, y);
+   noFill();
+   stroke(50);
+   ellipse(x + 9, y - 11, 40, 40);
+   if(left != null){
+   line(this.x - 3 , this.y + 5, left.x + 24, left.y - 25);
+   left.display(); }  
+   if(right != null) {
+   line(this.x + 22, this.y + 5, right.x - 6, right.y - 25);
+   right.display();  } 
+  }
+ void inorder(Node node){
+   if(node != null){
+   inorder(node.left);
+    textSize(35);
+    text(node.value, 35 + space, 250);
+    space = space + 35;
+    inorder(node.right);
+    }
+ } 
+}
+</pre>
+<br>
+<script type="application/processing">
+Node root, root_store;
+void setup(){
+size(400,300);
+background(100);
+root = new Node(5); 
+root_store = root;
+root.add(new Node(4)); 
+root.add(new Node(7));
+root.add(new Node(6));
+root.add(new Node(8));
+root.display();
+root.inorder(root_store);
+}
+class Node{
+int value;
+int x = 200, y = 50;
+int space = 50;
+Node left = null, right = null;
+// constructor
+ Node(int value){
+  this.value = value; 
+ }
+ void add(Node node){
+     if(node.value < this.value){
+       if(left == null){
+         left = node;
+         node.x = this.x - 50;
+         node.y = this.y + 50;
+       }else left.add(node); 
+      }     
+     if(node.value > this.value){     
+       if(right == null){
+         right = node;
+         node.x = this.x + 50;
+         node.y = this.y + 50;
+       } else right.add(node);
+      } 
+   }    
+ void display(){  
+   textSize(30);
+   text(value, x, y);
+   noFill();
+   stroke(50);
+   ellipse(x + 9, y - 11, 40, 40);
+   if(left != null){
+   line(this.x - 3 , this.y + 5, left.x + 24, left.y - 25);
+   left.display(); }  
+   if(right != null) {
+   line(this.x + 22, this.y + 5, right.x - 6, right.y - 25);
+   right.display();  } 
+  }
+ void inorder(Node node){
+   if(node != null){
+   inorder(node.left);
+    textSize(35);
+    text(node.value, 35 + space, 250);
+    space = space + 35;
+    inorder(node.right);
+    }
+  } 
+ }
+ </script>
+ <canvas></canvas>
+  </p>
  </body>
 </html>
