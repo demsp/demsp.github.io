@@ -592,6 +592,18 @@ Node left = null, right = null;
  }
  </script>
  <canvas></canvas>
+ <br>
+ Пусть отступ добавляемой вершины от соседней, относящейся к тому же родительскому узлу, и отступ от родительской вершины составляет 100px<br>
+ Эти отступы будут сокращаться, если делить их не некий счётчик <i>counter</i>
+ <pre style="background: #cfffff;">
+ node.counter = this.counter + 1;
+ </pre>
+ накапливаемый в процессе рекурсивных вызовом метода <i>add()</i>
+ <pre style="background: #cfffff;">
+ node.x = this.x - 100/counter;
+ node.y = this.y + 100/counter;
+ </pre>
+ 
   </p>
  </body>
 </html>
