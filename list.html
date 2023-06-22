@@ -96,7 +96,7 @@ Node root;
 <br>
 Допустим, элементы необходимо выводить в цикле while<br> 
  Для <i>реализации</i> такого цикла понадобится дополнительная переменная prev (от слова previos) <br>
- Пусть текущий экземпляр root загружается в переменную node.prev и т.о. становится предыдущим экземпляром
+ Пусть текущий экземпляр root загружается в переменную node.prev и т.о. становится "предыдущим" prev экземпляром
  <pre style="background: #cfffff;">
  node.prev = root;
   </pre>
@@ -104,10 +104,11 @@ Node root;
 	 <pre style="background: #cfffff;">
 	 root = node;
 	 </pre>
+  и т.о. инициализируется список из prev экземпляров, которые можно перебирать в цикле <br>   	 
   Добавим вывод текущих root, передаваемых nood и "предыдущих" node.prev экземпляров в метод add()
-    <pre style="background: #cfffff;">
+  <pre style="background: #cfffff;">
      
-     Node root;
+   Node root;
    void setup(){
      background(100);
      size(400,350);
@@ -147,8 +148,7 @@ Node root;
        }
      }
    }
-     
-     }   
+  }   
     </pre>	 
   </p> 
  </body>
