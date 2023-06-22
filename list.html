@@ -94,6 +94,62 @@ Node root;
 	 </script>
 <canvas> </canvas>
 <br>
+Допустим, элементы необходимо выводить в цикле while<br> 
+ Для <i>реализации</i> такого цикла понадобится дополнительная переменная prev (от слова previos) <br>
+ Пусть текущий экземпляр root загружается в переменную node.prev и т.о. становится предыдущим экземпляром
+ <pre style="background: #cfffff;">
+ node.prev = root;
+  </pre>
+ а передаваемый параметр node становится текущим экземпляром root 
+	 <pre style="background: #cfffff;">
+	 root = node;
+	 </pre>
+  Добавим вывод текущих root, передаваемых nood и "предыдущих" node.prev экземпляров в метод add()
+    <pre style="background: #cfffff;">
+     
+     Node root;
+   void setup(){
+     background(100);
+     size(400,350);
+       root = new Node(2);       
+       root.add( new Node(3) ); 
+       root.add( new Node(4) );     
+       root.add( new Node(5) );     
+       root.display();    
+   }
+   class Node{
+   int value;
+   int x = 150;
+   Node prev, next;
+   //constructor
+   Node(int value){  this.value = value;  }
+   
+   void add(Node node){
+     textSize(40);
+     node.x = this.x + 50;
+     text(root.value, x, 150);
+     text(node.value, x, 200);
+     if(node.prev != null){ text(node.prev.value, x, 250); }
+     else {text("_", x, 250);} 
+     
+     node.prev = root;
+     text(node.prev.value, x, 300);
+     root = node;     
+     }     
+   void display(){displayRoot(root);}  
+   void displayRoot(Node node){
+     textSize(40);     
+     while(node != null){
+       text(node.value, node.x, 50);
+       //node = node.prev;
+       prev.next = node.prev; 
+       node = prev.next;       
+       }
+     }
+   }
+     
+     }   
+    </pre>	 
   </p> 
  </body>
 </html>  
