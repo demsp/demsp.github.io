@@ -101,11 +101,13 @@ Node root;
  node.prev = root;
   </pre>
  а передаваемый параметр node становится текущим экземпляром root 
-	 <pre style="background: #cfffff;">
-	 root = node;
-	 </pre>
+ <pre style="background: #cfffff;">
+ root = node;
+ </pre>
   и т.о. инициализируется список из prev экземпляров, которые можно перебирать в цикле <br>   	 
-  Добавим вывод текущих root, передаваемых nood и "предыдущих" node.prev экземпляров в метод add()
+  Добавим вывод  root,  node и node.prev в метод add() <br>
+  Для того, чтобы не переходить к "предыдущему" экземпляру, добавим переменную, в которую будет загружаться prev экземпляр, 
+	 при этом формально становясь "текущим"
   <pre style="background: #cfffff;">
      
    Node root;
@@ -121,7 +123,7 @@ Node root;
    class Node{
    int value;
    int x = 150;
-   Node prev, next;
+   Node prev, temp;
    //constructor
    Node(int value){  this.value = value;  }
    
@@ -143,8 +145,8 @@ Node root;
      while(node != null){
        text(node.value, node.x, 50);
        //node = node.prev;
-       prev.next = node.prev; 
-       node = prev.next;       
+       prev.temp = node.prev; 
+       node = prev.temp;       
        }
      }
    }
