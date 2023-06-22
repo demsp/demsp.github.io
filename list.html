@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+ <body>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.0/processing.min.js"></script>  
+  <p>
+  Создадим класс <i>Node</i> и объявим корневой узел <i>root</i> <br>
+  Корень дерева (а в данном случае списка) инициализируется числовым значением с помощью конструктора класса <i>Node</i>, 
+  принимающим в качестве параметра переменную <i>int value</i> <br>
+  Метод <i>display()</i> используется для отображения вершины 	  
+   <pre style="background: #cfffff;">
+   Node root;
+   void setup(){
+     background(100);
+     size(400, 70);
+       root = new Node(5);
+       root.display();
+   }
+   class Node{
+   int value;
+   int x = 150;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   
+   void display(){
+     textSize(40);
+     text(value, x, 50);
+     }
+   }
+   </pre>
+  Метод <i>add()</i> принимает в качестве параметра новый экземпляр класса, то есть элемент типа <i>Node</i>, созданный конструктором класса, 
+  сдвигает его по оси <i>x</i>, затем заменяет корневой элемент новым узловым элементом, полученным в качестве параметра
+  <pre style="background: #cfffff;">
+  Node root;
+   void setup(){
+     background(100);
+     size(400,70);
+       root = new Node(5);
+       root.display();
+        root.add( new Node(3) );
+	root.display();
+	root.add( new Node(7) );
+	root.display();
+		 
+   }
+   class Node{
+   int value;
+   int x = 150;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   void add(Node node){
+     node.x = x + 50;
+     root = node;
+   }  
+   void display(){
+     textSize(40);
+     text(value, x, 50);
+     }
+   }
+  </pre>
+Визуализация алгоритма отрисовки списка из трёх элементов
+<br>  
+<script type="application/processing">
+Node root;
+   void setup(){
+     background(100);
+     size(400,70);
+       root = new Node(5);
+       root.display();
+       root.add( new Node(3) );
+       root.display();
+       root.add( new Node(7) );
+       root.display();		 
+   }
+   class Node{
+   int value;
+   int x = 150;
+   //constructor
+   Node(int value){
+     this.value = value;
+     }
+   void add(Node node){
+     node.x = x + 50;
+     root = node;
+   }  
+   void display(){
+     textSize(40);
+     text(value, x, 50);
+     }
+   }
+	 </script>
+<canvas> </canvas>
+<br>
+  </p> 
+ </body>
+</html>  
