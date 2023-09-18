@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+ <html>
+   <boby>
+     <p>
+       В данном проектируемом ЦПУ память комманд и память данных разделены, то есть представляют два отдельных массива RAM <br>
+       К адресному входу памяти команд подключен двоичный счётчик, инкрементируемый тактовым сигналом и таким образом
+       осуществляющий последовательный перебор команд <br>
+       <pre style = "background: #cfffff;">
+         counter <= counter + 1;  // инкремент счётчика
+       </pre>
+     Переходы осуществляются загрузкой в счётчик требуемого адреса <br>
+     Загрузка осуществляется командой <i>counter_load</i> <br>
+     <pre style="background: #cfffff;">
+       wire [3..0] branch_adr; // адрес перехода
+       assign branch_adr = data_in;
+       // здесь для примера применяется КМОП таймер +3.3V
+       always @(posedge timer555)
+       begin
+         if (Counter_load) // переход по адресу branch_adr при поступлени команды Counter_load
+            counter <= branch_adr; 
+          else
+            counter <= counter + 1;// инкремент счётчика 
+        end
+     </pre>
+    Аккумулятор - это четырёхбитный регистр, который содержится в отдельном модуле <br>
+      <pre style="background: #cfffff;">
+        module register4
+        (
+        input [3..0] reg_data,
+        input reg_button,
+        output reg [3..0] q 
+        );
+        always @(posedge reg_button)
+          q <= reg_data;
+        endmodule    
+      </pre>
+              
+     </p>  
+   </boby>  
+ </html>  
