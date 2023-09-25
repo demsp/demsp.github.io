@@ -77,7 +77,7 @@
           &bull; PZ_flag поднят, если Acc >= 0 <br>  
         добавляются команды условных переходов <i>Z_JMP</i> и <i>PZ_JMP</i> <br>
         <br>
-        <i>Z</i> и <i>PZ</i> "соединяют" эти команды (входные сигналы) с флагами  <br>
+        <i>Z</i> и <i>PZ</i> "соединяют" флаги и команды (входные сигналы)  <br>
         <pre style="backgroung: #cfffff">
         wire Z, PZ;
         assign Z = Z_JMP & Z_flag;
@@ -92,7 +92,7 @@
         &bull; результат загружается в ОЗУ и в устройство вывода data_out <br>      
         <br>     
         в тестбенче tR4_jmp.v производится проверка перехода Z_JMP при положительном числе в аккумуляторе <br>
-        <img align="center" src="https://github.com/demsp/verilog/blob/master/LMC/R4/tR4_jmp.gif"> 
+        <img align="center" src="tR4_jmp.gif"> 
         <br>     
         модуль и тестбенчи находятся <a href="https://github.com/demsp/verilog/tree/master/LMC/R4">здесь</a> <br>     
      </p>  
