@@ -60,6 +60,8 @@
       &bull; Первое число загружается из RAM в Acc <br>
       &bull; К этому числу прибавляется второе число <br>
       &bull; Сумма чисел загружается в RAM <br>
+      <br>       
+      <img align="center" src="tR3.gif">       
       <br>
       в следующем модуле добавляется "вычитатель" <br>
       <pre style="background: #cfffff;">
@@ -77,20 +79,23 @@
           &bull; PZ_flag поднят, если Acc >= 0 <br>  
         добавляются команды условных переходов <i>Z_JMP</i> и <i>PZ_JMP</i> <br>
         <br>
-        <i>Z</i> и <i>PZ</i> "соединяют" флаги и команды (входные сигналы)  <br>
-        <pre style="backgroung: #cfffff">
+        <i>wire</i> "соединяет" флаг и команду (входной сигнал) в единый проводник  <br>
+        <pre style="backgroung: #cfffff;">
         wire Z, PZ;
         assign Z = Z_JMP & Z_flag;
         assign PZ = PZ_JMP & PZ_flag; 
         </pre>      
-        
+        <br>
         В тестбенче tR4.v<br>
         &bull; числа загружаются в ОЗУ <br>
         &bull; аккумулятор обнуляется <br>
         &bull; мультиплексор переключается <br>
         &bull; записанные в ОЗУ числа вычитаются из аккумулятора Acc <br>
         &bull; результат загружается в ОЗУ и в устройство вывода data_out <br>      
-        <br>     
+        <br> 
+        <img align="center" src="tR4.gif">
+        <br>
+             
         в тестбенче tR4_jmp.v производится проверка перехода Z_JMP при положительном числе в аккумуляторе <br>
         <img align="center" src="tR4_jmp.gif"> 
         <br>     
