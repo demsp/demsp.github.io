@@ -80,7 +80,7 @@
         добавляются команды условных переходов <i>Z_JMP</i> и <i>PZ_JMP</i> <br>
         <br>
         <i>wire</i> "соединяет" флаг и команду (входной сигнал) в единый проводник  <br>
-        <pre style="backgroung: #cfffff;">
+        <pre style="background: #cfffff;">
         wire Z, PZ;
         assign Z = Z_JMP & Z_flag;
         assign PZ = PZ_JMP & PZ_flag; 
@@ -95,9 +95,10 @@
         <br> 
         <img align="center" src="tR4.gif">
         <br>
-             
+        <br>     
         в тестбенче tR4_jmp.v производится проверка перехода Z_JMP при положительном числе в аккумуляторе <br>
         <img align="center" src="tR4_jmp.gif"> 
+        <br>
         <br>     
         модуль и тестбенчи находятся <a href="https://github.com/demsp/verilog/tree/master/LMC/R4">здесь</a> <br>     
      </p>  
