@@ -72,7 +72,7 @@
          MUX4 = MUX_switch[1] ? (MUX_switch[0] ? RAM_out : subtract)
            :(MUX_switch[0] ? sum : data_in );
         </pre>
-          к аккумулятору подключается устройство вывода <i>data_out</i>, а также флаги <br>
+        к аккумулятору подключается устройство вывода <i>data_out</i>, а также флаги <br>
           &bull; Z_flag поднят, если Acc = 0 <br>   
           &bull; PZ_flag поднят, если Acc >= 0 <br>  
         добавляются команды условных переходов <i>Z_JMP</i> и <i>PZ_JMP</i> <br>
@@ -91,7 +91,9 @@
         &bull; записанные в ОЗУ числа вычитаются из аккумулятора Acc <br>
         &bull; результат загружается в ОЗУ и в устройство вывода data_out <br>      
         <br>     
-        в тестбенче tR4_jmp.v производится проверка переходов <br>
+        в тестбенче tR4_jmp.v производится проверка перехода Z_JMP при положительном числе в аккумуляторе <br>
+        <img align="center" src="https://github.com/demsp/verilog/blob/master/LMC/R4/tR4_jmp.gif"> 
+        <br>     
         модуль и тестбенчи находятся <a href="https://github.com/demsp/verilog/tree/master/LMC/R4">здесь</a> <br>     
      </p>  
    </boby>  
