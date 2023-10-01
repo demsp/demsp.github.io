@@ -28,6 +28,7 @@
         assign sum = Acc + RAM;
        </pre>
     прибавляющий к аккумулятору числа, записанные в память <br>
+    <br>
     выход мультиплексора <i>MUX2</i> подключен к аккумулятору
     <pre style="background: #cfffff;">
      MUX2 = MUX_switch ? sum : data_in;
@@ -52,17 +53,62 @@
          .q(Acc)
        );
       </pre>
-      модуль и тестбенч находятся <a href="https://github.com/demsp/verilog/blob/master/LMC/R3/">здесь</a> <br>     
-      В тестбенче tR3.v производится сложение двух чисел <br>
-      &bull; Числа загружаются в RAM <br>       
-      &bull; Аккумулятор обнуляется <br>
-      &bull; Мультиплексор переключается <br>
-      &bull; Первое число загружается из RAM в Acc <br>
-      &bull; К этому числу прибавляется второе число <br>
-      &bull; Сумма чисел загружается в RAM <br>
-      <br>       
-      <img align="center" src="tR3.gif">       
-      <br>
+      Текст модуля под спойлером
+      <details>
+module register4
+(
+  input  [3:0] reg_data,
+  input reg_button,
+  output reg [3:0] q  
+);
+always @(posedge reg_button)
+     	 q <= reg_data;
+endmodule
+
+module R (MUX_switch, Acc_button, Acc, counter, timer555, Counter_load, RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 2;
+   parameter DATA_WIDTH = 4;
+   
+   input MUX_switch;
+   input Acc_button; 
+   output [3:0] Acc;
+   
+   input timer555, Counter_load;
+   output [1:0] counter;
+   // input [N-1:0] adr; 
+   input RAM_button;
+   input [DATA_WIDTH-1:0] data_in;
+   output [DATA_WIDTH-1:0] RAM_out;
+// Counter
+reg [1:0] counter;
+always @ (posedge timer555 or posedge Counter_load)
+  if (Counter_load)
+       counter <= data_in[1:0];  
+  else
+     counter <= counter + 2'b01;
+// RAM 
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= Acc;
+assign RAM_out = mem[adr];
+// sum 
+wire [3:0] sum;
+assign sum =  Acc + RAM_out;
+// MUX2
+reg [3:0] MUX2; 
+always @*
+MUX2 = MUX_switch ? sum : data_in;
+//Acc
+register4 Acc_reg(
+	.reg_data(MUX2),
+	.reg_button(Acc_button),
+	.q(Acc)
+);
+endmodule
+      </details>        
+      <br>   
       в следующем модуле добавляется "вычитатель" <br>
       <pre style="background: #cfffff;">
        wire [3..0] subtract;
@@ -74,7 +120,7 @@
          MUX4 = MUX_switch[1] ? (MUX_switch[0] ? RAM_out : subtract)
            :(MUX_switch[0] ? sum : data_in );
         </pre>
-        к аккумулятору подключается устройство вывода <i>data_out</i>, а также флаги <br>
+        к аккумулятору подключаются флаги <br>
           &bull; Z_flag поднят, если Acc = 0 <br>   
           &bull; PZ_flag поднят, если Acc >= 0 <br>  
         добавляются команды условных переходов <i>Z_JMP</i> и <i>PZ_JMP</i> <br>
@@ -84,23 +130,87 @@
         wire Z, PZ;
         assign Z = Z_JMP & Z_flag;
         assign PZ = PZ_JMP & PZ_flag; 
-        </pre>      
-        <br>
-        В тестбенче tR4.v<br>
-        &bull; числа загружаются в ОЗУ <br>
-        &bull; аккумулятор обнуляется <br>
-        &bull; мультиплексор переключается <br>
-        &bull; записанные в ОЗУ числа вычитаются из аккумулятора Acc <br>
-        &bull; результат загружается в ОЗУ и в устройство вывода data_out <br>      
-        <br> 
-        <img align="center" src="tR4.gif">
-        <br>
-        <br>     
-        в тестбенче tR4_jmp.v производится проверка перехода Z_JMP при положительном числе в аккумуляторе <br>
-        <img align="center" src="tR4_jmp.gif"> 
-        <br>
-        <br>     
-        модуль и тестбенчи находятся <a href="https://github.com/demsp/verilog/tree/master/LMC/R4">здесь</a> <br>     
+        </pre>                      
+       Текст модуля под спойлером <br>
+         <details>
+          module register4
+(
+  input  [3:0] reg_data,
+  input reg_button,
+  output reg [3:0] q  
+);
+always @(posedge reg_button)
+     	 q <= reg_data;
+endmodule
+
+module R4 (JMP, Z_JMP, PZ_JMP, Z_flag, PZ_flag, Output_button, data_out, MUX_switch, Acc_button, 
+           Acc, counter, timer555, RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 2;
+   parameter DATA_WIDTH = 4;
+   
+   input JMP, Z_JMP, PZ_JMP;
+   output Z_flag, PZ_flag;
+   
+   // Output
+   input Output_button;
+   output [3:0] data_out;
+   
+   input [1:0] MUX_switch;
+   input Acc_button; 
+   output [3:0] Acc;
+   
+   input timer555; 
+   output [1:0] counter;
+   // input [N-1:0] adr; 
+   input RAM_button;
+   input [DATA_WIDTH-1:0] data_in;
+   output [DATA_WIDTH-1:0] RAM_out;
+// flags
+wire Z,PZ;
+assign Z = Z_flag & Z_JMP;
+assign PZ = PZ_flag & PZ_JMP;   
+// Counter
+reg [1:0] counter;
+always @ (posedge timer555 or posedge JMP or posedge Z or posedge PZ)
+  if (JMP|Z|PZ)
+       counter <= data_in[1:0];  
+  else
+     counter <= counter + 2'b01;
+// RAM 
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= Acc;
+assign RAM_out = mem[adr];
+// sum 
+wire [3:0] sum;
+assign sum =  Acc + RAM_out;
+//subtract
+wire [3:0] subtract;
+assign subtract =  Acc - RAM_out;
+// MUX4
+reg [3:0] MUX4; 
+always @*
+MUX4 = MUX_switch[1] ? (MUX_switch[0] ? RAM_out : subtract)
+: (MUX_switch[0] ? sum : data_in);
+//Acc
+register4 Acc_reg(
+	.reg_data(MUX4),
+	.reg_button(Acc_button),
+	.q(Acc)
+);
+//data_out
+register4 Output_reg(
+.reg_data(Acc),
+.reg_button(Output_button),
+.q(data_out)
+);
+   assign Z_flag =  ~(|Acc);
+   assign PZ_flag =  ~Acc[3];
+endmodule          
+         </details>
+         <br>     
      </p>  
    </boby>  
  </html>  
