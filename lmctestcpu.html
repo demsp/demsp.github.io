@@ -23,6 +23,7 @@
         end
      </pre>
     устройство ввода <i>data_in</i> подключено ко входу двухвходового мультиплексора <i>MUX2</i> <br>
+    <br>
     к другому входу подключен сумматор <i>sum</i>
        <pre style="background: #cfffff;">
         assign sum = Acc + RAM;
@@ -217,13 +218,94 @@ endmodule
          <br> 
 В следующем модуле <i>реализуется</i> механизм безусловного перехода <br>
 Перебор байтов в ОЗУ осуществляется счётчиком с асинхронным сбросом <i>reset_count</i><br>
+<pre style="background: #cfffff;">
+  always @ (posedge timer555 or posedge reset_count)	
+    if(reset_count)
+	counter <= 4'b0000;
+    else if(Counter_load) 
+	counter <= RAM_out[3:0];
+    else 
+	counter <= counter + 4'b0001;	
+</pre>		
 Первые четыре разряда хранящегося в ОЗУ байта являются адресом перехода, в следуючих четырёх разрядах
 (а точнее в седьмом бите) хранится команда безусловного перехода <br>
 <br>
-wire <i>Counter_load</i> связывает седьмой бит с разрешающим портом (портом загрузки) счётчика <br>		
+провод <i>Counter_load</i> связывает седьмой бит с разрешающим портом (портом загрузки) счётчика <br>		
 <pre style="background: #cfffff;">
 	wire Counter_load; 
 	assign Counter_load = RAM_out[7]; 
+</pre>
+Далее под спойлером модуль, реализующий механизм безусловного перехода, и тестбенч <br>		
+<details>
+	<pre style="background: #cfffff;">
+	module resCount (reset_count, counter, timer555, 
+                         RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 4;
+   parameter DATA_WIDTH = 8;
+      
+  input reset_count;
+  output [ADDR_WIDTH-1:0] counter;
+  input timer555;
+  input RAM_button;
+  input [DATA_WIDTH-1:0] data_in;
+  output [DATA_WIDTH-1:0] RAM_out;
+wire Counter_load;
+assign Counter_load = RAM_out[7];
+reg [ADDR_WIDTH-1:0] counter;
+always @ (posedge timer555 or posedge reset_count)
+  if (reset_count)
+		counter <= 4'b0000;  
+  else if (Counter_load) 
+		counter <= RAM_out[3:0];  
+  else
+		counter <= counter + 4'b0001;
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= data_in;
+assign RAM_out = mem[adr]; 
+endmodule
+
+test bench
+
+module tresCount;
+   parameter ADDR_WIDTH = 4;
+   parameter DATA_WIDTH = 8;
+
+   reg reset_count; 
+   reg timer555, RAM_button;
+   wire [ADDR_WIDTH-1:0] counter;
+   reg [DATA_WIDTH-1:0] data_in;
+   wire [DATA_WIDTH-1:0] RAM_out;
+resCount test_resCount(reset_count, counter, 
+                                 timer555, RAM_button, data_in, RAM_out);
+initial // Clock generator
+  begin
+    timer555 = 0;
+    forever #20 timer555 = ~timer555;
+  end
+initial	
+  begin
+   	data_in[0] = 0;
+	data_in[1] = 0;
+	data_in[2] = 0;
+	data_in[3] = 0;
+	data_in[4] = 0;
+	data_in[5] = 0;
+	data_in[6] = 0;
+	data_in[7] = 0;
+	RAM_button = 0;
+	reset_count =1;
+	#5 reset_count =0;
+	#1500 data_in[7] =1;
+	#5 RAM_button = 1;
+	#5 data_in[7] =0; RAM_button = 0;
+  end
+endmodule    
+</pre>
+</details>
+		
      </p>  
    </boby>  
  </html>  
