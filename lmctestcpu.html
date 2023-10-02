@@ -53,8 +53,9 @@
          .q(Acc)
        );
       </pre>
-      Текст модуля под спойлером
-      <details>
+Текст модуля под спойлером
+<details>
+<pre style="background: #cfffff;">	
 module register4
 (
   input  [3:0] reg_data,
@@ -107,6 +108,7 @@ register4 Acc_reg(
 	.q(Acc)
 );
 endmodule
+	</pre>	
       </details>        
       <br>   
       в следующем модуле добавляется "вычитатель" <br>
@@ -132,8 +134,9 @@ endmodule
         assign PZ = PZ_JMP & PZ_flag; 
         </pre>                      
        Текст модуля под спойлером <br>
-         <details>
-          module register4
+<details>
+<pre style="background: #cfffff;">	
+module register4
 (
   input  [3:0] reg_data,
   input reg_button,
@@ -143,7 +146,7 @@ always @(posedge reg_button)
      	 q <= reg_data;
 endmodule
 
-module R4 (JMP, Z_JMP, PZ_JMP, Z_flag, PZ_flag, Output_button, data_out, MUX_switch, Acc_button, 
+module R (JMP, Z_JMP, PZ_JMP, Z_flag, PZ_flag, Output_button, data_out, MUX_switch, Acc_button, 
            Acc, counter, timer555, RAM_button, data_in, RAM_out);
    parameter ADDR_WIDTH = 2;
    parameter DATA_WIDTH = 4;
@@ -208,9 +211,19 @@ register4 Output_reg(
 );
    assign Z_flag =  ~(|Acc);
    assign PZ_flag =  ~Acc[3];
-endmodule          
+endmodule 
+	</pre>	
          </details>
-         <br>     
+         <br> 
+В следующем модуле <i>реализуется</i> механизм безусловного перехода <br>
+Перебор байтов в ОЗУ осуществляется счётчиком с асинхронным сбросом <i>reset_count</i><br>
+Первые четыре разряда хранящегося в ОЗУ байта являются адресом перехода, в следуючих четырёх разрядах
+(а точнее в седьмом бите) хранится команда безусловного перехода <br>
+<br>
+wire <i>Counter_load</i> связывает седьмой бит с разрешающим портом (портом загрузки) счётчика <br>		
+<pre style="background: #cfffff;">
+	wire Counter_load; 
+	assign Counter_load = RAM_out[7]; 
      </p>  
    </boby>  
  </html>  
