@@ -11,7 +11,7 @@
      переходы осуществляются загрузкой в счётчик требуемого адреса <br>
      загрузка осуществляется командой <i>counter_load</i> <br>
      <pre style="background: #cfffff;">
-       wire [3..0] branch_adr; // адрес перехода
+       wire [3:0] branch_adr; // адрес перехода
        assign branch_adr = data_in;
        // здесь для примера применяется КМОП таймер +3.3V
        always @(posedge timer555)
@@ -38,9 +38,9 @@
       <pre style="background: #cfffff;">
         module register4
         (
-        input [3..0] reg_data,
+        input [3:0] reg_data,
         input reg_button,
-        output reg [3..0] q 
+        output reg [3:0] q 
         );
         always @(posedge reg_button)
           q <= reg_data;
@@ -114,7 +114,7 @@ endmodule
       <br>   
       в следующем модуле добавляется "вычитатель" <br>
       <pre style="background: #cfffff;">
-       wire [3..0] subtract;
+       wire [3:0] subtract;
        assign subtract = Acc - RAM;
       </pre>
      двухвходовой мультиплексор заменяется четырёхвходовым <br>
@@ -216,7 +216,8 @@ endmodule
 	</pre>	
          </details>
          <br> 
-В следующем модуле <i>реализуется</i> механизм безусловного перехода <br>
+<hr>		
+Основным является модуль, <i>реализующий</i> механизм безусловного перехода <br>
 Перебор байтов в ОЗУ осуществляется счётчиком с асинхронным сбросом <i>reset_count</i><br>
 <pre style="background: #cfffff;">
   always @ (posedge timer555 or posedge reset_count)	
@@ -235,7 +236,7 @@ endmodule
 	wire Counter_load; 
 	assign Counter_load = RAM_out[7]; 
 </pre>
-Далее под спойлером модуль, реализующий механизм безусловного перехода, и тестбенч <br>		
+под спойлером  модуль и тестбенч <br>		
 <details>
 	<pre style="background: #cfffff;">
 	module resCount (reset_count, counter, timer555, 
