@@ -2,7 +2,7 @@
  <html>
    <boby>
      <p>
-       в данном проектируемом ЦПУ память комманд и память данных объединены в один массив RAM <br>
+       В данном проектируемом ЦПУ память комманд и память данных объединены в один массив RAM <br>
        к адресному входу памяти команд подключен двоичный счётчик, инкрементируемый тактовым сигналом и таким образом
        осуществляющий последовательный перебор команд <br>
        <pre style = "background: #cfffff;">
@@ -217,7 +217,7 @@ endmodule
          </details>
          <br> 
 <hr>		
-Основным является модуль, <i>реализующий</i> механизм безусловного перехода <br>
+Модуль, <i>реализующий</i> механизм безусловного перехода <br>
 Перебор байтов в ОЗУ осуществляется счётчиком с асинхронным сбросом <i>reset_count</i><br>
 <pre style="background: #cfffff;">
   always @ (posedge timer555 or posedge reset_count)	
@@ -239,8 +239,7 @@ endmodule
 под спойлером  модуль и тестбенч <br>		
 <details>
 	<pre style="background: #cfffff;">
-	module resCount (reset_count, counter, timer555, 
-                         RAM_button, data_in, RAM_out);
+ module resCount (reset_count, counter, timer555,  RAM_button, data_in, RAM_out);
    parameter ADDR_WIDTH = 4;
    parameter DATA_WIDTH = 8;
       
@@ -306,7 +305,21 @@ initial
 endmodule    
 </pre>
 </details>
-		
+<br>
+Далее к этому модулю добавляются MUX2 и Acc  <br>
+Однако здесь переключение мультиплексора MUX2 происходит по фронту тактового сигнала,
+а загрузка аккумулятора Acc по спаду <br>
+<pre style="background: #cfffff;">
+module register4 
+(
+  input [3:0] reg_data,
+  input reg_button,
+  output [3:0] q	
+);
+always @ (negedge reg_button) // posedge заменяется на negedge
+	q <= reg_data;
+endmodule	
+</pre>		
      </p>  
    </boby>  
  </html>  
