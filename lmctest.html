@@ -26,8 +26,93 @@
             counter <= counter + 1;// инкремент счётчика 
          end	  
 	  </pre>
-	     Память команд представлена набором регистров 
-       Эмулятор прототипа находится  <a href="https://peterhigginson.co.uk/lmc/?F5=22-Nov-23_03:00:38">здесь</a> <br>    
+	 Память команд представлена набором регистров <br>
+	<pre style="background: #cfffff;">
+	  reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0];
+        </pre>
+	 Загрузка данных в память <i>mem</i> производится командой <i>RAM_button</i> <br>
+	<pre style="background: #cfffff;">
+	  always @(posedge RAM_button)
+	    mem[adr] <= data_in;
+	</pre>
+        В первых четырёх битах находится адрес перехода, далее следует команда перехода, представленная одним битом, 
+		    генерирующим сигнал загрузки счётчика <br>
+	Провод <i>counter_load</i> связывает седьмой бит с портом загрузки счётчика	    
+	<pre style="background: #cfffff;">
+	  wire counter_load;
+		assign counter_load = RAM_out[7];
+	</pre>	    
+       Далее представлен модуль, объединяющий память команд и счётчик <br>
+       <pre style="background: #cfffff;">
+       module resCount (reset_count, counter, timer555,  RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 4;
+   parameter DATA_WIDTH = 8;
+      
+  input reset_count;
+  output [ADDR_WIDTH-1:0] counter;
+  input timer555;
+  input RAM_button;
+  input [DATA_WIDTH-1:0] data_in;
+  output [DATA_WIDTH-1:0] RAM_out;
+wire Counter_load;
+assign Counter_load = RAM_out[7];
+reg [ADDR_WIDTH-1:0] counter;
+always @ (posedge timer555 or posedge reset_count)
+  if (reset_count)
+		counter <= 4'b0000;  
+  else if (Counter_load) 
+		counter <= RAM_out[3:0];  
+  else
+		counter <= counter + 4'b0001;
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= data_in;
+assign RAM_out = mem[adr]; 
+endmodule	       
+       </pre>	    
+В тестбенче симулируется безусловный переход
+<pre style="background: #cfffff;">
+  module tresCount;
+   parameter ADDR_WIDTH = 4;
+   parameter DATA_WIDTH = 8;
+
+   reg reset_count; 
+   reg timer555, RAM_button;
+   wire [ADDR_WIDTH-1:0] counter;
+   reg [DATA_WIDTH-1:0] data_in;
+   wire [DATA_WIDTH-1:0] RAM_out;
+resCount test_resCount(reset_count, counter, 
+                                 timer555, RAM_button, data_in, RAM_out);
+initial // Clock generator
+  begin
+    timer555 = 0;
+    forever #20 timer555 = ~timer555;
+  end
+initial	
+  begin
+   	data_in[0] = 0;
+	data_in[1] = 0;
+	data_in[2] = 0;
+	data_in[3] = 0;
+	data_in[4] = 0;
+	data_in[5] = 0;
+	data_in[6] = 0;
+	data_in[7] = 0;
+	RAM_button = 0;
+	reset_count =1;
+	#5 reset_count =0;
+	#1500 data_in[7] =1;
+	#5 RAM_button = 1;
+	#5 data_in[7] =0; RAM_button = 0;
+  end
+endmodule	
+</pre>	
+<br>
+Неким прототипом создаваемого устройства является учебный компьютер Little Man Computer <br>
+Отличие от прототипа заключается в том, что здесь вычисления производятся в двоичном (бинарном) коде	    
+Эмулятор прототипа находится  <a href="https://peterhigginson.co.uk/lmc/?F5=22-Nov-23_03:00:38">здесь</a> <br>    
        В окошке "select" открывается список исполняемых программ <br>
        <br>
        Ниже приведён пример программы, производящей сложение двух чисел  <br>
@@ -40,8 +125,8 @@
 	hlt       
        </pre>
        Команда <i>inp</i> загружает число из устройства ввода в аккумулятор <br>
-       Здесь устройство ввода - это набор тумблеров, переключением которых выставляется 
-       трубуемое двоичное число (хотя прототип работает с десятичными числами)<br>
+       <br>		
+       Здесь устройство ввода олитцетворяет набор тумблеров, переключением которых выставляется трубуемое двоичное число <br>
        Аккумулятор - это четырёхбитный регистр, представленный отдельным модулем <br>
        <pre style="background: #cfffff;">
        module register4(
@@ -55,56 +140,23 @@
        </pre>
 	Команда <i>sta</i> загружает число из аккумулятора Acc в память данных RAM <br>
 	(память команд и память данных объединены в один массив)<br>     
-	Команда add загружает сумму двух чисел (Acc+Ram) в аккумулятор Acc <br>     
+	Команда <i>add</i> загружает сумму двух чисел <i>(Acc+Ram)</i> в аккумулятор <i>Acc</i> <br>     
        <br>
-       К адресному входу памяти команд подключен двоичный счётчик, инкрементируемый тактовым сигналом
-       и таким образом осуществляющий последовательный перебор команд <br>
-       <pre style = "background: #cfffff;">
-         counter <= counter + 1;  // инкремент счётчика
-       </pre>
-     
-     В качестве источника тактовых сигналов здесь применяется внешний таймер - микросхема 555 на +3.3V,
-     обозначаемая как timer555 <br>
-     В данном счётчике <i>реализован</i> механизм безусловного перехода      
-     <pre style="background: #cfffff;">
-       wire [3:0] branch_adr; // адрес перехода
-       assign branch_adr = data_in;
-       always @(posedge timer555)
-       begin
-         if (Counter_load) // переход по адресу branch_adr при поступлени команды Counter_load
-            counter <= branch_adr; 
-          else
-            counter <= counter + 1;// инкремент счётчика 
-        end
-     </pre>
-    устройство ввода <i>data_in</i> подключено ко входу двухвходового мультиплексора <i>MUX2</i> <br>
-    <br>
+        Устройство ввода <i>data_in</i> подключено ко входу двухвходового мультиплексора <i>MUX2</i> <br>
+     <br>
     к другому входу подключен сумматор <i>sum</i>
        <pre style="background: #cfffff;">
         assign sum = Acc + RAM;
        </pre>
-    прибавляющий к аккумулятору числа, записанные в память <br>
+    складывающий два числа <br>
     <br>
-    
+    Входы двухвходового мультиплексора - это устройство ввода <i>data_in</i> и сумматор <i>sum</i>  
     <pre style="background: #cfffff;">
      MUX2 = MUX_switch ? sum : data_in;
-    </pre>
-    Как уже было сказано, аккумулятор - это четырёхбитный регистр <br>
-      <pre style="background: #cfffff;">
-        module register4
-        (
-        input [3:0] reg_data,
-        input reg_button,
-        output reg [3:0] q 
-        );
-        always @(posedge reg_button)
-          q <= reg_data;
-        endmodule    
-      </pre>
-выход MUX2 подключен к аккумулятору .reg_data(MUX2)     
-		    
-Ниже представлен модуль R.v <br>
-		    
+    </pre>    
+ Выход MUX2 подключен к аккумулятору <i>.reg_data(MUX2)</i>     
+<br>		    
+Ниже представлен модуль, реализующий алгоритм сложения чисел <br>		    
 <pre style="background: #cfffff;">	
 module register4
 (
@@ -116,7 +168,7 @@ always @(posedge reg_button)
      	 q <= reg_data;
 endmodule
 
-module R (MUX_switch, Acc_button, Acc, counter, timer555, Counter_load, RAM_button, data_in, RAM_out);
+module R_add_jump (MUX_switch, Acc_button, Acc, counter, timer555, Counter_load, RAM_button, data_in, RAM_out);
    parameter ADDR_WIDTH = 2;
    parameter DATA_WIDTH = 4;
    
@@ -159,12 +211,7 @@ register4 Acc_reg(
 );
 endmodule
 	</pre>	
-Проверку работы модуля R_asj.v (add,subtract,jmp) осуществляет тесбенч test_R_asj.v <br>
-В тестбенче осуществляется загрузка числа из устройства ввода в аккумулятор, загрузка числа 
-из аккумулятора в память, загрузка команды сложения двух чисел (числа из аккумулятора и числа из памяти)
-в память команд, загрузка команды безусловного перехода в память команд, выполнение этих команд <br>
-Вообще, описание простого тестбенча есть в книге "Цифровой синтез. Практический курс"
-	<br>
+	
       <br>		
       <br>   
       в следующем модуле добавляется "вычитатель" <br>
@@ -496,7 +543,13 @@ initial
 endmodule    
 		
  </pre>	
-</details> 	  		
+</details> 
+<br>
+ Материалы <br>
+	сайт "марсоход" <br>	
+	счётчики <a href="https://marsohod.org/verilog/158-verilogpictcnt?ysclid=lpznoc03zp474098242">link</a> <br>
+	мультиплексор <a href="https://marsohod.org/verilog/155-verilogmux?ysclid=lq0im4p8g141866410">link</a> <br>
+	триггер, регистр <a href="https://marsohod.org/11-blog/85-veriloglesson5?ysclid=lpzny0o0ad921797401">link</a>	
      </p>  
 		
    </boby>  
