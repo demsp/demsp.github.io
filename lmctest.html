@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+ <html>
+   <boby>
+     <p>
+       Цель работы: создание простого учебного ЦПУ <br>
+       Пусть в некоторой ячейке ОЗУ хранится команда безусловного перехода вместе с адресом <br>
+       Тогда счётчик, последовательно перебирающий ячейки памяти, дойдя до данной команды 
+	     перейдёт по указанному адресу <br>
+       Данный счётчик инкрементируется тактовым сигналом <br>
+       <pre style="background:#cfffff;">
+	       counter <= counter + 1;       
+       </pre>
+	   поступающим от "внешнего" таймера - микросхемы 555 на +3.3V <br>
+       Переход осуществляется командой <i>counter_load (загрузка счётчика)</i> <br>
+       Асинхронный сброс, используемый далее для проведения симуляции, нужен для установки 
+	   регистров счётчика в начальное положение <br>
+       Далее приведён код счётчика с асинхронным сбросом и сигналом загрузки <br>
+	  <pre style="background:#cfffff;">
+	  wire [3:0] branch_adr; // адрес перехода
+          assign branch_adr = data_in;
+          always @(posedge timer555)
+          begin
+          if (counter_load) // переход по адресу branch_adr при поступлени команды counter_load
+            counter <= branch_adr; 
+          else
+            counter <= counter + 1;// инкремент счётчика 
+         end	  
+	  </pre>
+	     Память команд представлена набором регистров 
+       Эмулятор прототипа находится  <a href="https://peterhigginson.co.uk/lmc/?F5=22-Nov-23_03:00:38">здесь</a> <br>    
+       В окошке "select" открывается список исполняемых программ <br>
+       <br>
+       Ниже приведён пример программы, производящей сложение двух чисел  <br>
+       <pre style="background: #cfffff;">
+	inp
+	sta 99
+	inp
+	add 99
+	out
+	hlt       
+       </pre>
+       Команда <i>inp</i> загружает число из устройства ввода в аккумулятор <br>
+       Здесь устройство ввода - это набор тумблеров, переключением которых выставляется 
+       трубуемое двоичное число (хотя прототип работает с десятичными числами)<br>
+       Аккумулятор - это четырёхбитный регистр, представленный отдельным модулем <br>
+       <pre style="background: #cfffff;">
+       module register4(
+	       input [3..0] reg_data,
+	       input reg_button,
+	       output reg [3..0] q
+	       );
+	       always @(posedge reg_button)
+	       q <=reg_data;
+	endmodule		 
+       </pre>
+	Команда <i>sta</i> загружает число из аккумулятора Acc в память данных RAM <br>
+	(память команд и память данных объединены в один массив)<br>     
+	Команда add загружает сумму двух чисел (Acc+Ram) в аккумулятор Acc <br>     
+       <br>
+       К адресному входу памяти команд подключен двоичный счётчик, инкрементируемый тактовым сигналом
+       и таким образом осуществляющий последовательный перебор команд <br>
+       <pre style = "background: #cfffff;">
+         counter <= counter + 1;  // инкремент счётчика
+       </pre>
+     
+     В качестве источника тактовых сигналов здесь применяется внешний таймер - микросхема 555 на +3.3V,
+     обозначаемая как timer555 <br>
+     В данном счётчике <i>реализован</i> механизм безусловного перехода      
+     <pre style="background: #cfffff;">
+       wire [3:0] branch_adr; // адрес перехода
+       assign branch_adr = data_in;
+       always @(posedge timer555)
+       begin
+         if (Counter_load) // переход по адресу branch_adr при поступлени команды Counter_load
+            counter <= branch_adr; 
+          else
+            counter <= counter + 1;// инкремент счётчика 
+        end
+     </pre>
+    устройство ввода <i>data_in</i> подключено ко входу двухвходового мультиплексора <i>MUX2</i> <br>
+    <br>
+    к другому входу подключен сумматор <i>sum</i>
+       <pre style="background: #cfffff;">
+        assign sum = Acc + RAM;
+       </pre>
+    прибавляющий к аккумулятору числа, записанные в память <br>
+    <br>
+    
+    <pre style="background: #cfffff;">
+     MUX2 = MUX_switch ? sum : data_in;
+    </pre>
+    Как уже было сказано, аккумулятор - это четырёхбитный регистр <br>
+      <pre style="background: #cfffff;">
+        module register4
+        (
+        input [3:0] reg_data,
+        input reg_button,
+        output reg [3:0] q 
+        );
+        always @(posedge reg_button)
+          q <= reg_data;
+        endmodule    
+      </pre>
+выход MUX2 подключен к аккумулятору .reg_data(MUX2)     
+		    
+Ниже представлен модуль R.v <br>
+		    
+<pre style="background: #cfffff;">	
+module register4
+(
+  input  [3:0] reg_data,
+  input reg_button,
+  output reg [3:0] q  
+);
+always @(posedge reg_button)
+     	 q <= reg_data;
+endmodule
+
+module R (MUX_switch, Acc_button, Acc, counter, timer555, Counter_load, RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 2;
+   parameter DATA_WIDTH = 4;
+   
+   input MUX_switch;
+   input Acc_button; 
+   output [3:0] Acc;
+   
+   input timer555, Counter_load;
+   output [1:0] counter;
+   // input [N-1:0] adr; 
+   input RAM_button;
+   input [DATA_WIDTH-1:0] data_in;
+   output [DATA_WIDTH-1:0] RAM_out;
+// Counter
+reg [1:0] counter;
+always @ (posedge timer555 or posedge Counter_load)
+  if (Counter_load)
+       counter <= data_in[1:0];  
+  else
+     counter <= counter + 2'b01;
+// RAM 
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= Acc;
+assign RAM_out = mem[adr];
+// sum 
+wire [3:0] sum;
+assign sum =  Acc + RAM_out;
+// MUX2
+reg [3:0] MUX2; 
+always @*
+MUX2 = MUX_switch ? sum : data_in;
+//Acc
+register4 Acc_reg(
+	.reg_data(MUX2),
+	.reg_button(Acc_button),
+	.q(Acc)
+);
+endmodule
+	</pre>	
+Проверку работы модуля R_asj.v (add,subtract,jmp) осуществляет тесбенч test_R_asj.v <br>
+В тестбенче осуществляется загрузка числа из устройства ввода в аккумулятор, загрузка числа 
+из аккумулятора в память, загрузка команды сложения двух чисел (числа из аккумулятора и числа из памяти)
+в память команд, загрузка команды безусловного перехода в память команд, выполнение этих команд <br>
+Вообще, описание простого тестбенча есть в книге "Цифровой синтез. Практический курс"
+	<br>
+      <br>		
+      <br>   
+      в следующем модуле добавляется "вычитатель" <br>
+      <pre style="background: #cfffff;">
+       wire [3:0] subtract;
+       assign subtract = Acc - RAM;
+      </pre>
+     двухвходовой мультиплексор заменяется четырёхвходовым <br>
+        <pre style="background: #cfffff;">     
+         always @*
+         MUX4 = MUX_switch[1] ? (MUX_switch[0] ? RAM_out : subtract)
+           :(MUX_switch[0] ? sum : data_in );
+        </pre>
+        к аккумулятору подключаются флаги <br>
+          &bull; Z_flag поднят, если Acc = 0 <br>   
+          &bull; PZ_flag поднят, если Acc >= 0 <br>  
+        добавляются команды условных переходов <i>Z_JMP</i> и <i>PZ_JMP</i> <br>
+        <br>
+        <i>wire</i> "соединяет" флаг и команду (входной сигнал) в единый проводник  <br>
+        <pre style="background: #cfffff;">
+        wire Z, PZ;
+        assign Z = Z_JMP & Z_flag;
+        assign PZ = PZ_JMP & PZ_flag; 
+        </pre>
+		
+Под спойлером "Подробности" находится модуль R.v <br>
+<details>
+<pre style="background: #cfffff;">	
+module register4
+(
+  input  [3:0] reg_data,
+  input reg_button,
+  output reg [3:0] q  
+);
+always @(posedge reg_button)
+     	 q <= reg_data;
+endmodule
+
+module R (JMP, Z_JMP, PZ_JMP, Z_flag, PZ_flag, Output_button, data_out, MUX_switch, Acc_button, 
+           Acc, counter, timer555, RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 2;
+   parameter DATA_WIDTH = 4;
+   
+   input JMP, Z_JMP, PZ_JMP;
+   output Z_flag, PZ_flag;
+   
+   // Output
+   input Output_button;
+   output [3:0] data_out;
+   
+   input [1:0] MUX_switch;
+   input Acc_button; 
+   output [3:0] Acc;
+   
+   input timer555; 
+   output [1:0] counter;
+   // input [N-1:0] adr; 
+   input RAM_button;
+   input [DATA_WIDTH-1:0] data_in;
+   output [DATA_WIDTH-1:0] RAM_out;
+// flags
+wire Z,PZ;
+assign Z = Z_flag & Z_JMP;
+assign PZ = PZ_flag & PZ_JMP;   
+// Counter
+reg [1:0] counter;
+always @ (posedge timer555 or posedge JMP or posedge Z or posedge PZ)
+  if (JMP|Z|PZ)
+       counter <= data_in[1:0];  
+  else
+     counter <= counter + 2'b01;
+// RAM 
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= Acc;
+assign RAM_out = mem[adr];
+// sum 
+wire [3:0] sum;
+assign sum =  Acc + RAM_out;
+//subtract
+wire [3:0] subtract;
+assign subtract =  Acc - RAM_out;
+// MUX4
+reg [3:0] MUX4; 
+always @*
+MUX4 = MUX_switch[1] ? (MUX_switch[0] ? RAM_out : subtract)
+: (MUX_switch[0] ? sum : data_in);
+//Acc
+register4 Acc_reg(
+	.reg_data(MUX4),
+	.reg_button(Acc_button),
+	.q(Acc)
+);
+//data_out
+register4 Output_reg(
+.reg_data(Acc),
+.reg_button(Output_button),
+.q(data_out)
+);
+   assign Z_flag =  ~(|Acc);
+   assign PZ_flag =  ~Acc[3];
+endmodule 
+	</pre>	
+         </details>
+         <br> 
+<hr>		
+Модуль, <i>реализующий</i> механизм безусловного перехода <br>
+Перебор байтов в ОЗУ осуществляется счётчиком с асинхронным сбросом <i>reset_count</i><br>
+<pre style="background: #cfffff;">
+  always @ (posedge timer555 or posedge reset_count)	
+    if(reset_count)
+	counter <= 4'b0000;
+    else if(Counter_load) 
+	counter <= RAM_out[3:0];
+    else 
+	counter <= counter + 4'b0001;	
+</pre>		
+Первые четыре разряда хранящегося в ОЗУ байта являются адресом перехода, в следуючих четырёх разрядах
+(а точнее в седьмом бите) хранится команда безусловного перехода <br>
+<br>
+провод <i>Counter_load</i> связывает седьмой бит с разрешающим портом (портом загрузки) счётчика <br>		
+<pre style="background: #cfffff;">
+	wire Counter_load; 
+	assign Counter_load = RAM_out[7]; 
+</pre>
+		
+Под спойлером "Подробности" находятся модуль resCount.v и тестбенч tresCount.v <br>		
+<details>
+	<pre style="background: #cfffff;">
+ module resCount (reset_count, counter, timer555,  RAM_button, data_in, RAM_out);
+   parameter ADDR_WIDTH = 4;
+   parameter DATA_WIDTH = 8;
+      
+  input reset_count;
+  output [ADDR_WIDTH-1:0] counter;
+  input timer555;
+  input RAM_button;
+  input [DATA_WIDTH-1:0] data_in;
+  output [DATA_WIDTH-1:0] RAM_out;
+wire Counter_load;
+assign Counter_load = RAM_out[7];
+reg [ADDR_WIDTH-1:0] counter;
+always @ (posedge timer555 or posedge reset_count)
+  if (reset_count)
+		counter <= 4'b0000;  
+  else if (Counter_load) 
+		counter <= RAM_out[3:0];  
+  else
+		counter <= counter + 4'b0001;
+ wire [ADDR_WIDTH-1:0] adr;
+    assign adr = counter;
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= data_in;
+assign RAM_out = mem[adr]; 
+endmodule
+
+module tresCount;
+   parameter ADDR_WIDTH = 4;
+   parameter DATA_WIDTH = 8;
+
+   reg reset_count; 
+   reg timer555, RAM_button;
+   wire [ADDR_WIDTH-1:0] counter;
+   reg [DATA_WIDTH-1:0] data_in;
+   wire [DATA_WIDTH-1:0] RAM_out;
+resCount test_resCount(reset_count, counter, 
+                                 timer555, RAM_button, data_in, RAM_out);
+initial // Clock generator
+  begin
+    timer555 = 0;
+    forever #20 timer555 = ~timer555;
+  end
+initial	
+  begin
+   	data_in[0] = 0;
+	data_in[1] = 0;
+	data_in[2] = 0;
+	data_in[3] = 0;
+	data_in[4] = 0;
+	data_in[5] = 0;
+	data_in[6] = 0;
+	data_in[7] = 0;
+	RAM_button = 0;
+	reset_count =1;
+	#5 reset_count =0;
+	#1500 data_in[7] =1;
+	#5 RAM_button = 1;
+	#5 data_in[7] =0; RAM_button = 0;
+  end
+endmodule    
+</pre>
+</details>
+<br>
+Далее к этому модулю добавляются MUX2 и Acc  <br>
+Однако здесь переключение мультиплексора MUX2 происходит по фронту тактового сигнала,
+а загрузка аккумулятора Acc по спаду <br>
+<pre style="background: #cfffff;">
+module register4 
+(
+  input [3:0] reg_data,
+  input reg_button,
+  output [3:0] q	
+);
+always @ (negedge reg_button) // posedge заменяется на negedge
+	q <= reg_data;
+endmodule	
+</pre>
+Загрузка аккумулятора производится командой Acc_button<br>
+<pre style="backgroun: #cfffff;">
+  assign Acc_button = RAM_out[6];	
+</pre>		
+Переключение мультиплексора MUX2 осуществляется командой MUX_switch <br>
+<pre style="background: #cfffff;">
+  assign MUX_swith = RAM_out[5];	
+</pre>
+логическое AND на разрешающем входе (входе загрузки) <i>синхронизирует</i> переключение 
+таймера и команду загрузки содержимого в аккумулятор <br>
+<pre style="background: #cfffff;"> 
+.reg_button(Acc_button & timer555);
+</pre>	
+		
+Под спойлером "Подробности" находятся модуль R.v и тестбенч tR.v <br>
+<details>
+ <pre style="background: #cfffff;">
+module register4
+(
+  input  [3:0] reg_data,
+  input reg_button,
+  output reg [3:0] q  
+);
+always @(negedge reg_button) // "posedge" заменяется на "negedge"
+     	 q <= reg_data;
+endmodule
+
+module R (reset_count, counter, timer555, RAM_button, data_in, 
+                  RAM_out, mux_switch_out, mux_out,Acc_out);
+   parameter ADDR_WIDTH = 2;
+   parameter DATA_WIDTH = 8;
+      
+  input reset_count;
+  output [ADDR_WIDTH-1:0] counter;
+  input timer555;
+  input RAM_button;
+  input [DATA_WIDTH-1:0] data_in;
+  output [DATA_WIDTH-1:0] RAM_out;
+  output [3:0] Acc_out;
+  
+  output mux_switch_out;
+  output [3:0] mux_out;
+wire Counter_load;
+assign Counter_load = RAM_out[7];
+//Counter
+reg [ADDR_WIDTH-1:0] counter;
+always @ (posedge timer555 or posedge reset_count)
+  if (reset_count)
+		counter <= 2'b00;  
+  else if (Counter_load) 
+		counter <= RAM_out[1:0];  
+  else
+		counter <= counter + 2'b01;
+
+wire [ADDR_WIDTH-1:0] adr;
+ assign adr = counter;
+//RAM
+reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0]; 
+    always @(posedge RAM_button) 
+        mem [adr] <= data_in;
+assign RAM_out = mem[adr]; 
+// MUX2
+wire MUX_switch;
+assign MUX_switch = RAM_out[5];
+reg [3:0] MUX2; 
+always @*
+MUX2 = MUX_switch ? RAM_out : data_in[3:0]; //  первые четыре разряда 
+assign mux_out = MUX2;
+assign mux_switch_out = MUX_switch;
+
+wire Acc_button;
+assign Acc_button = RAM_out[6];
+//Acc
+register4 Acc_reg(
+	.reg_data(mux_out),
+	.reg_button(Acc_button & timer555),
+	.q(Acc_out)
+);
+endmodule
+
+module tR;
+   parameter ADDR_WIDTH = 2;
+   parameter DATA_WIDTH = 8;
+   
+   reg reset_count; 
+   reg timer555, RAM_button;
+   wire [ADDR_WIDTH-1:0] counter;
+   reg [DATA_WIDTH-1:0] data_in;
+   wire [DATA_WIDTH-1:0] RAM_out;
+   
+   wire mux_switch_out;
+   wire [3:0] mux_out;
+   wire [3:0] Acc_out;
+R50 test_R50(reset_count, counter, timer555, RAM_button, data_in, 
+                  RAM_out, mux_switch_out, mux_out,Acc_out);
+initial // Clock generator
+  begin
+    timer555 = 0;
+    forever #20 timer555 = ~timer555;
+  end
+initial	
+  begin
+  data_in[0] = 1;
+  data_in[1] = 0;
+  data_in[2] = 1;
+  data_in[3] = 0;
+  data_in[4] = 0;
+  data_in[5] = 1;
+  data_in[6] = 1;
+  data_in[7] = 0;
+  RAM_button = 0;
+  reset_count =1;  
+  #5 RAM_button = 1; reset_count = 0; 
+  #5 data_in[0]=0; data_in[2]=0; data_in[5]=0; data_in[6]=0; RAM_button=0;
+  #15 data_in[1]=1; data_in[3]=1; data_in[5]=1;data_in[6]=1;
+  #5 RAM_button=1; 
+  #5 data_in[1]=0; data_in[3]=0; data_in[5]=0; data_in[6]=0; RAM_button=0; 
+  end
+endmodule    
+		
+ </pre>	
+</details> 	  		
+     </p>  
+		
+   </boby>  
+ </html>  
