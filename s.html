@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Визуализация обменных сортировок</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.0/processing.min.js"></script>  
+</head>
+<body>
+  <p>
+      <img align="center" src="Bubble-sort-example-300px.gif" />
+   </p>
+   <p>
+      <a href="https://processing.org/">Processing</a> - открытый язык программирования, основанный на Java. Представляет инструментарий для работы с изображениями,
+       анимацией и интерфейсами <br> 
+      <a href="https://processing.org/">Processing.js</a> - это web-фреймворк, использующий синтаксис языка Processing <br>
+      Коды приведённых в статье программ можно запустить в баузере, используя редакторы <a href="http://studio.sketchpad.cc/">studio.sketchpad.cc</a>
+      и <a href="https://openprocessing.org/">openprocessing.org</a>
+    <br>
+    А также в виде скрипта на своей html-странице <br>
+    Подробней об этом можно узнать из оффициальной документации
+    Mozilla по <a href="https://wiki.mozilla.org/Processing.js_for_JavaScript_Devs">ссылке</a> 
+  <br>
+  Для того, чтобы запустить скрипт на своей странице, требуется загрузить плагин (библиотеку для отрисовки) в корневую папку 
+  и указать путь к плагину в теге script
+  <pre>	  src="processing.min.js"  </pre> 
+  Непосредственно сам скрипт будет располагаться в теге с атрибутом type="application/processing"
+  <pre style="background: #cfffff;">
+  void setup(){
+  size(200, 200);
+  }			
+  void draw(){
+  background(50);
+  ellipse(mouseX, mouseY, 50, 50);
+  }		
+ </pre>
+Отображение скрипта
+<br>	
+<script type="application/processing">
+			void setup(){
+				size(200, 200);
+			}			
+			void draw(){
+				background(50);
+				ellipse(mouseX, mouseY, 50, 50);
+			}
+		</script>
+<canvas> </canvas>	
+
+  <h2>Сортировка числового массива</h2>
+  
+  Метод сортировки пузырьком лежит в основе некоторых более совершенных алгоритмов, хотя сам практически не применяется вне учебной литературы
+   <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BF%D1%83%D0%B7%D1%8B%D1%80%D1%8C%D0%BA%D0%BE%D0%BC">ссылка</a>
+  <br>
+  "Алгоритм состоит из повторяющихся проходов по сортируемому массиву. За каждый проход элементы последовательно сравниваются попарно и, 
+   если порядок в паре неверный, выполняется перестановка элементов." <br>
+   Таким образом попарно сравниваются именно соседние элементы, то есть 
+   элементы с индексами <em>i</em> и <em>i+1</em> (буквой <em>i</em> обычно обозначается индекс элемета массива) 
+  
+  <h2>Создание массива числовых элементов</h2>
+  
+  Пускай массив состоит из 10 элементов <br>
+  Каждый элемент имеет порядковый номер <br> 
+  Положение элемента в отсортированном массиве определяется этим номером <br>
+  В неотсортированном массиве положение элемента определяется смещением <br>
+  При изменении этого параметра элементы с большими порядковыми номерами смещаются правее 
+  элементов с меньшими номерами <br> 
+  Функция <em>setup()</em> запускается вместе с основной программой и служит для определения (объявления и инициализации) исходных элементов   
+   <pre style="background: #cfffff;">
+   void setup() {
+    size(500, 200);
+    mods = new Module[moduleSize];
+    mods[0] = new Module( 0,40);
+    mods[1] = new Module( 5,80);
+    mods[2] = new Module( 3,120);
+    mods[3] = new Module( 6,160);
+    mods[4] = new Module( 2,200);
+    mods[5] = new Module( 4,240);
+    mods[6] = new Module( 8,280);
+    mods[7] = new Module( 7,320);
+    mods[8] = new Module( 9,360);
+    mods[9] = new Module( 1,400);
+   }  
+   </pre>  
+  
+   Функция <a href="https://processing.org/reference/draw_.html">draw()<a> вызывается после функции <em>setup()</em> и представляет из себя бесконечный цикл, 
+   в котором производится обработка исполняемого кода. Обновление экрана и отрисовка экземпляров класса происходит при вызове функции <em>draw()</em> <br>
+   Метод <em>mod.display()</em> предназначен для отрисовки экземпляра <em>mod</em>, принадлежащего классу <em>Module</em>
+   <pre style="background: #cfffff;"> for (Module mod: mods) { mod.display(); }  </pre>  
+  </p>
+  <h2>Создание класса</h2>
+  <p> 
+   Каждый элемент массива <em>mods</em> является экземпляром класса <em>Module</em> (пример работы с классом доступен по <a href="https://processing.org/examples/arrayobjects.html">ссылке</a>)<br>
+   Порядковый номер содержится в переменной <em>Hight</em>, а смещение числа относительно начала координат в переменной <em>xOffset</em> <br>
+   Метод данного класса<em>display()</em> отвечает за отрисовку символа. Одним из базовых принципов ООП является полиморфизм, и данный метод можно отнести к
+   полиморфным, т.к. метод может отображать величину как в виде текста, так и виде прямоугольника, в котором данная величина является 
+   высотой <br>
+   Здесь класс представляется неким работником, выполняющим возложенные на него поручения<br> 
+   Работник обладает ограниченной памятью: он помнит, какое число содержится в элементе, помнит смещение элемента от начала коордитат <br>
+   Используя метод <em>display()</em> работник может отобразить обрабатываемое число, сместив его на заданное расстояние   
+  </p>
+  <p>
+   Код класса <em>Module</em>
+  </p>  
+  <pre style="background: #cfffff;">
+  class Module {
+  int Offset;
+  int Hight;
+  // Contructor
+   Module( int tempHight, int tempOffset) {
+    Hight=tempHight;
+    Offset = tempOffset;
+    }
+  // Custom method for drawing the object
+   void display() {
+      textSize(20);
+      text(Hight,Offset, 70); // Offset, Hight
+    }
+} 
+  </pre>
+ <h2>Перемещение ползунка</h2> 
+ <p> 
+ События, генерируемые нажатием на левую кнопку мыши, обрабатываются функциями <a href="https://processing.org/reference/mousePressed_.html">mousePressed()</a> 
+ и <a href="https://processing.org/reference/mouseReleased_.html">mouseReleased()</a> <br>  
+ Функция <em>mousePressed()</em> сравнивает (меняет местами) элементы
+ <pre style="background: #cfffff;">
+ void mousePressed() {
+ if(mods[slider].Hight > mods[slider+1].Hight)
+        {
+        vTemp= mods[slider].Hight;
+        mods[slider].Hight=mods[slider+1].Hight;
+        mods[slider+1].Hight=vTemp;
+        }
+} 
+ </pre> 
+ <p>   
+ Функция <em>mouseReleased()</em> инкрементирует переменную, отвечающую за положение ползунка и таким образом ползунок смещается 
+ вправо <em>slider++</em>
+ </p>
+ <p> 
+ При выходе за границы массива <em>if(slider >= moduleSize - 1)</em> ползунок возвращается в начальную позицию <em>slider=0</em>   
+  </p>
+ <pre style="background: #cfffff;">
+ void mouseReleased() {
+    slider++;
+    if(slider>=moduleSize-1) {  slider=0; }
+  }
+ </pre>  
+Программу можно запустить непосредственно на данной странице <br>
+Ползунок перемещается нажатием на канвас	   
+<p>
+<script type="application/processing">
+int moduleSize = 10;
+int slider=0;
+int vTemp; 
+ 
+Module[] mods; 
+ 
+void setup() {
+size(500, 200);
+    mods = new Module[moduleSize];
+    mods[0] = new Module( 0,40);
+    mods[1] = new Module( 5,80);
+    mods[2] = new Module( 3,120);
+    mods[3] = new Module( 6,160);
+    mods[4] = new Module( 2,200);
+    mods[5] = new Module( 4,240);
+    mods[6] = new Module( 8,280);
+    mods[7] = new Module( 7,320);
+    mods[8] = new Module( 9,360);
+    mods[9] = new Module( 1,400);
+} 
+ 
+void draw() {
+background(80); 
+for (Module mod: mods) { mod.display(); } 
+fill(255);
+noStroke();
+rect (slider*40+40, 80, 12, 5); 
+}
+ 
+class Module {
+int Offset;
+int Hight;
+// Contructor
+Module( int tempHight,tempOffset) {
+    Hight=tempHight;
+    Offset = tempOffset;
+    }
+// Custom method for drawing the object
+void display() {
+      textSize(20);
+      text(Hight,Offset,70);
+    }
+} 
+// mouse
+void mouseReleased() {
+    slider++;
+    if(slider>=moduleSize-1) {  slider=0; }
+  }
+void mousePressed() {
+ if(mods[slider].Hight > mods[slider+1].Hight)
+        {
+        vTemp= mods[slider].Hight;
+        mods[slider].Hight=mods[slider+1].Hight;
+        mods[slider+1].Hight=vTemp;
+        }
+}
+</script>
+<canvas> </canvas>	
+</p>
+	  
+Или в online-блокноте  <a href="http://studio.sketchpad.cc/sp/pad/view/IYL4ygKbhu/latest">здесь</a>
+
+<h2>Случайные значения</h2>
+<p>
+Пусть <em>listRand</em> представляет динамический список <a href="https://processing.org/reference/ArrayList.html">ArrayList</a> для хранения случайных величин
+<pre style="background: #cfffff;">  ArrayList<newRand> listRand = new ArrayList<newRand>(); </pre>
+Пусть функция <em>randomizer()</em> генерирует случайную величину и, если этой велчины нет в списке <em>listRand</em>, заносит эту величину в список
+<pre style="background: #cfffff;">
+int randomizer(){
+  newRand = int(random(0,10));
+  if(!listRand.contains(newRand) )  listRand.add(newRand );
+          else newRand=randomizer();
+                return newRand;
+}
+</pre>
+Пускай массив <em> mods</em> заполняется случайными величинами с использованием функции <em> randomizer()</em>
+<pre style="background: #cfffff;">
+    mods = new Module[moduleSize];
+    mods[0] = new Module( randomizer(),40);
+    mods[1] = new Module( randomizer(),80);
+    mods[2] = new Module( randomizer(),120);
+    mods[3] = new Module( randomizer(),160);
+    mods[4] = new Module( randomizer(),200);
+    mods[5] = new Module( randomizer(),240);
+    mods[6] = new Module( randomizer(),280);
+    mods[7] = new Module( randomizer(),320);
+    mods[8] = new Module( randomizer(),360);
+    mods[9] = new Module( randomizer(),400);
+</pre>
+ 
+<a href="http://studio.sketchpad.cc/sp/pad/view/ro.96ZopUhSgAwaP/latest">Ссылка</a> для запуска программы в блокноте
+</p>   
+    
+<h2>Представление массива в виде диаграммы</h2>
+<p>
+Далее для большей наглядности числа, изображающие порядковые номера элементов представлены массивом прямоугольников <br>
+По умолчанию первые два параметра прямоугольника <a href="https://processing.org/reference/rect_.html">rect()</a> задают расположение 
+верхнего левого угла, третий задает ширину, а четвертый задает высоту <br>
+Добавим кнопку (прямоугольник в левом нижнем углу), при нажатии на которую производится смещение ползунка <br> 
+Пример работы с кнопкой <a href="https://processing.org/examples/button.html">здесь</a>.
+Булевая функция <em>overButton()</em> сопоставляет положение курсора и кнопки и возвращает <em>true</em>, 
+если курсор находится над кнопкой
+<pre style="background: #cfffff;">
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+</pre>
+
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int k=20; 
+int vTemp;
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+ 
+Module[] mods;
+ 
+void setup() {
+size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 100);
+    mods[1] = new Module(2*k, 50);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 40);
+    mods[6] = new Module(7*k, 80);
+    mods[7] = new Module(8*k, 70);
+    mods[8] = new Module(9*k, 90);
+    mods[9] = new Module(10*k, 10);    
+}
+ 
+void draw() {
+background(50);
+ 
+for (Module mod: mods) { mod.display(); }
+ 
+// paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+ 
+textSize(25);
+text(counter,150,255);
+// draw button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed)
+    {
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+}
+class Module {
+int xOffset;
+int rectHight;
+ 
+// Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+// Custom method for drawing the object
+void display() {
+    fill(255);
+    //stroke(100);
+    rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+// button
+void mouseReleased() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    slider++;
+    if(slider>=moduleSize-1) {  slider=0; }
+    }
+}
+ 
+void mousePressed() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    counter++;
+    if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+</script>
+<canvas></canvas>
+<br>
+<a href="http://studio.sketchpad.cc/sp/pad/view/BMOL4ZHG0k/latest">Ссылка</a> для запуска программы в блокноте 
+</p>
+
+<h2>Ограничитель</h2>
+<p> 
+Количество переборов уменьшается, если не перебирать уже отсортированные элементы <br> 
+Пусть ограничитель <em>limiterR</em> сдвигается влево после каждого перебора 
+<pre style="background: #cfffff;">
+if(slider >= limiterR) { slider=0; limiterR--; }
+</pre>
+	    
+Пусть ползунок останавливается, дойдя до первого элемента
+<pre style="background: #cfffff;">
+if(limiterR <= 1) limiterR = 1;
+</pre><br>
+<script type="applicaton/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int k=20; 
+int vTemp;
+int limiterR = moduleSize-1;
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+ 
+Module[] mods;
+ 
+void setup() {
+size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 40);
+    mods[1] = new Module(2*k, 50);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 100);
+    mods[6] = new Module(7*k, 10);
+    mods[7] = new Module(8*k, 70);
+    mods[8] = new Module(9*k, 90);
+    mods[9] = new Module(10*k, 80);    
+}
+ 
+void draw() {
+background(50);
+ 
+for (Module mod: mods) { mod.display(); }
+ 
+// paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+// limiterR
+rect (limiterR*k+k, 50, 15, 5);        
+// counter 
+textSize(25);
+text(counter,150,255);
+// draw button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed)
+    {
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+}
+class Module {
+int xOffset;
+int rectHight;
+ 
+// Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+// Custom method for drawing the object
+void display() {
+    fill(255);
+    rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+// button
+void mouseReleased() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    slider++;
+    if(slider >= limiterR) { slider=0; limiterR--; }
+    if(limiterR <= 1) limiterR = 1;        
+    }
+}
+ 
+void mousePressed() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    counter++;
+    if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}	
+</script>
+<canvas></canvas>	    
+<br>	
+<a href="http://studio.sketchpad.cc/sp/pad/view/ro.96SYTVsqq$B0t/latest">Ссылка</a> для запуска программы в блокноте 
+</p>
+<h2>Флаг</h2>
+<p>
+Пусть флаг <em>swapFlag</em> поднимается при обмене элементов 
+<pre style="background: #cfffff;">
+if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        swapFlag = true;    
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+</pre>
+Если обменов не производилось, значит массив уже упорядочен и т.о. цикл завершается
+<pre style="background: #cfffff;">
+ if(swapFlag){ slider=0; swapFlag = false;} 
+       else { slider = moduleSize-2; }
+</pre>
+Флаг изображается в виде двух прямоугольников <br> 
+При обмене элементов флаг меняет цвет
+<pre style="background: #cfffff;">
+    fill(150);
+    rect(250,20,5,30);
+    rect(255,20,20,15);
+    if(!swapFlag){fill(100); rect(255,20,20,15);}
+    else{fill(35,255,70); rect(255,20,20,15);}  
+</pre> <br>
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int k=20; 
+int vTemp;
+boolean swapFlag = false;
+ 
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+ 
+Module[] mods;
+ 
+void setup() {
+size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 10);
+    mods[1] = new Module(2*k, 50);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 40);
+    mods[6] = new Module(7*k, 80);
+    mods[7] = new Module(8*k, 70);
+    mods[8] = new Module(9*k, 90);
+    mods[9] = new Module(10*k, 100);    
+}
+ 
+void draw() {
+background(50);
+ 
+for (Module mod: mods) { mod.display(); }
+ 
+// paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+ 
+textSize(25);
+text(counter,150,255);
+// button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed)
+    {
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+  //flag
+    fill(150);
+    rect(250,20,5,30);
+    rect(255,20,20,15);
+    if(!swapFlag){fill(100);rect(255,20,20,15);}
+    else{fill(35,255,70);rect(255,20,20,15);}  
+}
+class Module {
+int xOffset;
+int rectHight;
+ 
+// Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+// Custom method for drawing the object
+void display() {
+    fill(255);
+      rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+// button
+void mouseReleased() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    slider++;
+    if(slider>=moduleSize-1){
+    if(swapFlag){ slider=0; swapFlag = false;} 
+       else { slider = moduleSize-2; }
+      }
+    }
+}
+ 
+void mousePressed() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    counter++;
+    if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        swapFlag = true;    
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}	
+</script>
+<canvas></canvas>	    
+Страница для запуска программы <a href="http://studio.sketchpad.cc/sp/pad/view/ro.9tyijc0lTAVUD/latest">здесь</a>
+</p>
+<p>Следующие сортировки предполагают сравнение именно соседних элементов, однако возврат ползунка в начало массива отличается</p>
+<h2>Шейкерная сортировка</h2>
+<p>
+В шейкере после полного перебора массива максимальный элемент перемещается к правому краю, ползунок меняет направление на противоположное и движется к началу  <br>
+массива по шагам, минимальный элемент вместе с ползунком перемещается к началу массива <br>
+После этого проверка начального и конечного элементов массивов уже не требуется, сюда можно поставить ограничители <br> 
+Пусть правый ограничитель сдвигается на шаг влево после перебора в прямом направлении, при этом поднимается флаг <br>
+<pre style="background: #cfffff;">
+if(!flag){ 
+    slider++;
+     if(slider==limiterR)  { 
+      limiterR--;
+       flag=true;
+       }
+   }
+</pre>
+если флаг поднят, ползунок движется в обратном направлении по шагам
+Флаг сбрасывается, когда ползунок достигает левого ограничителя <br>
+<pre style="background: #cfffff;">
+if(flag)    { 
+     slider--;
+      if(slider==limiterL) { 
+       flag=false;     
+       limiterL++;
+       }
+     }  
+</pre>
+</p>
+<p>
+Визуализация алгоритма<br>
+<p>	
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int limiterL = 0;
+int limiterR = 9;
+
+int k=20; 
+int vTemp;
+boolean enumFlag = false;
+ 
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+ 
+Module[] mods;
+ 
+void setup() {
+size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 40);
+    mods[1] = new Module(2*k, 50);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 10);
+    mods[6] = new Module(7*k, 80);
+    mods[7] = new Module(8*k, 100);
+    mods[8] = new Module(9*k, 70);
+    mods[9] = new Module(10*k, 90);    
+}
+ 
+void draw() {
+background(50);
+ 
+for (Module mod: mods) { mod.display(); }
+ 
+// paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+
+//limiterL
+rect(limiterL*k+k, 50, 15, 5);
+//limiterR
+rect(limiterR*k+k, 40, 15, 5);
+ 
+textSize(25);
+text(counter,150,255);
+// button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed)
+    {
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+  //flag
+    fill(150);
+    rect(250,20,5,30);
+    rect(255,20,20,15);
+    if(!enumFlag){fill(100);rect(255,20,20,15);}
+    else{fill(35,255,70);rect(255,20,20,15);}  
+}
+class Module {
+int xOffset;
+int rectHight;
+ 
+// Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+// Custom method for drawing the object
+void display() {
+    fill(255);
+      rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+// button
+void mouseReleased() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    //slider++;
+    if(!enumFlag){ 
+    slider++;
+     if(slider==limiterR)  { 
+      limiterR--;
+       enumFlag=true;
+       }
+   }
+if(enumFlag)    { 
+     slider--;
+      if(slider==limiterL) { 
+       enumFlag=false;     
+       limiterL++;
+       }
+     }  
+    }
+}
+ 
+void mousePressed() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    counter++;
+    if(mods[slider].rectHight > mods[slider+1].rectHight)
+        {
+        swapFlag = true;    
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+
+			
+</script>
+<canvas> </canvas>
+  </p>	
+ <a href="http://studio.sketchpad.cc/eFGyH52PQS">Ссылка</a> для запуска приложения в блокноте 	
+</p>	  	  
+
+<h2>Гномья сортировка</h2>
+<blockquote style="background: #ffffd8;">
+По существу гном смотрит на следующий и предыдущий садовые горшки: если они в правильном порядке, он делает один шаг вперёд, 
+иначе он меняет их местами и шагает в обратном направлении.
+</blockquote>
+<p>
+Пусть флаг  поднимается, если элемент, на который указывает ползунок, больше элемента, находящегося справа от ползунка
+</p>
+<pre style="background: #cfffff;">
+if(mods[slider].rectHight > mods[slider+1].rectHight) swapFlag=true;
+</pre>
+<p>
+Если флаг поднят, возвращаем ползунок к началу массива
+</p>
+<pre style="background: #cfffff;">
+if(!swapFlag){ slider++; } else{ slider--; }
+</pre>
+<p>
+Флаг сбрасывается, если элементы слева от текущего расположены по убыванию  
+</p>
+<pre style="background: #cfffff;">
+if(swapFlag && mods[slider].rectHight < mods[slider+1].rectHight) swapFlag = false;
+</pre>
+<br>
+	
+Визуализация алгоритма<br>
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int slider = 0;
+int k=20; 
+int vTemp;
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+boolean swapFlag = false;
+boolean counterFlag = true;
+ 
+Module[] mods;
+ void setup() {
+ size(300, 300);
+    mods = new Module[moduleSize];
+    mods[0] = new Module(1*k, 50);
+    mods[1] = new Module(2*k, 100);
+    mods[2] = new Module(3*k, 30);
+    mods[3] = new Module(4*k, 60);
+    mods[4] = new Module(5*k, 20);
+    mods[5] = new Module(6*k, 40);
+    mods[6] = new Module(7*k, 80);
+    mods[7] = new Module(8*k, 70);
+    mods[8] = new Module(9*k, 90);
+    mods[9] = new Module(10*k, 10);    
+}
+ 
+void draw() {
+background(50);
+ for (Module mod: mods) { mod.display(); }
+ // paddle
+rect (slider*k+k, 70, 15, 5);
+rect (slider*k+2*k, 70, 15, 5);
+// counter 
+textSize(25);
+text(counter,150,255);
+// draw button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed){
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+    //flag
+    fill(150);
+    rect(250,20,5,30);
+    rect(255,20,20,15);
+    if(swapFlag){fill(150,255,50);rect(255,20,20,15);}
+    }
+class Module {
+    int xOffset;
+    int rectHight;
+ // Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+    // Custom method for drawing the object
+    void display() {
+    fill(255);
+    rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+ // button
+ void mouseReleased() {
+    if(overButton(buttonX, buttonY, buttonSize, buttonSize)){
+    if(slider==0) { swapFlag = false; }    
+    if(swapFlag){ slider--; } else{ slider++; }
+    if(slider>=moduleSize-1 && !swapFlag) {  
+            slider=moduleSize-2; counterFlag = false; }
+    }
+}
+ 
+ void mousePressed() {
+    if(overButton(buttonX, buttonY, buttonSize, buttonSize)) {
+    if(counterFlag)counter++;
+    if(swapFlag && mods[slider].rectHight < mods[slider+1].rectHight){
+        swapFlag = false;}
+    
+    if(mods[slider].rectHight > mods[slider+1].rectHight){
+        swapFlag=true;
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider+1].rectHight;
+        mods[slider+1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+ boolean overButton(int x, int y, int width, int height) {
+    if (mouseX >= x && mouseX <= x+width &&
+      mouseY >= y && mouseY <= y+height) { return true; } 
+    else { return false; }
+}
+
+</script>
+<canvas> </canvas>
+
+<p><a href="http://studio.sketchpad.cc/lOdJStmrIP">Ссылка</a> для запуска программы в блокноте</p>
+
+<h2> Опорный элемент </h2>
+<p> Вообще, не обязательно сравнивать именно соседние элементы <br>
+Вместо этого можно выбрать некий опорный элемент <i>compared_elem</i> и сравнивать текущий элемент с опорным <br>
+Первоначально опорный элемент указывает на нулевой элемент массива
+<pre style="background: #cfffff;"> int compared_elem = 0; </pre>
+Если текущий элемент меньше опорного - флаг поднимается, а соседние элементы меняются местами
+<pre style="background: #cfffff;">
+ if(mods[slider].rectHight < mods[compared_elem].rectHight)
+        {
+        swapFlag = true;    
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider-1].rectHight;
+        mods[slider-1].rectHight=vTemp;
+        }
+</pre>
+Если флаг поднят, ползунок возвращается обратно 
+<pre style="background: #cfffff;">if(swapFlag)slider--; else slider++;</pre> 
+Если ползунок достигает опорного элемента - флаг сбрасывается 
+<pre style="background: #cfffff;">if(slider==compared_elem)swapFlag = false;</pre> 
+По достижении ползунком границы массива опорный элемент сдвигается на шаг вправо, ползунок перемещается к опорному элементу 
+	 
+<pre style="background: #cfffff;">if(slider>=moduleSize){compared_elem++;slider=compared_elem+1;}</pre>
+Если опорный элемент достиг границы массива, значит массив отсортирован	 
+<pre style="background: #cfffff;">
+if(compared_elem >= moduleSize-1){
+    slider = moduleSize - 1;
+    compared_elem = moduleSize - 1;
+    // to count mouse presses	
+    counterFlag = false;	
+}
+</pre> 
+<br>
+
+<script type="application/processing">
+int counter;
+int moduleSize = 10;
+int compared_elem = 0;
+int slider = 1;
+int k=20;
+int vTemp;
+boolean swapFlag = false;
+boolean counterFlag = true;
+	
+//button
+int buttonX=20, buttonY=230, buttonSize = 40;
+ 
+Module[] mods;
+ 
+void setup() {
+size(300, 300);
+ mods = new Module[moduleSize];
+ mods[0] = new Module(1*k, 50);
+ mods[1] = new Module(2*k, 80);
+ mods[2] = new Module(3*k, 30);
+ mods[3] = new Module(4*k, 60);
+ mods[4] = new Module(5*k, 20);
+ mods[5] = new Module(6*k, 40);
+ mods[6] = new Module(7*k, 100);
+ mods[7] = new Module(8*k, 10);
+ mods[8] = new Module(9*k, 90);
+ mods[9] = new Module(10*k, 70);
+}
+ 
+void draw() {
+background(50);
+ 
+for (Module mod: mods) { mod.display(); }
+
+// compared_elem
+rect(compared_elem*k+k,55,15,5); 
+// paddle
+rect (slider*k+k, 70, 15, 5);
+ 
+textSize(25);
+text(counter,150,255);
+// draw button
+rect(buttonX,buttonY,buttonSize,buttonSize);
+if(overButton(buttonX, buttonY, buttonSize, buttonSize) && mousePressed)
+    {
+    fill(150);
+    rect(buttonX,buttonY,buttonSize,buttonSize);
+    }
+  // flag
+  fill(150);
+  rect(250,20,5,30);
+  rect(255,20,20,15);
+  if(swapFlag){fill(150,255,50);rect(255,20,20,15);}  
+}
+class Module {
+int xOffset;
+int rectHight;
+ 
+// Contructor
+Module(int xOffsetTemp, int rectHightTemp ) {
+    xOffset = xOffsetTemp;
+    rectHight=rectHightTemp;        
+    }
+// Custom method for drawing the object
+void display() {
+    fill(255);
+    //stroke(100);
+    rect(xOffset, 80, 15, rectHight);
+    }
+}
+ 
+// button
+void mouseReleased() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    //slider++;
+    if(slider == compared_elem)swapFlag = false; 
+    if(swapFlag)slider--; else slider++;
+    if(slider>=moduleSize){ compared_elem++; slider=compared_elem + 1; }
+    if(compared_elem >= moduleSize - 1){
+	slider = moduleSize - 1;
+	compared_elem = moduleSize - 1;
+	counterFlag = false;
+        }	
+    }
+}
+ 
+void mousePressed() {
+if(overButton(buttonX, buttonY, buttonSize, buttonSize))
+    {
+    if(counterFlag)counter++;
+    if(mods[slider].rectHight>mods[compared_elem].rectHight) swapFlag = false;
+    if(mods[slider].rectHight < mods[compared_elem].rectHight)
+        {
+        swapFlag = true;    
+        vTemp= mods[slider].rectHight;
+        mods[slider].rectHight=mods[slider-1].rectHight;
+        mods[slider-1].rectHight=vTemp;
+        }
+    }
+} 
+ 
+boolean overButton(int x, int y, int width, int height) {
+if (mouseX >= x && mouseX <= x+width &&
+    mouseY >= y && mouseY <= y+height) {
+    return true;
+    } else {
+    return false;
+    }
+}
+</script>
+<canvas> </canvas>
+</p>
+
+</body>
+</html>
