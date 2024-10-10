@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 <title>jelly no puzzle in html5</title>
@@ -31,12 +31,6 @@ select#level {
   right: 8px;
   font: inherit;
 }
-#undo {
-  position: absolute;
-  bottom: 8px;
-  right: 75px;
-  font: inherit;
-}
 #stage table {
   border-spacing: 0;
   background: #ccc;
@@ -59,108 +53,7 @@ select#level {
   background: #eef7ff;
 }
 .wall {
-  position: relative;
 }
-
-.arrowholder {
-  position: relative;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border: 0px;
-}
-
-.upgrower {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 40px;
-  border-top: 8px solid;
-  border-bottom: 0px solid transparent;
-  border-left: 0px solid transparent;
-  border-right: 0px solid transparent;
-}
-
-.leftgrower {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 8px;
-  height: 100%;
-  border-top: 0px solid transparent;
-  border-bottom: 0px solid transparent;
-  border-left: 8px solid;
-  border-right: 0px solid transparent;
-}
-
-.rightgrower {
-  position: absolute;
-  left: 32px;
-  top: 0px;
-  width: 8px;
-  height: 100%;
-  border-top: 0px solid transparent;
-  border-bottom: 0px solid transparent;
-  border-left: 0px solid transparent;
-  border-right: 8px solid;  
-}
-
-.downarrow {
-  position: absolute;
-  left: 14px;
-  top: 0px;
-  width: 0px;
-  height: 0px;
-  border-top-width: 16px;
-  border-top-style: solid;
-  /* border-top-color: set in code */
-  border-bottom: 32px solid transparent;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-}
-
-.uparrow {
-  position: absolute;
-  left: 14px;
-  top: 0px;
-  width: 0px;
-  height: 0px;
-  border-top: 32px solid transparent;
-  border-bottom-width: 16px;
-  border-bottom-style: solid;
-  /* border-bottom-color: set in code */
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-}
-
-.leftarrow {
-  position: absolute;
-  left: 0px;
-  top: 14px;
-  width: 0px;
-  height: 0px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 32px solid transparent;
-  border-right-width: 16px;
-  border-right-style: solid;
-  /* border-right-color: set in code */
-}
-
-.rightarrow {
-  position: absolute;
-  left: 0px;
-  top: 14px;
-  width: 0px;
-  height: 0px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left-width: 16px;
-  border-left-style: solid;
-  /* border-left-color: set in code */
-  border-right: 32px solid transparent;
-}
-
 .jellybox {
   position: absolute;
   -webkit-transition:
@@ -190,16 +83,6 @@ select#level {
   background: hsl(120, 100%, 45%);
   border: solid 1px hsl(120, 100%, 30%);
 }
-.yellow {
-  background: hsl(60, 100%, 50%);
-  border: solid 1px hsl(60, 100%, 30%);
-}
-.black0, .black1, .black2, .black3, .black4, .black5, .black6, .black7,
-.black8, .black9 {
-  background: hsl(0, 0%, 20%);
-  border: solid 1px hsl(0, 0%, 50%);
-}
-
 </style>
 </head>
 <body>
@@ -215,15 +98,12 @@ great extra details.</p>
 <div id='stage'>
 <div id='map'></div>
 <select id='level'></select>
-<button id='undo'>Undo</button>
 <button id='reset'>Reset</button>
 </div>
 
 <p>How to play: left and right mouse button moves jellies left and
   right.  When jellies of the same color touch they merge.
-  Your objective is to unify all jellies of the same color
-  (except black jellies that are present in some levels - 
-   there's no need to unify those).</p>
+  Your objective is to unify all jellies of the same color.</p>
 
 <p><a href='https://github.com/martine/jelly'>Here's the source</a>.
   To be implemented:
